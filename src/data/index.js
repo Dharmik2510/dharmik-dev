@@ -137,7 +137,7 @@ export const SKILLS = [
   {
     label: 'Languages',
     cls: 'c4',
-    skills: ['English (Professional)', 'Gujarati (Native)', 'Hindi (Professional)', 'French (Basic)'],
+    skills: ['English (Professional)', 'Gujarati (Native)', 'Hindi (Professional)'],
   },
 ]
 
