@@ -1,0 +1,81 @@
+.boot {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #000308;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.inner {
+  width: min(560px, 90vw); padding: 32px;
+}
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px; padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,229,255,.15);
+}
+
+.airline {
+  font-family: var(--display); font-size: 22px; letter-spacing: .15em;
+  color: var(--white);
+}
+
+.system {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .14em;
+  color: var(--muted);
+}
+
+.terminal { min-height: 220px; margin-bottom: 24px; }
+
+.line {
+  font-family: var(--mono); font-size: 11px; line-height: 1.9;
+  color: var(--muted); letter-spacing: .03em;
+}
+
+.ok { color: var(--neon2); font-weight: 700; }
+.welcome { color: var(--neon); font-weight: 700; }
+
+.cursor {
+  display: inline-block; color: var(--neon);
+  font-family: var(--mono); font-size: 11px;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.progressWrap {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+}
+
+.progressBar {
+  flex: 1; height: 2px;
+  background: rgba(0,229,255,.1); border-radius: 1px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%; border-radius: 1px;
+  background: linear-gradient(90deg, var(--neon), var(--neon2));
+  box-shadow: 0 0 10px var(--neon);
+}
+
+.progressText {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
+  color: var(--neon); min-width: 32px; text-align: right;
+}
+
+.footer {
+  font-family: var(--mono); font-size: 8px; letter-spacing: .14em;
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.scanText { color: var(--amber); animation: blink 1.2s step-end infinite; }
+
+.scanlines {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,229,255,0.015) 2px, rgba(0,229,255,0.015) 4px
+  );
+}
