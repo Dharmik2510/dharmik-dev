@@ -34,17 +34,22 @@ export default function Globe({ activeCity }) {
   useEffect(() => {
     if (!globeEl.current) return;
     
+    // Zoom out more on narrow mobile screens so the atmosphere glow isn't clipped
+    const isMobile = dimensions.width < 768;
+    const defaultAltitude = isMobile ? 3.0 : 2.2;
+    const focusAltitude = isMobile ? 2.5 : 1.8;
+    
     if (activeCity) {
       const city = CITIES.find(c => c.code === activeCity);
       if (city) {
-        globeEl.current.pointOfView({ lat: city.lat, lng: city.lon, altitude: 1.8 }, 1500);
+        globeEl.current.pointOfView({ lat: city.lat, lng: city.lon, altitude: focusAltitude }, 1500);
         globeEl.current.controls().autoRotate = false;
       }
     } else {
       globeEl.current.controls().autoRotate = true;
       globeEl.current.controls().autoRotateSpeed = 0.5;
       globeEl.current.controls().enableDamping = true;
-      globeEl.current.pointOfView({ lat: 35, lng: -40, altitude: 2.2 }, 2000);
+      globeEl.current.pointOfView({ lat: 35, lng: -40, altitude: defaultAltitude }, 2000);
     }
   }, [dimensions.width, activeCity]); // Re-run if canvas mounts or city changes
 

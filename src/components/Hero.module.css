@@ -247,15 +247,15 @@
 
 /* ── TABLET ── */
 @media (max-width: 1100px) {
-  .hero { grid-template-columns: 1fr; padding: 100px 28px 200px; }
-  .right { margin-top: 48px; justify-content: flex-start; }
+  .hero { grid-template-columns: 1fr; padding: 100px 28px 260px; align-items: flex-start; }
+  .right { margin-top: 48px; justify-content: center; }
   .bpWrap { width: 340px; }
   .hud { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
-  .hero { padding: 80px 20px 200px; }
+  .hero { padding: 80px 20px 280px; }
   .bpWrap { width: 100%; max-width: 340px; }
   .bp { border-radius: 8px; }
   .hud { grid-template-columns: repeat(2, 1fr); }
@@ -276,7 +276,7 @@
 
 /* ── SMALL MOBILE ── */
 @media (max-width: 480px) {
-  .hero { padding: 70px 16px 200px; }
+  .hero { padding: 70px 16px 300px; }
   .name { font-size: clamp(36px, 13vw, 56px); }
   .nameGhost { font-size: clamp(36px, 13vw, 56px); }
   .tagline { font-size: clamp(14px, 4vw, 20px); }
