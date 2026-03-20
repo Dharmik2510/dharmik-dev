@@ -60,7 +60,7 @@ export const EXPERIENCE = [
     bullets: [
       'Spearheaded the migration of complex on-premise architectures to Databricks, deeply integrating Unity Catalog and MLflow to streamline model lifecycle management.',
       'Engineered advanced Spark code optimizations and cluster tuning strategies, generating $500K+ in operational savings.',
-      'Designed and deployed autonomous AI agents to intelligently automate, monitor, and debug operational data pipelines.',
+      'Designed and deployed autonomous dashboards to monitor, and debug operational data pipelines.',
     ],
   },
   {
