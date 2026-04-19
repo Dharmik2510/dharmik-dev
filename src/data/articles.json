@@ -1,0 +1,58 @@
+[
+  {
+    "type": "tech",
+    "title": "Stop Using ROW_NUMBER() for Deduplication in Spark — Use max_by() Instead",
+    "excerpt": "How a simple aggregate function can replace an expensive shuffle+sort window operation — and why its algebraic properties make it even more powerful than you think. If you’ve worked with Spark at any…",
+    "link": "https://medium.com/@dhsoni2510/stop-using-row-number-for-deduplication-in-spark-use-max-by-instead-a69bc13c3dd0?source=rss-12fc7e4bb9------2",
+    "pubDate": "Sat, 28 Mar 2026 15:19:17 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "The Trap of Delta Lake Time Travel: Why Your Structured Streaming Queries Keep Crashing",
+    "excerpt": "The Hidden Trap of Delta Lake Time Travel: Why Your Structured Streaming Queries Keep Crashing Understanding the real relationship between VACUUM, startingTimestamp, and Parquet files in Databricks.…",
+    "link": "https://medium.com/@dhsoni2510/the-trap-of-delta-lake-time-travel-why-your-structured-streaming-queries-keep-crashing-dd12f7013868?source=rss-12fc7e4bb9------2",
+    "pubDate": "Fri, 06 Mar 2026 03:56:30 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "The Mystery of the Disappearing Cache Flag",
+    "excerpt": "The Hidden Truth About PySpark’s is_cached: Why Your Transformations Still Use Cache (And How to Avoid Memory Leaks) spark caching The Mystery of the Disappearing Cache Flag If you’ve worked with…",
+    "link": "https://medium.com/@dhsoni2510/the-mystery-of-the-disappearing-cache-flag-716b257ef006?source=rss-12fc7e4bb9------2",
+    "pubDate": "Wed, 12 Nov 2025 18:26:41 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "Why Your Spark DataFrames Won’t Unpersist (And How Spark Connect Changes Everything)",
+    "excerpt": "A deep dive into cache management pitfalls in Apache Spark’s new client-server architecture The Mystery of the Disappearing Cache State Picture this: You carefully cache a Spark DataFrame to optimize…",
+    "link": "https://medium.com/@dhsoni2510/why-your-spark-dataframes-wont-unpersist-and-how-spark-connect-changes-everything-99805eb792d3?source=rss-12fc7e4bb9------2",
+    "pubDate": "Tue, 11 Nov 2025 16:22:06 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "Taming the Beast: Understanding and Preventing AttributeReference Memory Leaks in Apache Spark",
+    "excerpt": "Introduction Imagine deploying your Apache Spark application to production, only to watch it gradually consume gigabytes of heap memory before eventually crashing with an OutOfMemoryError. The…",
+    "link": "https://medium.com/@dhsoni2510/taming-the-beast-understanding-and-preventing-attributereference-memory-leaks-in-apache-spark-f99f3553afa0?source=rss-12fc7e4bb9------2",
+    "pubDate": "Tue, 28 Oct 2025 18:53:38 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "How We Slashed Structured Streaming Costs by 80% — And Made Batches Lightning Fast",
+    "excerpt": "How We Slashed Structured Streaming Costs by 80% — And Made Batches Lightning Fast When running large-scale data pipelines in Databricks, performance optimization can often feel like black magic. In…",
+    "link": "https://medium.com/@dhsoni2510/how-we-slashed-structured-streaming-costs-by-80-and-made-batches-lightning-fast-fc30a6df34bf?source=rss-12fc7e4bb9------2",
+    "pubDate": "Sat, 04 Oct 2025 23:07:19 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "When Spark’s Cache Betrays You: The Hidden Dangers of Non-Idempotent Transformations",
+    "excerpt": "How monotonically_increasing_id() and similar functions can silently sabotage your performance optimizations The Performance Mystery That Stumped Our Team Picture this: You’ve spent hours optimizing…",
+    "link": "https://medium.com/@dhsoni2510/when-sparks-cache-betrays-you-the-hidden-dangers-of-non-idempotent-transformations-0dcc289edf84?source=rss-12fc7e4bb9------2",
+    "pubDate": "Mon, 22 Sep 2025 02:39:54 GMT"
+  },
+  {
+    "type": "tech",
+    "title": "The Hidden Cost of Clean Code: Method Boundaries vs Performance in Databricks Streaming",
+    "excerpt": "The Great Debate: Clean Code vs Performance As software engineers, we constantly face the eternal struggle between writing maintainable, clean code and achieving optimal performance. This dilemma…",
+    "link": "https://medium.com/@dhsoni2510/the-hidden-cost-of-clean-code-method-boundaries-vs-performance-in-databricks-streaming-27d8e46950e2?source=rss-12fc7e4bb9------2",
+    "pubDate": "Tue, 27 May 2025 02:46:46 GMT"
+  }
+]

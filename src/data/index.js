@@ -1,5 +1,7 @@
 // ── DHARMIK SONI — All Portfolio Data ──
 
+import articlesJson from './articles.json'
+
 export const PERSONAL = {
   name: 'Dharmik Soni',
   role: 'AI Developer II',
@@ -182,32 +184,7 @@ export const PROJECTS = [
   },
 ]
 
-export const ARTICLES = [
-  {
-    type: 'tech',
-    title: 'The Trap of Delta Lake Time Travel: Why Your Structured Streaming Queries Keep Crashing',
-    excerpt: 'Understanding the real relationship between VACUUM, startingTimestamp, and Parquet files in Databricks to prevent streaming crashes.',
-    link: 'https://medium.com/@dhsoni2510/the-trap-of-delta-lake-time-travel-why-your-structured-streaming-queries-keep-crashing-dd12f7013868',
-  },
-  {
-    type: 'tech',
-    title: 'How We Slashed Structured Streaming Costs by 80% — And Made Batches Lightning Fast',
-    excerpt: 'A case study on optimizing Databricks streaming pipelines for massive cost savings and performance gains at enterprise scale.',
-    link: 'https://medium.com/@dhsoni2510/how-we-slashed-structured-streaming-costs-by-80-and-made-batches-lightning-fast-fc30a6df34bf',
-  },
-  {
-    type: 'tech',
-    title: 'Taming the Beast: Understanding and Preventing AttributeReference Memory Leaks in Apache Spark',
-    excerpt: 'How AttributeReference objects can cause silent but deadly memory accumulation and OutOfMemoryError in production Spark jobs.',
-    link: 'https://medium.com/@dhsoni2510/taming-the-beast-understanding-and-preventing-attributereference-memory-leaks-in-apache-spark-f99f3553afa0',
-  },
-  {
-    type: 'tech',
-    title: 'The Hidden Cost of Clean Code: Method Boundaries vs Performance in Databricks Streaming',
-    excerpt: 'Analyzing the performance trade-offs between modular clean code and monolithic optimized chains in Spark streaming pipelines.',
-    link: 'https://medium.com/@dhsoni2510/the-hidden-cost-of-clean-code-method-boundaries-vs-performance-in-databricks-streaming-27d8e46950e2',
-  },
-]
+export const ARTICLES = articlesJson
 
 export const TICKER_ITEMS = [
   ['ORIGIN', 'Ahmedabad, India'],
