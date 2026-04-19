@@ -1,6 +1,6 @@
 # Dharmik Soni — Portfolio (React + Vite)
 
-## 🚀 Setup in Windsurf / Cursor / VS Code
+## 🚀 Setup in Cursor / VS Code
 
 ### Step 1 — Open the project
 ```
