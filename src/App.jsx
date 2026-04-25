@@ -3,7 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ScrollProgress from './components/ScrollProgress'
 import {
-  ExploreStrip, Ticker, Journey, About,
+  ExploreStrip, Ticker, ControlTower, Journey, About,
   Experience, Projects, Articles, Contact, Footer, SectionTransition
 } from './components/Sections'
 import NeuralBackground from './components/NeuralBackground'
@@ -45,6 +45,8 @@ export default function App() {
       <main style={{ position: 'relative', zIndex: 10 }} id="main-content">
         <Hero />
         <Ticker />
+
+        <ControlTower />
 
         <SectionTransition icon="✈" />
         <Journey />

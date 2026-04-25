@@ -4,12 +4,12 @@ import { useScrollProgress } from '../hooks'
 import styles from './ScrollProgress.module.css'
 
 const WAYPOINTS = [
-  { label: 'AMD', section: 'home', position: 0 },
-  { label: 'YHZ', section: 'journey', position: 0.2 },
-  { label: 'YUL', section: 'about', position: 0.45 },
-  { label: 'YYZ', section: 'experience', position: 0.65 },
-  { label: '✈', section: 'projects', position: 0.8 },
-  { label: '◉', section: 'contact', position: 1.0 },
+  { label: 'Intro', section: 'home', position: 0 },
+  { label: 'Story', section: 'journey', position: 0.2 },
+  { label: 'About', section: 'about', position: 0.45 },
+  { label: 'Work', section: 'experience', position: 0.65 },
+  { label: 'Builds', section: 'projects', position: 0.8 },
+  { label: 'Contact', section: 'contact', position: 1.0 },
 ]
 
 export default function ScrollProgress() {

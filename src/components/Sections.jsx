@@ -1,24 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import {
-  WAYPOINTS, SKILLS, CERTIFICATIONS, EDUCATION,
+  STORY_CHAPTERS, IMPACT_METRICS, CAPABILITY_GROUPS, CERTIFICATIONS, EDUCATION,
   EXPERIENCE, PROJECTS, ARTICLES, TICKER_ITEMS, PERSONAL
 } from '../data'
 import Globe from './Globe'
 import s from './Sections.module.css'
-
-// ── SKILL PROFICIENCY DATA ──
-const SKILL_BARS = [
-  { label: 'Apache Kafka', pct: 92, cls: 'c1' },
-  { label: 'Databricks/Spark', pct: 90, cls: 'c1' },
-  { label: 'Python', pct: 95, cls: 'c2' },
-  { label: 'Deep Learning', pct: 82, cls: 'c1' },
-  { label: 'AWS Cloud', pct: 78, cls: 'c3' },
-  { label: 'React/Node', pct: 75, cls: 'c2' },
-  { label: 'Java', pct: 80, cls: 'c4' },
-  { label: 'NLP / LLMs', pct: 85, cls: 'c1' },
-]
 
 // ── FADE WRAPPER ──
 function FadeUp({ children, delay = 0, className = '' }) {
@@ -114,11 +102,11 @@ export function ExploreStrip() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 1.2, ease: [.16,1,.3,1] }}
     >
-      {[
-        { ico: '📍', lbl: 'Origin',   val: 'Ahmedabad, India (AMD)' },
-        { ico: '🎓', lbl: 'Masters',  val: 'Dalhousie University, Halifax' },
-        { ico: '🏢', lbl: 'Company',  val: 'Intact Financial Corporation' },
-        { ico: '📅', lbl: 'Location', val: 'Toronto, Canada · Open to Collaborate' },
+        {[
+        { ico: '01', lbl: 'Role',      val: 'AI Developer II' },
+        { ico: '02', lbl: 'Platform',  val: 'Kafka · Spark · Databricks' },
+        { ico: '03', lbl: 'Impact',    val: '$500K+ operational savings' },
+        { ico: '04', lbl: 'Focus',     val: 'Production AI systems' },
       ].map((f, i) => (
         <React.Fragment key={f.lbl}>
           {i > 0 && <div className={s.stripDiv} />}
@@ -147,62 +135,104 @@ export function Ticker() {
   )
 }
 
-// ── JOURNEY ──
-export function Journey() {
-  const [activeCity, setActiveCity] = useState(null);
-
+// ── CONTROL TOWER ──
+export function ControlTower() {
   return (
-    <section id="journey" className={s.journey}>
-      <div className={s.journeyLeft}>
-        <div className="s-eye">Flight Path // Life Route</div>
-        <h2 className="s-title" style={{ fontSize: 'clamp(38px,5.5vw,74px)', marginBottom: 32 }}>
-          The<br /><em>Journey</em>
+    <section className={s.controlTower} id="impact" aria-labelledby="control-title">
+      <div className={s.controlIntro}>
+        <div className="s-eye">Control Tower // Engineering Proof</div>
+        <h2 id="control-title" className={s.controlTitle}>
+          Production AI with measurable outcomes.
         </h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }} onMouseLeave={() => setActiveCity(null)}>
-          {WAYPOINTS.map((wp, i) => (
-            <WaypointWrapper key={wp.code} onInView={() => setActiveCity(wp.code)}>
-              <FadeUp delay={i * .08}>
-                <SpotlightCard
-                  className={`${s.wpCard} ${wp.type === 'origin' ? s.wpCardOrigin : wp.type === 'dest' ? s.wpCardDest : s.wpCardTransit}`}
-                >
-                  <div className={s.wpHeader}>
-                    <div className={s.wpCode}>{wp.code}</div>
-                    <div className={`${s.wpBadge} ${wp.type === 'origin' ? s.wpBadgeOrigin : wp.type === 'dest' ? s.wpBadgeDest : s.wpBadgeTransit}`}>
-                      {wp.badge}
-                    </div>
-                  </div>
-                  <div className={s.wpCity}>{wp.city}</div>
-                  <p className={s.wpDesc}>{wp.desc}</p>
-                </SpotlightCard>
-              </FadeUp>
-            </WaypointWrapper>
-          ))}
-        </div>
+        <p className={s.controlCopy}>
+          The visual story matters, but the portfolio should quickly prove the level of work:
+          enterprise data platforms, model governance, streaming systems, and operational impact.
+        </p>
       </div>
-      <div className={s.journeyGlobe}>
-        <Globe activeCity={activeCity} />
+      <div className={s.metricGrid}>
+        {IMPACT_METRICS.map((m, i) => (
+          <FadeUp key={m.label} delay={i * .07}>
+            <div className={s.metricCard}>
+              <div className={s.metricValue}>{m.value}</div>
+              <div className={s.metricLabel}>{m.label}</div>
+              <p className={s.metricDetail}>{m.detail}</p>
+            </div>
+          </FadeUp>
+        ))}
       </div>
     </section>
   )
 }
 
-// ── ANIMATED SKILL BARS ──
-function SkillBars() {
-  const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true })
+// ── JOURNEY ──
+export function Journey() {
+  const [activeCity, setActiveCity] = useState('AMD')
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end end'],
+  })
+  const planeX = useTransform(scrollYProgress, [0, 1], ['18px', 'calc(100% - 18px)'])
+
   return (
-    <div ref={ref} className={s.skillBar}>
-      {SKILL_BARS.map((skill) => (
-        <div key={skill.label} className={s.skillBarItem}>
-          <span className={s.skillBarLabel}>{skill.label}</span>
-          <div className={s.skillBarTrack}>
-            <div
-              className={`${s.skillBarFill} ${s[`skillBarFill${skill.cls.charAt(0).toUpperCase() + skill.cls.slice(1)}`]}`}
-              style={{ width: inView ? `${skill.pct}%` : '0%' }}
-            />
+    <section id="journey" className={s.storyJourney} ref={ref}>
+      <div className={s.storySticky}>
+        <div className={s.storyPanel}>
+          <div className="s-eye">Career Narrative</div>
+          <h2 className={s.storyTitle}>Four chapters. One operating system.</h2>
+          <div className={s.routeRail} aria-hidden="true">
+            <div className={s.routeLine} />
+            <motion.div className={s.routePlane} style={{ left: planeX }}>✈</motion.div>
+            {STORY_CHAPTERS.map((chapter, i) => (
+              <div
+                key={chapter.code}
+                className={`${s.routeStop} ${activeCity === chapter.code ? s.routeStopActive : ''}`}
+                style={{
+                  left: i === 0
+                    ? '18px'
+                    : i === STORY_CHAPTERS.length - 1
+                      ? 'calc(100% - 18px)'
+                      : `${(i / (STORY_CHAPTERS.length - 1)) * 100}%`,
+                }}
+              >
+                <span>{chapter.code}</span>
+              </div>
+            ))}
+          </div>
+          <div className={s.storyGlobe}>
+            <Globe activeCity={activeCity} />
           </div>
         </div>
-      ))}
-    </div>
+      </div>
+
+      <div className={s.storyChapters}>
+        {STORY_CHAPTERS.map((chapter, i) => (
+          <WaypointWrapper key={chapter.code} onInView={() => setActiveCity(chapter.code)}>
+            <motion.article
+              className={s.chapterCard}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-20% 0px -20% 0px' }}
+              transition={{ duration: .7, ease: [.16,1,.3,1] }}
+            >
+              <div className={s.chapterIndex}>0{i + 1}</div>
+              <div className={s.chapterCode}>{chapter.code}</div>
+              <div className={s.chapterKicker}>{chapter.kicker}</div>
+              <h3>{chapter.title}</h3>
+              <p>{chapter.outcome}</p>
+              <div className={s.chapterProof}>
+                {chapter.proof.map(item => (
+                  <div key={item} className={s.chapterProofItem}>
+                    <span />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </motion.article>
+          </WaypointWrapper>
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -215,7 +245,7 @@ export function About() {
       <div className={s.aboutGrid}>
         <div>
           {[
-            `I'm <strong>Dharmik Soni</strong> — an AI Developer with a passion for building intelligent systems that push the boundaries of technology. Currently serving as <strong>AI Developer II at Intact Financial Corporation</strong> in Toronto.`,
+            `I build intelligent systems that move from prototype to production. Currently serving as <strong>AI Developer II at Intact Financial Corporation</strong>.`,
             `I specialize in developing systems that analyze and process complex data using <strong>Apache Kafka, Databricks, Apache Spark</strong>, and deep learning frameworks — applied to real insurance-scale problems at Canada's largest P&C insurer.`,
             `Beyond Intact, I'm co-founder of <strong>CareerCurate</strong> — a platform empowering international students and immigrants to build competitive career profiles. Resume optimization, LinkedIn coaching, community, and job support.`,
           ].map((text, i) => (
@@ -284,28 +314,19 @@ export function About() {
         {/* Skills */}
         <FadeUp delay={.16}>
           <div className={s.skillsWrap}>
-            {SKILLS.map(row => (
-              <div key={row.label}>
-                <div className={s.skillLabel}>
-                  {row.label}
-                  <div className={s.skillDivider} />
+            {CAPABILITY_GROUPS.map(group => (
+              <div key={group.title} className={s.capabilityCard}>
+                <div className={s.capabilityTop}>
+                  <div className={s.capabilityTitle}>{group.title}</div>
+                  <div className={s.capabilityLevel}>{group.level}</div>
                 </div>
-                <div className={s.skillTags}>
-                  {row.skills.map(sk => (
-                    <span key={sk} className={`chip ${row.cls}`}>{sk}</span>
+                <div className={s.capabilityTags}>
+                  {group.items.map(sk => (
+                    <span key={sk}>{sk}</span>
                   ))}
                 </div>
               </div>
             ))}
-
-            {/* Animated Skill Bars */}
-            <div>
-              <div className={s.skillLabel}>
-                Proficiency
-                <div className={s.skillDivider} />
-              </div>
-              <SkillBars />
-            </div>
           </div>
         </FadeUp>
       </div>
@@ -368,6 +389,18 @@ export function Projects() {
               </div>
               <div className={s.projectTitle}>{p.name}</div>
               <p className={s.projectDesc}>{p.desc}</p>
+              <div className={s.caseGrid}>
+                {[
+                  ['Problem', p.problem],
+                  ['Approach', p.approach],
+                  ['Outcome', p.outcome],
+                ].map(([label, value]) => value && (
+                  <div key={label} className={s.caseItem}>
+                    <span>{label}</span>
+                    {value}
+                  </div>
+                ))}
+              </div>
               <div className={s.projectStack}>
                 {p.stack.map(sk => (
                   <span key={sk} className={s.projectTag}>{sk}</span>
@@ -438,7 +471,8 @@ export function Contact() {
           Let's<br /><em className={s.contactAccent}>Connect</em>
         </div>
         <p className={s.contactDesc}>
-          AI collaboration, career development, tech discussions, or just want to say hi — all channels open. Based in Toronto, building globally.
+          Available for applied AI, data platform, and production ML conversations.
+          Focused on systems where reliability, governance, and measurable impact matter.
         </p>
         <div className={s.contactLinks} style={{ maxWidth: 600 }}>
           {[
@@ -475,10 +509,10 @@ export function Footer() {
   return (
     <footer className={s.footer}>
       <div className={s.footerLeft}>
-        © 2026 // DHARMIK SONI // AI DEVELOPER II // INTACT FINANCIAL
+        © 2026 // AI DEVELOPER II // INTACT FINANCIAL
       </div>
       <div className={s.footerRight}>
-        <span>AMD → YHZ → YUL → YYZ</span>
+        <span>Production AI · Data Platforms · Model Governance</span>
       </div>
     </footer>
   )

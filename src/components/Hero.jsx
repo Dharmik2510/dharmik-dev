@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { PERSONAL, ROUTE } from '../data'
 import styles from './Hero.module.css'
 
 function BoardingPass() {
@@ -47,7 +46,7 @@ function BoardingPass() {
     ctx.fillStyle = 'rgba(0,229,255,.28)'
     ctx.font = '5px JetBrains Mono,monospace'
     ctx.textAlign = 'center'
-    ctx.fillText('AMD-YHZ-YUL-YYZ', W / 2, H)
+    ctx.fillText('AI-PLATFORM-01', W / 2, H)
   }, [])
 
   return (
@@ -71,18 +70,18 @@ function BoardingPass() {
         {/* Header */}
         <div className={styles.bpHd}>
           <div>
-            <div className={styles.bpAirline}>✦ DEVAIR</div>
-            <div className={styles.bpAirlineSub}>// AI DEVELOPER AIRLINES</div>
+            <div className={styles.bpAirline}>SONI SYSTEMS</div>
+            <div className={styles.bpAirlineSub}>// AI PLATFORM ENGINEERING</div>
           </div>
           <div className={styles.bpClass}>AI CLASS</div>
         </div>
 
-        {/* Route */}
+        {/* Profile signal */}
         <div className={styles.bpRoute}>
           <div className={styles.bpCity}>
-            <div className={styles.bpIata}>AMD</div>
-            <div className={styles.bpCityName}>Ahmedabad</div>
-            <div className={styles.bpCityCountry}>INDIA 🇮🇳</div>
+            <div className={styles.bpIata}>AI</div>
+            <div className={styles.bpCityName}>Platform</div>
+            <div className={styles.bpCityCountry}>Systems</div>
           </div>
           <div className={styles.bpMid}>
             <div className={styles.bpArc}>
@@ -91,12 +90,12 @@ function BoardingPass() {
               <div className={styles.bpArcDot} />
             </div>
             <div className={styles.bpPlaneIco}>✈</div>
-            <div className={styles.bpKm}>11,830 KM</div>
+            <div className={styles.bpKm}>PRODUCTION</div>
           </div>
           <div className={styles.bpCity}>
-            <div className={`${styles.bpIata} ${styles.bpIataDest}`}>YYZ</div>
-            <div className={styles.bpCityName}>Toronto</div>
-            <div className={styles.bpCityCountry}>CANADA 🇨🇦</div>
+            <div className={`${styles.bpIata} ${styles.bpIataDest}`}>ML</div>
+            <div className={styles.bpCityName}>Data</div>
+            <div className={styles.bpCityCountry}>Governance</div>
           </div>
         </div>
 
@@ -104,10 +103,10 @@ function BoardingPass() {
         <div className={styles.bpDet}>
           {[
             { lbl: 'Flight',   val: 'DS-2024',  cls: 'c1' },
-            { lbl: 'Via',      val: 'YHZ·YUL',  cls: 'c2' },
+            { lbl: 'Stack',    val: 'SPARK',    cls: 'c2' },
             { lbl: 'Status',   val: 'LANDED',    cls: 'c3' },
-            { lbl: 'Departed', val: '2021',      cls: ''   },
-            { lbl: 'Gate',     val: 'AI-∞',      cls: 'c1' },
+            { lbl: 'Impact',   val: '$500K+',    cls: ''   },
+            { lbl: 'Gate',     val: 'AI-01',     cls: 'c1' },
             { lbl: 'Role',     val: 'DEV II',    cls: 'c2' },
           ].map(d => (
             <div key={d.lbl}>
@@ -120,8 +119,8 @@ function BoardingPass() {
         {/* Passenger */}
         <div className={styles.bpPax}>
           <div>
-            <div className={styles.bpPaxLbl}>PASSENGER</div>
-            <div className={styles.bpPaxName}>DHARMIK SONI</div>
+            <div className={styles.bpPaxLbl}>PROFILE</div>
+            <div className={styles.bpPaxName}>PRODUCTION AI</div>
             <div className={styles.bpPaxRole}>AI Developer II · Intact</div>
           </div>
           <div className={styles.bpSeat}>
@@ -134,8 +133,8 @@ function BoardingPass() {
         <div className={styles.bpBar}>
           <canvas id="bp-barcode" width="82" height="42" />
           <div>
-            <div className={styles.bpBarId}>BOARDING PASS ID</div>
-            <div className={styles.bpBarNum}>AMD-YHZ-YUL-YYZ</div>
+            <div className={styles.bpBarId}>SYSTEM ID</div>
+            <div className={styles.bpBarNum}>AI-PLATFORM-01</div>
             <div className={styles.bpBarStatus}>
               <div className={styles.bpBarDot} />
               GATE OPEN · AI SYSTEMS ACTIVE
@@ -146,7 +145,7 @@ function BoardingPass() {
         {/* Stub */}
         <div className={styles.bpStub}>
           <div>
-            <div className={styles.bpStubRoute}>AMD → YYZ</div>
+            <div className={styles.bpStubRoute}>DATA → DECISION</div>
             <div className={styles.bpStubInfo}>INTACT FINANCIAL · 3+ YRS · AI DEVELOPER</div>
           </div>
           <div>
@@ -171,7 +170,7 @@ export default function Hero() {
       {/* Left text */}
       <div className={styles.left}>
         <motion.div className={styles.eyebrow} {...fadeUp(.3)}>
-          Boarding Pass // Dharmik Soni
+          Interactive Career Story
         </motion.div>
 
         <div className={styles.nameWrap}>
@@ -188,52 +187,23 @@ export default function Hero() {
           Intact Financial Corporation
         </motion.div>
 
-        <motion.div className={styles.route} {...fadeUp(.72)}>
-          {ROUTE.map((s, i) => (
-            <React.Fragment key={s.code}>
-              <span className={`${styles.rs} ${s.active ? styles.rsActive : ''}`}>
-                {s.code} {s.flag}
-              </span>
-              {i < ROUTE.length - 1 && <span className={styles.ra}>→</span>}
-            </React.Fragment>
-          ))}
-        </motion.div>
-
         <motion.p className={styles.desc} {...fadeUp(.8)}>
-          From <strong>Ahmedabad, India</strong> to a Master's at{' '}
-          <strong>Dalhousie, Halifax</strong>, an AI internship at{' '}
-          <strong>Intact, Montréal</strong>, and now{' '}
-          <strong>AI Developer II in Toronto</strong>. Building intelligent
-          systems that drive real decisions at scale.
+          AI Developer II building production-grade data and ML systems at{' '}
+          <strong>Intact Financial</strong>, with work spanning Kafka streaming,
+          Databricks, Spark optimization, model lifecycle governance, and
+          enterprise-scale AI delivery.
         </motion.p>
 
         <motion.div className={styles.ctas} {...fadeUp(.92)}>
-          <a href="#experience" className="btn-p">View Experience →</a>
+          <a href="#journey" className="btn-p">Start Story →</a>
+          <a href="#impact" className="btn-g">View Impact</a>
           <a href="https://github.com/Dharmik2510" target="_blank" rel="noreferrer" className="btn-g">GitHub ↗</a>
-          <a href="mailto:dhsoni2510@gmail.com" className="btn-g">Contact</a>
         </motion.div>
       </div>
 
       {/* Right — boarding pass */}
       <div className={styles.right}>
         <BoardingPass />
-      </div>
-
-      {/* HUD strip */}
-      <div className={styles.hud}>
-        {[
-          { lbl: 'Origin',      val: 'AMD',    sub: 'Ahmedabad, India'         },
-          { lbl: 'Via',         val: 'YHZ',    sub: 'Halifax · Dalhousie'      },
-          { lbl: 'Via',         val: 'YUL',    sub: 'Montréal · Intact'        },
-          { lbl: 'Destination', val: 'YYZ',    sub: 'Toronto · Permanent'      },
-          { lbl: 'Status',      val: 'ACTIVE', sub: 'AI Developer II', green: true },
-        ].map((c, i) => (
-          <div key={i} className={styles.hudCell}>
-            <div className={styles.hudLbl}>{c.lbl}</div>
-            <div className={`${styles.hudVal} ${c.green ? styles.hudValGreen : ''}`}>{c.val}</div>
-            <div className={styles.hudSub}>{c.sub}</div>
-          </div>
-        ))}
       </div>
     </section>
   )

@@ -44,6 +44,280 @@
   font-family: var(--mono);
 }
 
+/* ── CONTROL TOWER ── */
+.controlTower {
+  padding: 120px 48px 96px;
+  position: relative;
+  scroll-margin-top: 80px;
+  background:
+    linear-gradient(180deg, rgba(0,3,8,.2), rgba(2,10,20,.94)),
+    radial-gradient(circle at 74% 10%, rgba(0,229,255,.08), transparent 34%);
+  border-bottom: 1px solid var(--border);
+}
+.controlIntro {
+  max-width: 980px;
+  margin: 0 auto 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.controlTitle {
+  font-family: var(--display);
+  font-size: clamp(52px, 5.4vw, 104px);
+  line-height: .88;
+  letter-spacing: .02em;
+  color: var(--white);
+  text-transform: uppercase;
+  max-width: 820px;
+  margin: 0 auto 24px;
+}
+.controlCopy {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--text);
+  max-width: 680px;
+  margin: 0 auto;
+}
+.metricGrid {
+  max-width: 1220px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.metricCard {
+  min-height: 230px;
+  padding: 28px 26px;
+  background: rgba(7,24,40,.92);
+  position: relative;
+  overflow: hidden;
+}
+.metricCard::after {
+  content: '';
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon), transparent);
+  opacity: .7;
+}
+.metricValue {
+  font-family: var(--display);
+  font-size: clamp(36px, 4vw, 58px);
+  letter-spacing: .03em;
+  line-height: .9;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.metricLabel {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--neon);
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.metricDetail {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ── SCROLL STORY JOURNEY ── */
+.storyJourney {
+  position: relative;
+  min-height: 360vh;
+  display: grid;
+  grid-template-columns: minmax(420px, 520px) minmax(420px, 620px);
+  justify-content: center;
+  gap: clamp(44px, 6vw, 96px);
+  padding: 0 48px;
+  scroll-margin-top: 80px;
+  background: linear-gradient(180deg, var(--deep) 0%, var(--void) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.storySticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.storyPanel {
+  width: 100%;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.storyTitle {
+  font-family: var(--display);
+  font-size: clamp(42px, 5.5vw, 76px);
+  line-height: .92;
+  letter-spacing: .02em;
+  color: var(--white);
+  text-transform: uppercase;
+  max-width: 620px;
+  margin-bottom: 34px;
+}
+.routeRail {
+  position: relative;
+  height: 58px;
+  margin: 0 20px 28px 0;
+}
+.routeLine {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 27px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--neon2), var(--amber), var(--neon));
+  opacity: .55;
+}
+.routePlane {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(0,229,255,.26);
+  border-radius: 50%;
+  background: rgba(2,10,20,.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neon);
+  box-shadow: 0 0 28px rgba(0,229,255,.16);
+  z-index: 3;
+}
+.routeStop {
+  position: absolute;
+  top: 17px;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  background: var(--deep);
+  z-index: 2;
+  transition: border-color .25s, background .25s, transform .25s;
+}
+.routeStop span {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+.routeStopActive {
+  border-color: var(--neon);
+  background: var(--neon);
+  transform: translateX(-50%) scale(1.12);
+}
+.routeStopActive span { color: var(--white); }
+.storyGlobe {
+  width: min(500px, 100%);
+  height: 430px;
+  margin: 0 auto;
+}
+.storyChapters {
+  padding: 72vh 0 44vh;
+  display: flex;
+  flex-direction: column;
+  gap: 34vh;
+}
+.chapterCard {
+  background: rgba(7,24,40,.88);
+  border: 1px solid var(--border);
+  padding: 34px 36px;
+  min-height: 420px;
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.chapterCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,229,255,.06), transparent 45%);
+  pointer-events: none;
+}
+.chapterIndex {
+  position: absolute;
+  top: 26px;
+  right: 28px;
+  font-family: var(--display);
+  font-size: 52px;
+  color: rgba(208,224,244,.08);
+}
+.chapterCode {
+  font-family: var(--display);
+  font-size: 58px;
+  line-height: .9;
+  letter-spacing: .04em;
+  color: var(--neon);
+  margin-bottom: 8px;
+}
+.chapterKicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.chapterCard h3 {
+  font-family: var(--display);
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: .92;
+  letter-spacing: .02em;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.chapterCard p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--text);
+  max-width: 620px;
+  margin-bottom: 24px;
+}
+.chapterProof {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chapterProofItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.chapterProofItem span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon2);
+  box-shadow: 0 0 10px rgba(0,255,157,.4);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
 /* ── JOURNEY ── */
 .journey {
   min-height: 100vh; display: grid; grid-template-columns: 1fr 460px;
@@ -133,6 +407,52 @@
 
 /* Skills */
 .skillsWrap { display: flex; flex-direction: column; gap: 24px; }
+.capabilityCard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 22px 24px;
+}
+.capabilityTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+.capabilityTitle {
+  font-family: var(--display);
+  font-size: 24px;
+  letter-spacing: .04em;
+  color: var(--white);
+  line-height: 1;
+}
+.capabilityLevel {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: var(--neon2);
+  border: 1px solid rgba(0,255,157,.24);
+  background: rgba(0,255,157,.07);
+  padding: 5px 9px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.capabilityTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.capabilityTags span {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--text);
+  border: 1px solid var(--border2);
+  background: rgba(0,229,255,.04);
+  padding: 6px 10px;
+  border-radius: 2px;
+}
 .skillLabel {
   font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
   color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
@@ -222,6 +542,30 @@
   letter-spacing: .03em; color: var(--white); line-height: 1.1; margin-bottom: 12px;
 }
 .projectDesc { font-size: 14px; line-height: 1.8; color: var(--text); margin-bottom: 18px; }
+.caseGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  margin: 0 0 18px;
+  border: 1px solid rgba(29,52,77,.7);
+}
+.caseItem {
+  background: rgba(2,10,20,.52);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.caseItem span {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: var(--neon);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
 .projectStack { display: flex; flex-wrap: wrap; gap: 5px; }
 .projectTag {
   font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
@@ -415,6 +759,26 @@
 
 /* ── TABLET ── */
 @media (max-width: 1100px) {
+  .controlTower { padding: 90px 28px 72px; }
+  .controlTitle { font-size: clamp(44px, 8vw, 78px); }
+  .metricGrid { grid-template-columns: repeat(2, 1fr); }
+  .storyJourney {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 72px 28px;
+    gap: 28px;
+  }
+  .storySticky {
+    position: relative;
+    height: auto;
+    margin-bottom: 28px;
+  }
+  .storyPanel { min-height: auto; align-items: center; text-align: center; }
+  .storyTitle { max-width: 720px; }
+  .routeRail { width: min(680px, 100%); }
+  .storyGlobe { width: 100%; max-width: 420px; height: 360px; margin: 0 auto 8px; }
+  .storyChapters { width: min(720px, 100%); margin: 0 auto; padding: 0; gap: 18px; }
+  .chapterCard { min-height: auto; max-width: none; text-align: left; }
   .journey { grid-template-columns: 1fr; padding: 80px 28px; }
   .journeyLeft { padding-right: 0; }
   .journeyGlobe { width: 100%; max-width: 400px; height: 400px; margin: 40px auto 0; }
@@ -429,6 +793,20 @@
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
+  .controlTower { padding: 68px 20px 58px; }
+  .controlIntro { margin-bottom: 28px; }
+  .controlTitle { font-size: clamp(38px, 11vw, 58px); margin-bottom: 18px; }
+  .controlCopy { font-size: 14px; line-height: 1.75; }
+  .metricGrid { grid-template-columns: 1fr; }
+  .metricCard { min-height: auto; padding: 24px 22px; }
+  .storyJourney { padding: 60px 20px; }
+  .storyTitle { margin-bottom: 28px; font-size: clamp(36px, 11vw, 56px); }
+  .routeRail { margin-right: 0; }
+  .routePlane { width: 36px; height: 36px; top: 9px; font-size: 13px; }
+  .storyGlobe { max-width: 320px; height: 300px; margin-bottom: 14px; }
+  .chapterCard { padding: 28px 24px; }
+  .chapterCode { font-size: 46px; }
+  .chapterCard p { font-size: 14px; }
   .journey { padding: 60px 20px; }
   .journeyGlobe { max-width: 300px; height: 300px; }
   .projectGrid { grid-template-columns: 1fr; }
@@ -458,6 +836,17 @@
 
 /* ── SMALL MOBILE ── */
 @media (max-width: 480px) {
+  .controlTower { padding: 56px 16px 48px; }
+  .controlCopy { font-size: 14px; }
+  .storyJourney { padding: 48px 16px; }
+  .storyTitle { font-size: clamp(34px, 12vw, 48px); }
+  .routeStop span { font-size: 9px; letter-spacing: .08em; }
+  .storyGlobe { max-width: 280px; height: 250px; margin-bottom: 18px; }
+  .chapterCard { padding: 24px 18px; }
+  .chapterIndex { top: 18px; right: 18px; font-size: 40px; }
+  .chapterProofItem { font-size: 11px; }
+  .capabilityCard { padding: 18px 16px; }
+  .capabilityTop { align-items: flex-start; flex-direction: column; gap: 10px; }
   .journey { padding: 48px 16px; }
   .journeyGlobe { max-width: 260px; height: 260px; }
   .wpCode { font-size: 28px; }

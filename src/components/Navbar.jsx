@@ -3,6 +3,7 @@ import { useClock } from '../hooks'
 import styles from './Navbar.module.css'
 
 const NAV_LINKS = [
+  { label: 'Impact',     href: '#impact'     },
   { label: 'Journey',    href: '#journey'    },
   { label: 'About',      href: '#about'      },
   { label: 'Experience', href: '#experience' },
@@ -32,7 +33,7 @@ export default function Navbar() {
       </ul>
 
       <div className={styles.right}>
-        <span className={styles.clock}>YYZ {time}</span>
+        <span className={styles.clock}>LOCAL {time}</span>
 
         <div className={styles.badge}>
           <div className={styles.pdot} />
@@ -69,7 +70,7 @@ export default function Navbar() {
             ))}
           </ul>
           <div className={styles.mobileFooter}>
-            <span className={styles.clock}>YYZ {time}</span>
+            <span className={styles.clock}>LOCAL {time}</span>
             <div className={styles.badge}>
               <div className={styles.pdot} />
               AI DEVELOPER II

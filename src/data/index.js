@@ -53,6 +53,60 @@ export const WAYPOINTS = [
   },
 ]
 
+export const IMPACT_METRICS = [
+  {
+    value: '$500K+',
+    label: 'Operational Savings',
+    detail: 'Spark optimization and Databricks cluster tuning translated engineering work into measurable platform savings.',
+  },
+  {
+    value: 'Real-time',
+    label: 'Insurance Pipelines',
+    detail: 'Kafka-powered usage-based insurance systems delivering driving behavior insights from live event streams.',
+  },
+  {
+    value: 'Enterprise',
+    label: 'AI Platform Migration',
+    detail: 'On-premise systems modernized with Databricks, Unity Catalog, and MLflow for stronger model governance.',
+  },
+  {
+    value: '3+ yrs',
+    label: 'Production AI',
+    detail: 'Applied ML, data engineering, and backend systems shipped inside Canada’s largest P&C insurer.',
+  },
+]
+
+export const STORY_CHAPTERS = [
+  {
+    code: 'AMD',
+    title: 'Foundation',
+    kicker: 'Ahmedabad, India',
+    outcome: 'Built the engineering base across web systems, backend services, cloud infrastructure, and applied algorithms.',
+    proof: ['B.E. in Information and Communication Technology', 'React, Node.js, AWS, Java, REST APIs', 'Early production exposure through e-commerce and automation work'],
+  },
+  {
+    code: 'YHZ',
+    title: 'Expansion',
+    kicker: 'Halifax, Dalhousie University',
+    outcome: 'Moved into applied computer science, distributed systems, ML, and the Canadian technology market.',
+    proof: ['M.Sc. in Applied Computer Science', 'AI/ML, data systems, and software architecture', 'Adapted technical depth to a new country and professional context'],
+  },
+  {
+    code: 'YUL',
+    title: 'Enterprise AI',
+    kicker: 'Montréal, Intact Financial',
+    outcome: 'Entered insurance-scale AI systems where models, pipelines, governance, and reliability all mattered.',
+    proof: ['AI Developer Internship at Intact', 'Production ML pipeline contribution', 'First exposure to real insurance data and enterprise delivery standards'],
+  },
+  {
+    code: 'YYZ',
+    title: 'Production Impact',
+    kicker: 'Toronto, AI Developer II',
+    outcome: 'Now building and optimizing intelligent systems that support real decisions at scale.',
+    proof: ['Databricks, Spark, Kafka, MLflow, Unity Catalog', '$500K+ savings from platform optimization', 'Co-founder of CareerCurate for immigrant and student career support'],
+  },
+]
+
 export const EXPERIENCE = [
   {
     role: 'AI Developer II',
@@ -143,6 +197,29 @@ export const SKILLS = [
   },
 ]
 
+export const CAPABILITY_GROUPS = [
+  {
+    title: 'Production AI Systems',
+    level: 'Primary',
+    items: ['MLflow', 'Unity Catalog', 'Deep Learning', 'NLP', 'LLMs', 'Model Lifecycle'],
+  },
+  {
+    title: 'Real-time Data Platforms',
+    level: 'Primary',
+    items: ['Apache Kafka', 'Spark', 'Databricks', 'AWS Kinesis', 'S3', 'Pipeline Observability'],
+  },
+  {
+    title: 'Backend Engineering',
+    level: 'Production',
+    items: ['Python', 'Java', 'Spring Boot', 'Flask', 'Node.js', 'REST APIs'],
+  },
+  {
+    title: 'AI Agents & Product Work',
+    level: 'Applied',
+    items: ['CrewAI', 'LangChain', 'LangGraph', 'OpenAI', 'React', 'FastAPI'],
+  },
+]
+
 export const CERTIFICATIONS = [
   { icon: '⚡', name: 'Databricks Certified Associate', org: 'Apache Spark 3.0' },
   { icon: '☕', name: 'Oracle Certified Professional', org: 'Java SE 6 Programmer' },
@@ -171,6 +248,9 @@ export const PROJECTS = [
     name: 'AI Trading Debate Platform',
     featured: true,
     desc: 'Interactive platform where two AI agents (Bull 🐂 vs Bear 🐻) debate stock day-trading viability using real-time data, technical indicators (RSI, MACD, Bollinger Bands), and GPT-powered news sentiment — culminating in a Chief Risk Officer verdict.',
+    problem: 'Retail market decisions are noisy and emotionally biased.',
+    approach: 'Two specialist agents debate opposing theses before a risk agent issues a verdict.',
+    outcome: 'A transparent decision flow that exposes signal, uncertainty, and risk tradeoffs.',
     stack: ['Python', 'FastAPI', 'CrewAI', 'React', 'OpenAI', 'SSE Streaming'],
     link: 'https://github.com/Dharmik2510/ai-trading-debate-poc',
   },
@@ -179,6 +259,9 @@ export const PROJECTS = [
     name: 'Databricks Plan Optimizer',
     featured: true,
     desc: 'Developer tool that analyzes Spark DataFrame execution plans and surfaces potential optimizations — from inefficient joins to missing partitions. Built for the Spark community to debug and tune Databricks workloads.',
+    problem: 'Spark execution plans are hard to interpret quickly during performance tuning.',
+    approach: 'Analyze plan structure and surface likely bottlenecks in developer-friendly language.',
+    outcome: 'Shorter diagnosis loops for joins, partitioning, and expensive transformations.',
     stack: ['TypeScript', 'Databricks', 'Apache Spark', 'React'],
     link: 'https://github.com/Dharmik2510/databricks-plan-optimizer',
   },
@@ -187,12 +270,12 @@ export const PROJECTS = [
 export const ARTICLES = articlesJson
 
 export const TICKER_ITEMS = [
-  ['ORIGIN', 'Ahmedabad, India'],
-  ['MASTERS', 'Dalhousie University · Halifax'],
-  ['INTERNSHIP', 'Intact Financial · Montréal'],
-  ['CURRENT', 'AI Developer II · Toronto'],
-  ['COMPANY', 'Intact Financial Corporation'],
-  ['CO-FOUNDER', 'CareerCurate'],
-  ['STACK', 'Python · Kafka · Spark · Databricks · Flask'],
+  ['ROLE', 'AI Developer II'],
+  ['IMPACT', '$500K+ operational savings'],
+  ['PLATFORM', 'Databricks · Spark · Kafka'],
+  ['GOVERNANCE', 'MLflow · Unity Catalog'],
+  ['SYSTEMS', 'Streaming · Backend · Observability'],
+  ['PRODUCT', 'CareerCurate co-founder'],
+  ['STACK', 'Python · Java · React · FastAPI'],
   ['CERTS', 'Databricks · Oracle Java · Kafka · Deep Learning'],
 ]

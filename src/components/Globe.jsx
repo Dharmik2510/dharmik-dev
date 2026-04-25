@@ -59,7 +59,7 @@ export default function Globe({ activeCity }) {
       style={{ 
         width: '100%', 
         height: '100%', 
-        minHeight: '400px', 
+        minHeight: 0, 
         cursor: 'grab',
         display: 'flex',
         alignItems: 'center',

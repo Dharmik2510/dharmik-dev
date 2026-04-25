@@ -43,15 +43,15 @@ function MatrixText({ text, duration = 600 }) {
 }
 
 const BOOT_LINES = [
-  { text: '> INITIALIZING DEVAIR FLIGHT SYSTEMS...', delay: 0 },
-  { text: '> Loading navigation module ............ OK', delay: 300 },
+  { text: '> INITIALIZING AI PORTFOLIO SYSTEMS...', delay: 0 },
+  { text: '> Loading story module ................. OK', delay: 300 },
   { text: '> Calibrating AI subsystems ............ OK', delay: 600 },
-  { text: '> Route: AMD → YHZ → YUL → YYZ ........ SET', delay: 900 },
-  { text: '> Passenger: DHARMIK SONI .............. VERIFIED', delay: 1200 },
+  { text: '> Platform narrative ................... SET', delay: 900 },
+  { text: '> Profile signal ....................... VERIFIED', delay: 1200 },
   { text: '> Apache Kafka streams ................. ONLINE', delay: 1500 },
   { text: '> Databricks cluster ................... ACTIVE', delay: 1700 },
-  { text: '> Boarding pass ........................ SCANNED', delay: 1900 },
-  { text: '> ALL SYSTEMS NOMINAL — WELCOME ABOARD', delay: 2200 },
+  { text: '> Case studies ......................... SCANNED', delay: 1900 },
+  { text: '> ALL SYSTEMS NOMINAL', delay: 2200 },
 ]
 
 export default function BootSequence({ onComplete }) {
@@ -123,8 +123,8 @@ export default function BootSequence({ onComplete }) {
             </div>
 
             <div className={styles.footer}>
-              <span>AMD → YHZ → YUL → YYZ</span>
-              <span className={styles.scanText}>SCANNING BOARDING PASS...</span>
+              <span>Production AI · Data Platforms</span>
+              <span className={styles.scanText}>SCANNING CASE STUDIES...</span>
             </div>
           </div>
 

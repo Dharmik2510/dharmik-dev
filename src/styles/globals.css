@@ -3,11 +3,11 @@
 html { scroll-behavior: smooth; }
 
 :root {
-  --void:    #000308;
-  --deep:    #020a14;
-  --panel:   #071828;
-  --border:  #0d2033;
-  --border2: #142d45;
+  --void:    #02050a;
+  --deep:    #06101a;
+  --panel:   #0a1826;
+  --border:  #132235;
+  --border2: #1d344d;
   --neon:    #00e5ff;
   --neon2:   #00ff9d;
   --amber:   #ffab00;
@@ -59,14 +59,15 @@ a { text-decoration: none; color: inherit; }
   position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background: repeating-linear-gradient(
     0deg, transparent, transparent 2px,
-    rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px
+    rgba(0,0,0,0.018) 2px, rgba(0,0,0,0.018) 4px
   );
+  opacity: .45;
 }
 
 /* ── VIGNETTE ── */
 .vignette {
   position: fixed; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%);
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,0.48) 100%);
 }
 
 /* ── SECTION BASE ── */
@@ -108,7 +109,7 @@ a { text-decoration: none; color: inherit; }
   font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
   text-transform: uppercase; padding: 14px 28px;
   background: var(--neon); color: #000308;
-  border-radius: 2px; display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;
   cursor: none; transition: all .2s; border: 1px solid var(--neon);
   font-weight: 700;
 }
@@ -118,7 +119,7 @@ a { text-decoration: none; color: inherit; }
   font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
   text-transform: uppercase; padding: 14px 28px;
   background: transparent; color: var(--text);
-  border: 1px solid var(--border2); border-radius: 2px;
+  border: 1px solid var(--border2); border-radius: 3px;
   display: inline-block; cursor: none; transition: all .2s;
 }
 .btn-g:hover { border-color: var(--neon); color: var(--neon); }
@@ -173,4 +174,15 @@ a { text-decoration: none; color: inherit; }
 :focus-visible {
   outline: 2px solid var(--neon);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+  }
+  .cursor-outer, .cursor-inner { display: none !important; }
 }
