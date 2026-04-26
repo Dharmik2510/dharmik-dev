@@ -1,6 +1,13 @@
 [
   {
     "type": "tech",
+    "title": "Stop Avoiding Window Functions in Spark, Spark 3.4 Just Changed the Rules",
+    "excerpt": "Why ROW_NUMBER() is now competitive with max_by, deterministic, and ready for multi-column logic Author’s note: A while back I wrote “Stop Using ROW_NUMBER() for Deduplication in Spark — Use max_by…",
+    "link": "https://medium.com/@dhsoni2510/stop-avoiding-window-functions-in-spark-spark-3-4-just-changed-the-rules-f83f09a4ab01?source=rss-12fc7e4bb9------2",
+    "pubDate": "Sat, 25 Apr 2026 19:13:03 GMT"
+  },
+  {
+    "type": "tech",
     "title": "Stop Using ROW_NUMBER() for Deduplication in Spark — Use max_by() Instead",
     "excerpt": "How a simple aggregate function can replace an expensive shuffle+sort window operation — and why its algebraic properties make it even more powerful than you think. If you’ve worked with Spark at any…",
     "link": "https://medium.com/@dhsoni2510/stop-using-row-number-for-deduplication-in-spark-use-max-by-instead-a69bc13c3dd0?source=rss-12fc7e4bb9------2",
@@ -47,12 +54,5 @@
     "excerpt": "How monotonically_increasing_id() and similar functions can silently sabotage your performance optimizations The Performance Mystery That Stumped Our Team Picture this: You’ve spent hours optimizing…",
     "link": "https://medium.com/@dhsoni2510/when-sparks-cache-betrays-you-the-hidden-dangers-of-non-idempotent-transformations-0dcc289edf84?source=rss-12fc7e4bb9------2",
     "pubDate": "Mon, 22 Sep 2025 02:39:54 GMT"
-  },
-  {
-    "type": "tech",
-    "title": "The Hidden Cost of Clean Code: Method Boundaries vs Performance in Databricks Streaming",
-    "excerpt": "The Great Debate: Clean Code vs Performance As software engineers, we constantly face the eternal struggle between writing maintainable, clean code and achieving optimal performance. This dilemma…",
-    "link": "https://medium.com/@dhsoni2510/the-hidden-cost-of-clean-code-method-boundaries-vs-performance-in-databricks-streaming-27d8e46950e2?source=rss-12fc7e4bb9------2",
-    "pubDate": "Tue, 27 May 2025 02:46:46 GMT"
   }
 ]
