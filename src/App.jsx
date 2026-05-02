@@ -1,12 +1,13 @@
-import React, { useRef } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ScrollProgress from './components/ScrollProgress'
+import ChapterCardV2 from './components/ChapterCardV2'
 import {
-  ExploreStrip, Ticker, ControlTower, Journey, About,
+  ExploreStrip, Ticker, ControlTower, About,
   Experience, Projects, Articles, Contact, Footer, SectionTransition
 } from './components/Sections'
 import NeuralBackground from './components/NeuralBackground'
+import { CHAPTERS } from './data/journey'
 import { useCursor } from './hooks'
 
 function Cursor() {
@@ -16,6 +17,23 @@ function Cursor() {
       <div ref={outerRef} className={`cursor-outer${hovering ? ' hov' : ''}`} />
       <div ref={innerRef} className="cursor-inner" />
     </>
+  )
+}
+
+function JourneyV2() {
+  return (
+    <section id="journey" className="journey-v2">
+      <div className="journey-v2-head">
+        <div className="journey-v2-eye">// Career Narrative</div>
+        <h2 className="journey-v2-title">Four chapters. One operating system.</h2>
+      </div>
+
+      <div className="journey-v2-cards">
+        {CHAPTERS.map((chapter) => (
+          <ChapterCardV2 key={chapter.id} chapter={chapter} />
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -49,7 +67,7 @@ export default function App() {
         <ControlTower />
 
         <SectionTransition icon="✈" />
-        <Journey />
+        <JourneyV2 />
 
         <SectionTransition icon="◆" />
         <About />

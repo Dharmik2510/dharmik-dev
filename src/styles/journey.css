@@ -1,0 +1,191 @@
+/* ─────────────────────────────────────────────────────────
+   Journey V2 — chapter cards with cinematic video backgrounds
+   --------------------------------------------------------- */
+
+:root {
+  --cyan: #5cf2ff;
+  --cyan-soft: #aef6ff;
+  --hairline: rgba(255, 255, 255, 0.12);
+}
+
+/* ── CINEMATIC VIDEO ── */
+.cinematic-video,
+.cinematic-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── JOURNEY V2 SECTION WRAPPER ── */
+.journey-v2 {
+  position: relative;
+  padding: 6rem 6rem 4rem;
+}
+.journey-v2-head {
+  max-width: 60rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+.journey-v2-eye {
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.journey-v2-title {
+  font-family: var(--font-display, 'Space Grotesk', 'Bebas Neue', sans-serif);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  line-height: 1;
+  font-weight: 800;
+  color: #fff;
+}
+.journey-v2-cards {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── CHAPTER CARD V2 ── */
+.chapter-card-v2 {
+  position: relative;
+  padding: 3rem 2.5rem;
+  margin: 6rem 0;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 16, 24, 0.7) 0%,
+    rgba(2, 5, 10, 0.85) 100%
+  );
+  overflow: hidden;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cc-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(92, 242, 255, 0.6),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(1px);
+}
+.cc-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.cc-num {
+  font-family: var(--font-display, 'Space Grotesk', 'Bebas Neue', sans-serif);
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--cyan);
+  letter-spacing: 0.02em;
+}
+.cc-route {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+}
+.cc-code {
+  color: #fff;
+  font-weight: 700;
+}
+.cc-city {
+  color: #9ab0c4;
+  margin-left: 0.4rem;
+}
+.cc-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display, 'Space Grotesk', 'Bebas Neue', sans-serif);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.01em;
+}
+.cc-kinetic {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0 0 1.8rem;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.cc-kinetic li {
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  color: #cbd6df;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+.cc-kinetic li::before {
+  content: '› ';
+  color: var(--cyan);
+}
+.cc-chips {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.cc-chip {
+  padding: 0.45rem 0.85rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--cyan-soft);
+  border: 1px solid rgba(92, 242, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(92, 242, 255, 0.06);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .journey-v2 {
+    padding: 5rem 2rem 3rem;
+  }
+}
+@media (max-width: 640px) {
+  .chapter-card-v2 {
+    padding: 2rem 1.25rem;
+    margin: 3rem 0;
+  }
+  .cc-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .cc-scanline {
+    display: none;
+  }
+}
