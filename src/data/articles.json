@@ -1,6 +1,13 @@
 [
   {
     "type": "tech",
+    "title": "I Stopped Reading.Claude Code and NotebookLM Read for Me.",
+    "excerpt": "Claude Code can now drive NotebookLM directly. Here’s the setup, the prompt, and what comes out the other side. I had forty-seven tabs open. Three of them were the same Stratechery post. Two were…",
+    "link": "https://medium.com/@dhsoni2510/i-stopped-reading-claude-code-and-notebooklm-read-for-me-b9de7c94f2a9?source=rss-12fc7e4bb9------2",
+    "pubDate": "Wed, 06 May 2026 19:59:02 GMT"
+  },
+  {
+    "type": "tech",
     "title": "Stop Avoiding Window Functions in Spark, Spark 3.4 Just Changed the Rules",
     "excerpt": "Why ROW_NUMBER() is now competitive with max_by, deterministic, and ready for multi-column logic Author’s note: A while back I wrote “Stop Using ROW_NUMBER() for Deduplication in Spark — Use max_by…",
     "link": "https://medium.com/@dhsoni2510/stop-avoiding-window-functions-in-spark-spark-3-4-just-changed-the-rules-f83f09a4ab01?source=rss-12fc7e4bb9------2",
@@ -47,12 +54,5 @@
     "excerpt": "How We Slashed Structured Streaming Costs by 80% — And Made Batches Lightning Fast When running large-scale data pipelines in Databricks, performance optimization can often feel like black magic. In…",
     "link": "https://medium.com/@dhsoni2510/how-we-slashed-structured-streaming-costs-by-80-and-made-batches-lightning-fast-fc30a6df34bf?source=rss-12fc7e4bb9------2",
     "pubDate": "Sat, 04 Oct 2025 23:07:19 GMT"
-  },
-  {
-    "type": "tech",
-    "title": "When Spark’s Cache Betrays You: The Hidden Dangers of Non-Idempotent Transformations",
-    "excerpt": "How monotonically_increasing_id() and similar functions can silently sabotage your performance optimizations The Performance Mystery That Stumped Our Team Picture this: You’ve spent hours optimizing…",
-    "link": "https://medium.com/@dhsoni2510/when-sparks-cache-betrays-you-the-hidden-dangers-of-non-idempotent-transformations-0dcc289edf84?source=rss-12fc7e4bb9------2",
-    "pubDate": "Mon, 22 Sep 2025 02:39:54 GMT"
   }
 ]
