@@ -1,6 +1,13 @@
 [
   {
     "type": "tech",
+    "title": "I Turned My Medium Article into a Voiced Explainer Video in an Afternoon. Here’s the Stack.",
+    "excerpt": "React, Remotion, and macOS’s built-in TTS — no After Effects, no timeline scrubbing, no dead air. I’d just published a 9-minute Medium piece on Spark window functions and wanted a companion video.…",
+    "link": "https://medium.com/@dhsoni2510/i-turned-my-medium-article-into-a-voiced-explainer-video-in-an-afternoon-heres-the-stack-ebf24a2b22b5?source=rss-12fc7e4bb9------2",
+    "pubDate": "Fri, 08 May 2026 18:28:12 GMT"
+  },
+  {
+    "type": "tech",
     "title": "I Stopped Reading.Claude Code and NotebookLM Read for Me.",
     "excerpt": "Claude Code can now drive NotebookLM directly. Here’s the setup, the prompt, and what comes out the other side. I had forty-seven tabs open. Three of them were the same Stratechery post. Two were…",
     "link": "https://medium.com/@dhsoni2510/i-stopped-reading-claude-code-and-notebooklm-read-for-me-b9de7c94f2a9?source=rss-12fc7e4bb9------2",
@@ -47,12 +54,5 @@
     "excerpt": "Introduction Imagine deploying your Apache Spark application to production, only to watch it gradually consume gigabytes of heap memory before eventually crashing with an OutOfMemoryError. The…",
     "link": "https://medium.com/@dhsoni2510/taming-the-beast-understanding-and-preventing-attributereference-memory-leaks-in-apache-spark-f99f3553afa0?source=rss-12fc7e4bb9------2",
     "pubDate": "Tue, 28 Oct 2025 18:53:38 GMT"
-  },
-  {
-    "type": "tech",
-    "title": "How We Slashed Structured Streaming Costs by 80% — And Made Batches Lightning Fast",
-    "excerpt": "How We Slashed Structured Streaming Costs by 80% — And Made Batches Lightning Fast When running large-scale data pipelines in Databricks, performance optimization can often feel like black magic. In…",
-    "link": "https://medium.com/@dhsoni2510/how-we-slashed-structured-streaming-costs-by-80-and-made-batches-lightning-fast-fc30a6df34bf?source=rss-12fc7e4bb9------2",
-    "pubDate": "Sat, 04 Oct 2025 23:07:19 GMT"
   }
 ]
