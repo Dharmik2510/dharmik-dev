@@ -1,6 +1,13 @@
 [
   {
     "type": "tech",
+    "title": "HTML vs Markdown for LLMs: When Each One Wins (and What It Costs You)",
+    "excerpt": "“HTML is the new Markdown.” a claim worth interrogating, not repeating. A recent take from Thariq Shihipar (lead engineer on Claude Code) argues that HTML is overtaking Markdown as the preferred…",
+    "link": "https://medium.com/@dhsoni2510/html-vs-markdown-for-llms-when-each-one-wins-and-what-it-costs-you-21c1c4020f75?source=rss-12fc7e4bb9------2",
+    "pubDate": "Fri, 15 May 2026 13:27:57 GMT"
+  },
+  {
+    "type": "tech",
     "title": "I Turned My Medium Article into a Voiced Explainer Video in an Afternoon. Here’s the Stack.",
     "excerpt": "React, Remotion, and macOS’s built-in TTS — no After Effects, no timeline scrubbing, no dead air. I’d just published a 9-minute Medium piece on Spark window functions and wanted a companion video.…",
     "link": "https://medium.com/@dhsoni2510/i-turned-my-medium-article-into-a-voiced-explainer-video-in-an-afternoon-heres-the-stack-ebf24a2b22b5?source=rss-12fc7e4bb9------2",
@@ -47,12 +54,5 @@
     "excerpt": "A deep dive into cache management pitfalls in Apache Spark’s new client-server architecture The Mystery of the Disappearing Cache State Picture this: You carefully cache a Spark DataFrame to optimize…",
     "link": "https://medium.com/@dhsoni2510/why-your-spark-dataframes-wont-unpersist-and-how-spark-connect-changes-everything-99805eb792d3?source=rss-12fc7e4bb9------2",
     "pubDate": "Tue, 11 Nov 2025 16:22:06 GMT"
-  },
-  {
-    "type": "tech",
-    "title": "Taming the Beast: Understanding and Preventing AttributeReference Memory Leaks in Apache Spark",
-    "excerpt": "Introduction Imagine deploying your Apache Spark application to production, only to watch it gradually consume gigabytes of heap memory before eventually crashing with an OutOfMemoryError. The…",
-    "link": "https://medium.com/@dhsoni2510/taming-the-beast-understanding-and-preventing-attributereference-memory-leaks-in-apache-spark-f99f3553afa0?source=rss-12fc7e4bb9------2",
-    "pubDate": "Tue, 28 Oct 2025 18:53:38 GMT"
   }
 ]
