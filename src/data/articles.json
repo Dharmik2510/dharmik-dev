@@ -1,6 +1,13 @@
 [
   {
     "type": "tech",
+    "title": "Your Claude Code Setup Is a Solo Dev. Here’s How to Turn It Into a Team.",
+    "excerpt": "Stop copy-pasting the same instructions into every chat. Five folders is all it takes to graduate Claude Code from a smart autocomplete into something that behaves like an entire engineering org.…",
+    "link": "https://medium.com/@dhsoni2510/your-claude-code-setup-is-a-solo-dev-heres-how-to-turn-it-into-a-team-75eddb67862d?source=rss-12fc7e4bb9------2",
+    "pubDate": "Thu, 21 May 2026 14:54:02 GMT"
+  },
+  {
+    "type": "tech",
     "title": "HTML vs Markdown for LLMs: When Each One Wins (and What It Costs You)",
     "excerpt": "“HTML is the new Markdown.” a claim worth interrogating, not repeating. A recent take from Thariq Shihipar (lead engineer on Claude Code) argues that HTML is overtaking Markdown as the preferred…",
     "link": "https://medium.com/@dhsoni2510/html-vs-markdown-for-llms-when-each-one-wins-and-what-it-costs-you-21c1c4020f75?source=rss-12fc7e4bb9------2",
@@ -47,12 +54,5 @@
     "excerpt": "The Hidden Truth About PySpark’s is_cached: Why Your Transformations Still Use Cache (And How to Avoid Memory Leaks) spark caching The Mystery of the Disappearing Cache Flag If you’ve worked with…",
     "link": "https://medium.com/@dhsoni2510/the-mystery-of-the-disappearing-cache-flag-716b257ef006?source=rss-12fc7e4bb9------2",
     "pubDate": "Wed, 12 Nov 2025 18:26:41 GMT"
-  },
-  {
-    "type": "tech",
-    "title": "Why Your Spark DataFrames Won’t Unpersist (And How Spark Connect Changes Everything)",
-    "excerpt": "A deep dive into cache management pitfalls in Apache Spark’s new client-server architecture The Mystery of the Disappearing Cache State Picture this: You carefully cache a Spark DataFrame to optimize…",
-    "link": "https://medium.com/@dhsoni2510/why-your-spark-dataframes-wont-unpersist-and-how-spark-connect-changes-everything-99805eb792d3?source=rss-12fc7e4bb9------2",
-    "pubDate": "Tue, 11 Nov 2025 16:22:06 GMT"
   }
 ]
