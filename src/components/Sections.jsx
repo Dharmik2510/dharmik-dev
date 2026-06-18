@@ -6,6 +6,7 @@ import {
   EXPERIENCE, PROJECTS, ARTICLES, TICKER_ITEMS, PERSONAL
 } from '../data'
 import Globe from './Globe'
+import ArticlesFeed from './ArticlesFeed'
 import s from './Sections.module.css'
 
 // ── FADE WRAPPER ──
@@ -417,86 +418,152 @@ export function Projects() {
 
 // ── ARTICLES ──
 export function Articles() {
-  const readingTimes = ['6 min read', '8 min read', '5 min read', '7 min read']
   return (
-    <section className="section" id="articles">
-      <div className="s-eye">Transmission Log // Medium</div>
-      <h2 className="s-title">Written<br /><em>Work</em></h2>
-      <p className={s.mediumMeta}>
-        All articles at{' '}
-        <a href={PERSONAL.medium} target="_blank" rel="noreferrer" className={s.mediumLink}>
-          medium.com/@dhsoni2510 ↗
+    <section className={`section ${s.articlesSection}`} id="articles">
+      <div className={s.articlesHead}>
+        <div>
+          <div className="s-eye">Transmission Log // Medium</div>
+          <h2 className="s-title">Written<br /><em>Work</em></h2>
+        </div>
+        <a
+          href={PERSONAL.medium}
+          target="_blank"
+          rel="noreferrer"
+          className={s.mediumProfile}
+        >
+          <span className={s.mediumProfileIcon}>M</span>
+          <span>
+            <span className={s.mediumProfileLabel}>Follow on Medium</span>
+            <span className={s.mediumProfileHandle}>@dhsoni2510</span>
+          </span>
+          <span className={s.mediumProfileArrow}>↗</span>
         </a>
-      </p>
-      <div className={s.articleGrid}>
-        {ARTICLES.map((a, i) => (
-          <FadeUp key={i} delay={i * .08}>
-            <div
-              className={s.articleCard}
-              onClick={() => window.open(a.link, '_blank')}
-            >
-              <div className={s.articleStaticOverlay} />
-              <div className={s.articleType}>
-                <div className={`${s.articleDot} ${a.type === 'tech' ? s.articleDotTech : s.articleDotPersonal}`} />
-                {a.type === 'tech' ? 'Technical' : 'Personal'}
-              </div>
-              <div className={s.articleTitle}>{a.title}</div>
-              <p className={s.articleExcerpt}>{a.excerpt}</p>
-              <a
-                href={a.link}
-                target="_blank"
-                rel="noreferrer"
-                className={s.articleReadMore}
-                onClick={e => e.stopPropagation()}
-              >
-                Read on Medium ↗
-              </a>
-              <div className={s.articleReadTime}>⏱ {readingTimes[i] || '5 min read'}</div>
-            </div>
-          </FadeUp>
-        ))}
       </div>
+      <ArticlesFeed articles={ARTICLES} />
     </section>
   )
 }
 
 // ── CONTACT ──
-export function Contact() {
+const CONTACT_CHANNELS = [
+  {
+    lbl: 'Email',
+    val: PERSONAL.email,
+    href: `mailto:${PERSONAL.email}`,
+    accent: 'cyan',
+    icon: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+        <polyline points="22,6 12,13 2,6" />
+      </svg>
+    ),
+  },
+  {
+    lbl: 'Phone',
+    val: PERSONAL.phone,
+    href: `tel:${PERSONAL.phone}`,
+    accent: 'green',
+    icon: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+      </svg>
+    ),
+  },
+  {
+    lbl: 'LinkedIn',
+    val: 'dharmik-soni',
+    href: PERSONAL.linkedin,
+    accent: 'cyan',
+    icon: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.36 4.25 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+      </svg>
+    ),
+  },
+  {
+    lbl: 'GitHub',
+    val: 'Dharmik2510',
+    href: PERSONAL.github,
+    accent: 'green',
+    icon: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.92.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.72 1.26 3.38.96.1-.75.4-1.26.74-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.66.79.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+      </svg>
+    ),
+  },
+  {
+    lbl: 'Medium',
+    val: '@dhsoni2510',
+    href: PERSONAL.medium,
+    accent: 'amber',
+    wide: true,
+    icon: (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M4.37 7.3c.03-.3-.08-.59-.3-.79L1.85 4.04v-.04h6.83l5.28 11.58L18.6 4h6.51v.04l-1.9 1.85c-.16.13-.24.33-.21.53v13.16c-.03.2.05.4.21.53l1.86 1.85v.04h-9.32v-.04l1.92-1.89c.19-.19.19-.25.19-.54V8.61L13.5 22h-.72L7.65 9.39v8.85c-.06.39.07.79.36 1.05l2.5 3.03v.04H3.36v-.04l2.5-3.03c.29-.27.41-.66.34-1.05V7.3z" />
+      </svg>
+    ),
+  },
+]
 
+const CONTACT_TOPICS = [
+  'Production AI',
+  'Data Platforms',
+  'Spark & Databricks',
+  'ML Governance',
+  'Agent Systems',
+]
+
+export function Contact() {
   return (
-    <section className="section" id="contact" style={{ background: 'linear-gradient(180deg,var(--void) 0%,#010810 100%)' }}>
-      <div>
-        <div className="s-eye">Open Channel // Contact</div>
-        <div className={s.contactTitle}>
-          Let's<br /><em className={s.contactAccent}>Connect</em>
+    <section className={`section ${s.contactSection}`} id="contact">
+      <div className={s.contactGrid}>
+        <div className={s.contactIntro}>
+          <div className="s-eye">Open Channel // Contact</div>
+          <div className={s.contactTitle}>
+            Let's<br /><em className={s.contactAccent}>Connect</em>
+          </div>
+          <p className={s.contactDesc}>
+            Available for applied AI, data platform, and production ML conversations.
+            Focused on systems where reliability, governance, and measurable impact matter.
+          </p>
+
+          <div className={s.contactStatus}>
+            <span className={s.contactStatusDot} aria-hidden="true" />
+            <span>Open to conversations</span>
+            <span className={s.contactStatusSep}>·</span>
+            <span>{PERSONAL.location}</span>
+          </div>
+
+          <div className={s.contactTopics}>
+            {CONTACT_TOPICS.map((topic) => (
+              <span key={topic} className={s.contactTopic}>{topic}</span>
+            ))}
+          </div>
+
+          <a href={`mailto:${PERSONAL.email}`} className={s.contactCta}>
+            <span>Send an email</span>
+            <span className={s.contactCtaArrow}>→</span>
+          </a>
         </div>
-        <p className={s.contactDesc}>
-          Available for applied AI, data platform, and production ML conversations.
-          Focused on systems where reliability, governance, and measurable impact matter.
-        </p>
-        <div className={s.contactLinks} style={{ maxWidth: 600 }}>
-          {[
-            { icon: '📞', lbl: 'Phone',    val: PERSONAL.phone,    href: `tel:${PERSONAL.phone}` },
-            { icon: '✉',  lbl: 'Email',    val: PERSONAL.email,    href: `mailto:${PERSONAL.email}` },
-            { icon: 'in', lbl: 'LinkedIn', val: '/in/dharmik-soni-a385131a0', href: PERSONAL.linkedin },
-            { icon: '⌥',  lbl: 'GitHub',  val: 'github.com/Dharmik2510', href: PERSONAL.github },
-            { icon: 'M',  lbl: 'Medium',  val: '@dhsoni2510', href: PERSONAL.medium },
-          ].map(c => (
-            <a
-              key={c.lbl}
-              href={c.href}
-              target={c.href.startsWith('http') ? '_blank' : undefined}
-              rel="noreferrer"
-              className={s.contactLink}
-              aria-label={`${c.lbl}: ${c.val}`}
-            >
-              <div className={s.contactLinkIcon}>{c.icon}</div>
-              <div>
-                <div className={s.contactLinkLabel}>{c.lbl}</div>
-                <div className={s.contactLinkVal}>{c.val}</div>
-              </div>
-              <div className={s.contactLinkArrow}>→</div>
-            </a>
+
+        <div className={s.contactChannels}>
+          {CONTACT_CHANNELS.map((c, i) => (
+            <FadeUp key={c.lbl} delay={i * 0.05}>
+              <a
+                href={c.href}
+                target={c.href.startsWith('http') ? '_blank' : undefined}
+                rel="noreferrer"
+                className={`${s.contactCard} ${s[`contactCard${c.accent.charAt(0).toUpperCase() + c.accent.slice(1)}`]} ${c.wide ? s.contactCardWide : ''}`}
+                aria-label={`${c.lbl}: ${c.val}`}
+              >
+                <div className={s.contactCardIcon}>{c.icon}</div>
+                <div className={s.contactCardBody}>
+                  <div className={s.contactCardLabel}>{c.lbl}</div>
+                  <div className={s.contactCardVal}>{c.val}</div>
+                </div>
+                <div className={s.contactCardArrow}>↗</div>
+              </a>
+            </FadeUp>
           ))}
         </div>
       </div>
