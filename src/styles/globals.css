@@ -18,6 +18,7 @@ html { scroll-behavior: smooth; }
   --mono:    'JetBrains Mono', monospace;
   --display: 'Bebas Neue', cursive;
   --sans:    'Syne', sans-serif;
+  --glass: linear-gradient(165deg, rgba(10,24,38,.72), rgba(4,11,19,.94));
 }
 
 body {
