@@ -1,6 +1,13 @@
 [
   {
     "type": "tech",
+    "title": "Jev: The AI Model That Can’t Write a Single Sentence, and Why That’s the Point",
+    "excerpt": "And that might be exactly why software developers will want to talk about it. A plain-English field guide to Jev vs. LLMs: decisions, language, and the new shape of machine intelligence. Most AI…",
+    "link": "https://medium.com/@dhsoni2510/jev-the-ai-model-that-cant-write-a-single-sentence-and-why-that-s-the-point-c657d655c9e0?source=rss-12fc7e4bb9------2",
+    "pubDate": "Tue, 22 Sep 2026 17:37:03 GMT"
+  },
+  {
+    "type": "tech",
     "title": "Your Copilot Isn’t Broken. Your Harness Is.",
     "excerpt": "How to turn VS Code Copilot from a confident guesser into a teammate that proves its work with a free, measurable course you can start in 15 minutes. You open VS Code. You ask Copilot to add a…",
     "link": "https://medium.com/@dhsoni2510/your-copilot-isnt-broken-your-harness-is-9b3cf0f3a6f0?source=rss-12fc7e4bb9------2",
@@ -47,12 +54,5 @@
     "excerpt": "How a simple aggregate function can replace an expensive shuffle+sort window operation — and why its algebraic properties make it even more powerful than you think. If you’ve worked with Spark at any…",
     "link": "https://medium.com/@dhsoni2510/stop-using-row-number-for-deduplication-in-spark-use-max-by-instead-a69bc13c3dd0?source=rss-12fc7e4bb9------2",
     "pubDate": "Sat, 28 Mar 2026 15:19:17 GMT"
-  },
-  {
-    "type": "tech",
-    "title": "The Trap of Delta Lake Time Travel: Why Your Structured Streaming Queries Keep Crashing",
-    "excerpt": "The Hidden Trap of Delta Lake Time Travel: Why Your Structured Streaming Queries Keep Crashing Understanding the real relationship between VACUUM, startingTimestamp, and Parquet files in Databricks.…",
-    "link": "https://medium.com/@dhsoni2510/the-trap-of-delta-lake-time-travel-why-your-structured-streaming-queries-keep-crashing-dd12f7013868?source=rss-12fc7e4bb9------2",
-    "pubDate": "Fri, 06 Mar 2026 03:56:30 GMT"
   }
 ]
