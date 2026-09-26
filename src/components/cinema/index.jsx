@@ -71,9 +71,14 @@ export function SectionHead({ eyebrow, title, ghost, className = '', id }) {
           {ghost}
         </motion.div>
       )}
-      <TextScramble as="div" className="s-eye" trigger={inView} duration={0.9}>
+      <motion.p
+        className="cn-kicker"
+        initial={reduce ? false : { opacity: 0, y: 10, filter: 'blur(6px)' }}
+        animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : undefined}
+        transition={{ duration: 0.9, ease: EASE }}
+      >
         {eyebrow}
-      </TextScramble>
+      </motion.p>
       <h2 className="s-title cn-title" id={id} aria-label={label}>
         {title.map((w, i) => {
           const word = (
@@ -122,7 +127,7 @@ export function ScrollWords({ html, className = '' }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.88', 'end 0.52'] })
   const words = tokenize(html)
   if (reduce) {
-    return <p className={className}>{words.map((t, i) => (t.bold ? <strong key={i}>{t.w} </strong> : `${t.w} `))}</p>
+    return <p className={className}>{words.map((t, i) => { const sp = words[i + 1] && /^[,.;:!?)]/.test(words[i + 1].w) ? '' : ' '; return t.bold ? <React.Fragment key={i}><strong>{t.w}</strong>{sp}</React.Fragment> : `${t.w}${sp}` })}</p>
   }
   return (
     <p ref={ref} className={className}>
@@ -130,7 +135,7 @@ export function ScrollWords({ html, className = '' }) {
         <React.Fragment key={i}>
           <Word progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} bold={t.bold}>
             {t.w}
-          </Word>{' '}
+          </Word>{words[i + 1] && /^[,.;:!?)]/.test(words[i + 1].w) ? '' : ' '}
         </React.Fragment>
       ))}
     </p>

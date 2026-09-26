@@ -11,6 +11,7 @@ import {
 } from '../data'
 import Globe from './Globe'
 import { useTimeSince } from '../hooks'
+import { CHAPTERS } from '../data/journey'
 import ArticlesFeed from './ArticlesFeed'
 import s from './Sections.module.css'
 
@@ -39,22 +40,13 @@ function WaypointWrapper({ children, onInView }) {
 }
 
 // ── SECTION TRANSITION ──
-function SectionTransition({ icon = '◆' }) {
+function SectionTransition() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center 0.55'] })
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1])
   return (
-    <div className={s.sectionTransition} ref={ref}>
+    <div className={s.sectionTransition} ref={ref} aria-hidden="true">
       <motion.div className={s.transitionLine} style={{ scaleX }} />
-      <motion.div
-        className={s.transitionIcon}
-        initial={{ scale: 0, rotate: -180 }}
-        whileInView={{ scale: 1, rotate: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: [.16,1,.3,1] }}
-      >
-        {icon}
-      </motion.div>
     </div>
   )
 }
@@ -150,13 +142,12 @@ export function ControlTower() {
   return (
     <section className={s.controlTower} id="impact" aria-labelledby="control-title">
       <div className={s.controlIntro}>
-        <div className="s-eye">Control Tower // Engineering Proof</div>
+        <p className="cn-kicker">Impact</p>
         <h2 id="control-title" className={s.controlTitle}>
-          Production AI with measurable outcomes.
+          What the work adds up to.
         </h2>
         <p className={s.controlCopy}>
-          The visual story matters, but the portfolio should quickly prove the level of work:
-          enterprise data platforms, model governance, streaming systems, and operational impact.
+          Numbers from my time at Intact Financial, Canada's largest P&amp;C insurer.
         </p>
       </div>
       <div className={s.metricGrid}>
@@ -246,109 +237,94 @@ export function Journey() {
   )
 }
 
-// ── ABOUT ──
+// ── ABOUT — "What I carried": one row per city, each revealed over that city's own film frame ──
+const CARRIED = {
+  AMD: { where: 'B.E. in ICT, Gujarat Technological University', first: 'First jobs: an online store for a jewellery business, Java at NovusCode' },
+  YHZ: { where: "Master's in Applied Computer Science, Dalhousie University", first: 'Went deep on machine learning and distributed systems' },
+  YUL: { where: 'AI Developer Intern, Intact Financial', first: 'First time shipping ML into production' },
+  YYZ: { where: 'AI Developer → AI Developer II, Intact Financial', first: 'Streaming pipelines, platform migration, $500K+ saved' },
+}
+
+function CityRow({ c, i }) {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.35'] })
+  const clip = useTransform(scrollYProgress, [0, 1], reduce ? ['inset(0% 0% 0% 0%)', 'inset(0% 0% 0% 0%)'] : ['inset(0% 100% 0% 0%)', 'inset(0% 0% 0% 0%)'])
+  const { scrollYProgress: pass } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const imgY = useTransform(pass, [0, 1], reduce ? ['0%', '0%'] : ['-12%', '12%'])
+  const info = CARRIED[c.code] || {}
+  return (
+    <div ref={ref} className="ab-row" style={{ '--city': c.accent }}>
+      <motion.div className="ab-frame" style={{ clipPath: clip }}>
+        <motion.img src={c.posterSrc} alt="" loading="lazy" style={{ y: imgY }} />
+        <span className="ab-frame-code">{c.code}</span>
+      </motion.div>
+      <motion.div className="ab-text" {...revealUp(1)}>
+        <span className="ab-num">0{i + 1} · {c.city}</span>
+        <p className="ab-where">{info.where}</p>
+        <p className="ab-first">{info.first}</p>
+        <ul className="ab-tags">
+          {c.metricChips.map((t) => <li key={t}>{t}</li>)}
+        </ul>
+      </motion.div>
+    </div>
+  )
+}
+
 export function About() {
   return (
     <section className="section" id="about">
       <SectionHead
-        eyebrow="Crew Manifest // Profile"
-        title={[{ t: 'About' }, { t: 'Me', em: true }]}
-        ghost="CREW MANIFEST"
+        eyebrow="About"
+        title={[{ t: 'What I' }, { t: 'carried', em: true }]}
       />
-      <div className={s.aboutGrid}>
-        <div>
-          {[
-            `I build intelligent systems that move from prototype to production. Currently serving as <strong>AI Developer II at Intact Financial Corporation</strong>.`,
-            `I specialize in developing systems that analyze and process complex data using <strong>Apache Kafka, Databricks, Apache Spark</strong>, and deep learning frameworks — applied to real insurance-scale problems at Canada's largest P&C insurer.`,
-            `Beyond Intact, I'm co-founder of <strong>CareerCurate</strong> — a platform empowering international students and immigrants to build competitive career profiles. Resume optimization, LinkedIn coaching, community, and job support.`,
-          ].map((text, i) => (
-            <ScrollWords key={i} html={text} className={s.aboutText} />
-          ))}
 
-          {/* CareerCurate Banner */}
-          <FadeUp delay={.28}>
-            <div className={s.ccBanner}>
-              <div className={s.ccIcon}>🚀</div>
-              <div>
-                <div className={s.ccTitle}>
-                  CareerCurate
-                  <span className={s.ccBadge}>CO-FOUNDER</span>
-                </div>
-                <div className={s.ccDesc}>
-                  Empowering international students to build successful career profiles.{' '}
-                  <a href={PERSONAL.linkedin} target="_blank" rel="noreferrer" className={s.ccLink}>
-                    Connect on LinkedIn ↗
-                  </a>
-                </div>
+      <div className="ab-intro">
+        {[
+          `I studied and started working in <strong>Ahmedabad</strong>, building online stores and back-end systems for local businesses.`,
+          `In September 2021 I moved to <strong>Halifax</strong> for a Master's at Dalhousie, then to <strong>Montréal</strong> for my first production ML role at Intact.`,
+          `Today I'm in <strong>Toronto</strong>, building the data platforms behind Intact's usage-based insurance. On the side I co-founded <strong>CareerCurate</strong>, which helps newcomers and international students start their careers in Canada.`,
+        ].map((text, i) => (
+          <ScrollWords key={i} html={text} className="ab-intro-p" />
+        ))}
+      </div>
+
+      <div className="ab-rows">
+        {CHAPTERS.map((c, i) => <CityRow key={c.id} c={c} i={i} />)}
+      </div>
+
+      <div className="ab-extra">
+        <motion.div {...revealUp(0)}>
+          <p className="ab-label">Toolkit</p>
+          <dl className="ab-kit">
+            {CAPABILITY_GROUPS.map((g) => (
+              <div key={g.title}>
+                <dt>{g.title}</dt>
+                <dd>{g.items.join(' · ')}</dd>
               </div>
-            </div>
-          </FadeUp>
-
-
-          {/* Education */}
-          <FadeUp delay={.36}>
-            <div style={{ marginTop: 32 }}>
-              <div className={s.sectionLabel}>// Education</div>
-              {EDUCATION.map(e => (
-                <div key={e.degree} className={s.eduCard}>
-                  <div className={s.eduDegree}>{e.degree}</div>
-                  <div>
-                    <div className={s.eduTitle}>{e.title}</div>
-                    <div className={s.eduMeta}>// {e.institution} · {e.location}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
-
-          {/* Certs */}
-          <FadeUp delay={.44}>
-            <div style={{ marginTop: 24 }}>
-              <div className={s.sectionLabel}>// Certifications</div>
-              <div className={s.certGrid}>
-                {CERTIFICATIONS.map(c => (
-                  <div key={c.name} className={s.certCard}>
-                    <div className={s.certIcon}>{c.icon}</div>
-                    <div>
-                      <div className={s.certName}>{c.name}</div>
-                      <div className={s.certOrg}>{c.org}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-
-        {/* Skills — stay pinned while the story on the left is read */}
-        <div className="cn-about-sticky">
-          <div className={s.skillsWrap} style={{ perspective: 1200 }}>
-            {CAPABILITY_GROUPS.map((group, gi) => (
-              <motion.div key={group.title} className={`${s.capabilityCard} cn-cap`} {...revealSide(gi, 90)}>
-                <div className={s.capabilityTop}>
-                  <div className={s.capabilityTitle}>{group.title}</div>
-                  <div className={s.capabilityLevel}>{group.level}</div>
-                </div>
-                <motion.div
-                  className={s.capabilityTags}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-                  variants={{ show: { transition: { staggerChildren: 0.05, delayChildren: 0.35 + gi * 0.07 } } }}
-                >
-                  {group.items.map(sk => (
-                    <motion.span
-                      key={sk}
-                      variants={{ hidden: { opacity: 0, y: 12, scale: .9 }, show: { opacity: 1, y: 0, scale: 1 } }}
-                    >
-                      {sk}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              </motion.div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </motion.div>
+
+        <motion.div {...revealUp(1)}>
+          <p className="ab-label">Education</p>
+          <ul className="ab-list">
+            {EDUCATION.map((e) => (
+              <li key={e.degree}><b>{e.title}</b><span>{e.degree} · {e.institution}, {e.location}</span></li>
+            ))}
+          </ul>
+          <p className="ab-label">Certifications</p>
+          <ul className="ab-list">
+            {CERTIFICATIONS.map((c) => (
+              <li key={c.name}><b>{c.name}</b><span>{c.org}</span></li>
+            ))}
+          </ul>
+          <p className="ab-label">On the side</p>
+          <p className="ab-side">
+            Co-founder of <b>CareerCurate</b>: résumés, LinkedIn, referrals and a community for people starting over in Canada.{' '}
+            <a href={PERSONAL.linkedin} target="_blank" rel="noreferrer">Say hi on LinkedIn ↗</a>
+          </p>
+        </motion.div>
       </div>
     </section>
   )
@@ -370,7 +346,7 @@ function FlightLeg({ e, i, total }) {
           <div className={s.expHeader}>
             <div className={s.expRole}>{e.role}</div>
             <div className={`${s.expBadge} ${e.badge === 'current' ? s.expBadgeCurrent : s.expBadgePast}`}>
-              {e.badge === 'current' ? 'CURRENT' : 'PAST'}
+              {e.badge === 'current' ? 'Now' : 'Earlier'}
             </div>
           </div>
           <div className={s.expCompany}>{e.company}</div>
@@ -396,6 +372,7 @@ function FlightLeg({ e, i, total }) {
   )
 }
 
+const CITY = Object.fromEntries(CHAPTERS.map((c) => [c.code, c]))
 const CITY_CODE = (meta = '') =>
   /ahmedabad/i.test(meta) ? 'AMD' : /montr/i.test(meta) ? 'YUL' : /halifax/i.test(meta) ? 'YHZ' : 'YYZ'
 
@@ -446,13 +423,17 @@ function FlightPath() {
 
         <motion.div className="fp-track" ref={trackRef} style={{ x }}>
           {legs.map((e, i) => (
-            <article key={i} className={`fp-card${i === active ? ' is-active' : ''}`}>
+            <article
+              key={i}
+              className={`fp-card${i === active ? ' is-active' : ''}`}
+              style={{ '--city': CITY[CITY_CODE(e.meta)]?.accent, '--frame': `url(${CITY[CITY_CODE(e.meta)]?.posterSrc})` }}
+            >
               <div className="fp-card-stub">
                 <span className="fp-leg">LEG {String(i + 1).padStart(2, '0')}</span>
                 <span className="fp-code">{CITY_CODE(e.meta)}</span>
                 <span className="fp-city">{e.meta}</span>
                 <span className={`fp-badge ${e.badge === 'current' ? 'is-current' : ''}`}>
-                  {e.badge === 'current' ? 'IN FLIGHT' : 'LANDED'}
+                  {e.badge === 'current' ? 'Now' : 'Earlier'}
                 </span>
               </div>
               <div className="fp-card-body">
@@ -499,9 +480,8 @@ export function Experience() {
   return (
     <section className="section" id="experience">
       <SectionHead
-        eyebrow="Work History // Flight Log"
-        title={[{ t: 'Experi', glue: true }, { t: 'ence', em: true }]}
-        ghost="FLIGHT LOG"
+        eyebrow="Experience"
+        title={[{ t: 'Six roles.', br: true }, { t: 'Two countries.', em: true }]}
       />
       {wide && !reduce ? <FlightPath /> : <FlightLogVertical />}
     </section>
@@ -511,34 +491,46 @@ export function Experience() {
 // ── PROJECTS — split-screen case files: pinned index on the left, case study scrolls on the right ──
 function CaseFile({ p, i, onActive }) {
   const ref = useRef(null)
+  const reduce = useReducedMotion()
   const inView = useMotionInView(ref, { margin: '-45% 0px -45% 0px' })
   useEffect(() => { if (inView) onActive(i) }, [inView, i, onActive])
-  const steps = [['Problem', p.problem], ['Approach', p.approach], ['Outcome', p.outcome]].filter(([, v]) => v)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const titleX = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['6%', '-10%'])
   return (
     <article ref={ref} className="pj-case" id={`project-${p.id}`}>
-      <div className="pj-case-meta">
-        <span>// CASE FILE {p.id}</span>
-        {p.featured && <span className="pj-featured">FEATURED</span>}
+      <div className="pj-poster" aria-hidden="true">
+        <motion.span style={{ x: titleX }}>{p.name}</motion.span>
       </div>
       <motion.h3 className="pj-case-title" {...revealUp(0)}>{p.name}</motion.h3>
       <motion.p className="pj-case-desc" {...revealUp(1)}>{p.desc}</motion.p>
-      <div className="pj-steps">
-        {steps.map(([label, value], k) => (
-          <motion.div key={label} className="pj-step" {...revealSide(k, 60)}>
-            <span className="pj-step-n">0{k + 1}</span>
-            <span className="pj-step-label">{label}</span>
-            <p>{value}</p>
+
+      {p.problem && (
+        <motion.blockquote className="pj-quote" {...revealUp(2)}>
+          {p.problem}
+        </motion.blockquote>
+      )}
+      <div className="pj-two">
+        {p.approach && (
+          <motion.div {...revealSide(0, 50)}>
+            <span className="pj-label">What I built</span>
+            <p>{p.approach}</p>
           </motion.div>
-        ))}
-      </div>
-      <div className="pj-case-foot">
-        <div className="pj-stack">
-          {p.stack.map((sk) => <span key={sk}>{sk}</span>)}
-        </div>
-        {p.link && (
-          <a className="pj-link" href={p.link} target="_blank" rel="noreferrer">View on GitHub ↗</a>
+        )}
+        {p.outcome && (
+          <motion.div {...revealSide(1, 50)}>
+            <span className="pj-label">What it does</span>
+            <p>{p.outcome}</p>
+          </motion.div>
         )}
       </div>
+
+      <motion.div className="pj-credits" {...revealUp(0)}>
+        <span className="pj-label">Built with</span>
+        <p>{p.stack.join('  ·  ')}</p>
+        {p.link && (
+          <a className="pj-link" href={p.link} target="_blank" rel="noreferrer">Code on GitHub ↗</a>
+        )}
+      </motion.div>
     </article>
   )
 }
@@ -557,9 +549,8 @@ export function Projects() {
   return (
     <section className="section" id="projects">
       <SectionHead
-        eyebrow="Cargo Manifest // Built Work"
-        title={[{ t: 'Projects', br: true }, { t: '& Work', em: true }]}
-        ghost="CARGO"
+        eyebrow="Projects"
+        title={[{ t: "Things I've" }, { t: 'built', em: true }]}
       />
       <div className="pj">
         <aside className="pj-aside">
@@ -595,9 +586,8 @@ export function Articles() {
     <section className={`section ${s.articlesSection}`} id="articles">
       <div className={s.articlesHead}>
         <SectionHead
-          eyebrow="Transmission Log // Medium"
-          title={[{ t: 'Written', br: true }, { t: 'Work', em: true }]}
-          ghost="TRANSMISSIONS"
+          eyebrow="Writing"
+          title={[{ t: 'Notes from', br: true }, { t: 'the work', em: true }]}
         />
         <a
           href={PERSONAL.medium}
@@ -698,7 +688,7 @@ export function Contact() {
     <section className={`section ${s.contactSection}`} id="contact" ref={ref}>
       <div className={s.contactGrid}>
         <div className={s.contactIntro}>
-          <div className="s-eye">Open Channel // Contact</div>
+          <p className="cn-kicker">Next stop</p>
           <motion.div
             className={`${s.contactTitle} cn-contact-title`}
             style={{ scale: titleScale, letterSpacing: titleSpacing, opacity: titleOpacity }}
@@ -706,8 +696,8 @@ export function Contact() {
             Let's<br /><em className={s.contactAccent}>Connect</em>
           </motion.div>
           <p className={s.contactDesc}>
-            Available for applied AI, data platform, and production ML conversations.
-            Focused on systems where reliability, governance, and measurable impact matter.
+            If you're working on data platforms, streaming or production ML, I'd like to hear about it.
+            The fastest way to reach me is email.
           </p>
 
           <div className={s.contactStatus}>

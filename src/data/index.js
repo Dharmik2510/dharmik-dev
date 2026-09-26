@@ -56,23 +56,23 @@ export const WAYPOINTS = [
 export const IMPACT_METRICS = [
   {
     value: '$500K+',
-    label: 'Operational Savings',
-    detail: 'Spark optimization and Databricks cluster tuning translated engineering work into measurable platform savings.',
+    label: 'Saved in operating costs',
+    detail: 'From tuning Spark jobs and Databricks clusters.',
   },
   {
     value: 'Real-time',
-    label: 'Insurance Pipelines',
-    detail: 'Kafka-powered usage-based insurance systems delivering driving behavior insights from live event streams.',
+    label: 'Usage-based insurance',
+    detail: 'Kafka pipelines that turn live driving data into insurance insights.',
   },
   {
-    value: 'Enterprise',
-    label: 'AI Platform Migration',
-    detail: 'On-premise systems modernized with Databricks, Unity Catalog, and MLflow for stronger model governance.',
+    value: 'On-prem → Cloud',
+    label: 'Platform migration',
+    detail: 'Moved on-premise systems to Databricks, with Unity Catalog and MLflow for model governance.',
   },
   {
     value: '3+ yrs',
-    label: 'Production AI',
-    detail: 'Applied ML, data engineering, and backend systems shipped inside Canada’s largest P&C insurer.',
+    label: 'At Intact Financial',
+    detail: 'Building ML and data systems in production since 2023.',
   },
 ]
 
@@ -114,9 +114,9 @@ export const EXPERIENCE = [
     company: 'Intact Financial Corporation',
     meta: 'Toronto, Ontario',
     bullets: [
-      'Spearheaded the migration of complex on-premise architectures to Databricks, deeply integrating Unity Catalog and MLflow to streamline model lifecycle management.',
-      'Engineered advanced Spark code optimizations and cluster tuning strategies, generating $500K+ in operational savings.',
-      'Designed and deployed autonomous dashboards to monitor, and debug operational data pipelines.',
+      'Moved on-premise systems onto Databricks, with Unity Catalog and MLflow now managing the model lifecycle.',
+      'Tuned Spark jobs and Databricks clusters, saving over $500K in operating costs.',
+      'Built dashboards the team uses to monitor and debug production data pipelines.',
     ],
   },
   {
@@ -125,9 +125,9 @@ export const EXPERIENCE = [
     company: 'Intact Financial Corporation',
     meta: 'Toronto, Ontario',
     bullets: [
-      'Architected real-time data streaming pipelines for Usage-Based Insurance products using Apache Kafka, delivering instantaneous driving behavior insights to users.',
-      'Built and managed highly scalable on-premise microservice architectures leveraging Spring Boot, Python, Kafka, AWS S3, and AWS Kinesis.',
-      'Optimized critical system architectures and data processing pipelines to drastically reduce latency and enhance overall throughput.',
+      'Built the real-time Kafka pipelines behind usage-based insurance, turning driving data into feedback for customers.',
+      'Ran on-premise microservices in Spring Boot and Python, connected through Kafka, S3 and Kinesis.',
+      'Cut latency and raised throughput across the data processing pipelines.',
     ],
   },
   {
@@ -136,8 +136,8 @@ export const EXPERIENCE = [
     company: 'Intact Financial Corporation',
     meta: 'Montréal, Québec',
     bullets: [
-      'First enterprise AI role — onboarded into production systems and immediately contributed to live ML pipelines.',
-      'Applied graduate-level machine learning skills to real insurance data problems at scale.',
+      'My first enterprise AI role: I worked on live ML pipelines from the first weeks.',
+      'Applied what I learned at Dalhousie to real insurance data.',
     ],
   },
   {
@@ -146,8 +146,8 @@ export const EXPERIENCE = [
     company: 'CareerCurate',
     meta: 'Greater Toronto Area',
     bullets: [
-      'Co-founded a career development platform for immigrants and international students entering the Canadian workforce.',
-      'Services: Resume & LinkedIn optimization, cover letters, job application references, and a thriving CareerCurate community.',
+      'Co-founded a career platform for immigrants and international students starting out in Canada.',
+      'We help with résumés, LinkedIn profiles, cover letters and referrals, and run a community for job seekers.',
     ],
   },
   {
@@ -156,9 +156,9 @@ export const EXPERIENCE = [
     company: 'NovusCode',
     meta: 'Ahmedabad, India',
     bullets: [
-      'Developed Auto Covid-19 Vaccine Alert Script — 100% time saving vs. manual slot hunting.',
-      'Implemented OOP design patterns, reduced technical debt by 2%, improved code quality by 20%.',
-      'Built REST APIs tested via Postman; leveraged MVC with AngularJS for frontend integration.',
+      'Wrote a script that alerted people when Covid-19 vaccine slots opened, so no one had to keep checking by hand.',
+      'Refactored with object-oriented design patterns, improving code quality by 20%.',
+      'Built REST APIs and connected them to an AngularJS front end.',
     ],
   },
   {
@@ -167,9 +167,9 @@ export const EXPERIENCE = [
     company: 'Swaminarayan Ornaments',
     meta: 'Ahmedabad, India',
     bullets: [
-      'Built jewellery e-commerce with React.js + MaterialUI + Redux — drove 10% growth in sales.',
-      'AWS IaaS architecture using S3, EC2, Lambda; Node.js/Express backend with DynamoDB.',
-      'Built recommendation algorithm reducing time complexity for jewellery suggestions.',
+      'Built the jewellery store\'s online shop in React and Redux; sales grew 10%.',
+      'Set up the AWS back end: Node.js and Express on EC2 and Lambda, with S3 and DynamoDB.',
+      'Wrote a faster recommendation algorithm for jewellery suggestions.',
     ],
   },
 ]
@@ -221,10 +221,10 @@ export const CAPABILITY_GROUPS = [
 ]
 
 export const CERTIFICATIONS = [
-  { icon: '⚡', name: 'Databricks Certified Associate', org: 'Apache Spark 3.0' },
-  { icon: '☕', name: 'Oracle Certified Professional', org: 'Java SE 6 Programmer' },
-  { icon: '📡', name: 'Kafka Basics', org: 'Apache Kafka' },
-  { icon: '🧠', name: 'Neural Networks & Deep Learning', org: 'Deep Learning AI' },
+  { name: 'Databricks Certified Associate', org: 'Apache Spark 3.0' },
+  { name: 'Oracle Certified Professional', org: 'Java SE 6 Programmer' },
+  { name: 'Kafka Basics', org: 'Apache Kafka' },
+  { name: 'Neural Networks & Deep Learning', org: 'Deep Learning AI' },
 ]
 
 export const EDUCATION = [
@@ -247,7 +247,7 @@ export const PROJECTS = [
     id: '001',
     name: 'AI Trading Debate Platform',
     featured: true,
-    desc: 'Interactive platform where two AI agents (Bull 🐂 vs Bear 🐻) debate stock day-trading viability using real-time data, technical indicators (RSI, MACD, Bollinger Bands), and GPT-powered news sentiment — culminating in a Chief Risk Officer verdict.',
+    desc: 'Interactive platform where two AI agents, a bull and a bear, debate stock day-trading viability using real-time data, technical indicators (RSI, MACD, Bollinger Bands), and GPT-powered news sentiment — culminating in a Chief Risk Officer verdict.',
     problem: 'Retail market decisions are noisy and emotionally biased.',
     approach: 'Two specialist agents debate opposing theses before a risk agent issues a verdict.',
     outcome: 'A transparent decision flow that exposes signal, uncertainty, and risk tradeoffs.',
