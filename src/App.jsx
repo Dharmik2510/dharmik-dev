@@ -3,10 +3,9 @@ import Hero from './components/Hero'
 import ScrollProgress from './components/ScrollProgress'
 import Passage from './components/Passage'
 import {
-  ExploreStrip, Ticker, ControlTower, About,
+  ExploreStrip, ControlTower, About,
   Experience, Projects, Articles, Contact, Footer, SectionTransition
 } from './components/Sections'
-import NeuralBackground from './components/NeuralBackground'
 import { useCursor } from './hooks'
 import { SmoothScroll, FilmGrain } from './components/cinema'
 
@@ -27,11 +26,7 @@ export default function App() {
       <SmoothScroll />
       <FilmGrain />
 
-      {/* Neural particle background */}
-      <NeuralBackground />
-
       {/* Overlays */}
-      <div className="scanlines" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
 
       {/* Custom cursor (hidden on touch) */}
@@ -49,7 +44,6 @@ export default function App() {
       {/* Main content */}
       <main style={{ position: 'relative', zIndex: 10 }} id="main-content">
         <Hero />
-        <Ticker />
 
         <ControlTower />
 

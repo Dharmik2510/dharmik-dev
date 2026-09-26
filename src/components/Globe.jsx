@@ -2,16 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactGlobe from 'react-globe.gl';
 
 const CITIES = [
-  { code: 'AMD', name: 'Ahmedabad', lat: 23.03, lon: 72.58, color: '#00ff9d', size: 1.5, offset: 'translate(10px, -50%)' },
-  { code: 'YHZ', name: 'Halifax', lat: 44.65, lon: -63.59, color: '#ffab00', size: 0.8, offset: 'translate(10px, -150%)' },
-  { code: 'YUL', name: 'Montréal', lat: 45.51, lon: -73.56, color: '#ffab00', size: 0.8, offset: 'translate(10px, -50%)' },
-  { code: 'YYZ', name: 'Toronto', lat: 43.65, lon: -79.38, color: '#00e5ff', size: 2, offset: 'translate(10px, 50%)' },
+  { code: 'AMD', name: 'Ahmedabad', lat: 23.03, lon: 72.58, color: '#7cc6be', size: 1.5, offset: 'translate(10px, -50%)' },
+  { code: 'YHZ', name: 'Halifax', lat: 44.65, lon: -63.59, color: '#ffcf7a', size: 0.8, offset: 'translate(10px, -150%)' },
+  { code: 'YUL', name: 'Montréal', lat: 45.51, lon: -73.56, color: '#ffcf7a', size: 0.8, offset: 'translate(10px, -50%)' },
+  { code: 'YYZ', name: 'Toronto', lat: 43.65, lon: -79.38, color: '#f2a541', size: 2, offset: 'translate(10px, 50%)' },
 ];
 
 const ARCS = [
-  { startLat: 23.03, startLng: 72.58, endLat: 44.65, endLng: -63.59, color: ['#00ff9d', '#ffab00'] },
-  { startLat: 44.65, startLng: -63.59, endLat: 45.51, endLng: -73.56, color: ['#ffab00', '#ffab00'] },
-  { startLat: 45.51, startLng: -73.56, endLat: 43.65, endLng: -79.38, color: ['#ffab00', '#00e5ff'] }
+  { startLat: 23.03, startLng: 72.58, endLat: 44.65, endLng: -63.59, color: ['#7cc6be', '#ffcf7a'] },
+  { startLat: 44.65, startLng: -63.59, endLat: 45.51, endLng: -73.56, color: ['#ffcf7a', '#ffcf7a'] },
+  { startLat: 45.51, startLng: -73.56, endLat: 43.65, endLng: -79.38, color: ['#ffcf7a', '#f2a541'] }
 ];
 
 export default function Globe({ activeCity }) {
@@ -78,7 +78,7 @@ export default function Globe({ activeCity }) {
             
             // Atmosphere and environment
             backgroundColor="rgba(0,0,0,0)"
-            atmosphereColor="#00e5ff"
+            atmosphereColor="#f2a541"
             atmosphereAltitude={0.15}
             
             // Rings for cities
@@ -122,7 +122,7 @@ export default function Globe({ activeCity }) {
                   pointer-events: none; 
                   transform: ${d.offset || 'translate(10px, -50%)'}; 
                   opacity: 0.95; 
-                  background: rgba(13, 34, 54, 0.7); 
+                  background: rgba(30,26,33, 0.7); 
                   padding: 4px 8px; 
                   border-radius: 6px; 
                   border-left: 2px solid ${d.color};

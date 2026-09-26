@@ -33,12 +33,7 @@ export default function Navbar() {
       </ul>
 
       <div className={styles.right}>
-        <span className={styles.clock}>LOCAL {time}</span>
-
-        <div className={styles.badge}>
-          <div className={styles.pdot} />
-          AI DEVELOPER II
-        </div>
+        <span className={styles.clock}>TORONTO {time}</span>
 
         {/* Hamburger (mobile) */}
         <button
@@ -70,11 +65,7 @@ export default function Navbar() {
             ))}
           </ul>
           <div className={styles.mobileFooter}>
-            <span className={styles.clock}>LOCAL {time}</span>
-            <div className={styles.badge}>
-              <div className={styles.pdot} />
-              AI DEVELOPER II
-            </div>
+            <span className={styles.clock}>TORONTO {time}</span>
           </div>
         </div>
       )}

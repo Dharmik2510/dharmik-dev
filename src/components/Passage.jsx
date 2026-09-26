@@ -292,7 +292,7 @@ export default function Passage() {
       s.width = `${w}px`; s.height = `${h}px`
       s.borderRadius = `${r}px`
       s.boxShadow = win > 0.001
-        ? `inset 0 0 ${40 * win}px rgba(0,0,0,${0.55 * win}), 0 0 0 ${ring}px #c9ced4, 0 0 0 ${ring + 2}px #8d96a0, 0 0 ${60 * win}px ${ring + 8}px rgba(0,0,0,.6), 0 0 0 200vmax #04070b`
+        ? `inset 0 0 ${40 * win}px rgba(0,0,0,${0.55 * win}), 0 0 0 ${ring}px #c9ced4, 0 0 0 ${ring + 2}px #8d96a0, 0 0 ${60 * win}px ${ring + 8}px rgba(0,0,0,.6), 0 0 0 200vmax #0b0a0c`
         : 'none'
       s.setProperty('--win', win)
       s.visibility = win > 0.001 ? 'visible' : 'hidden'

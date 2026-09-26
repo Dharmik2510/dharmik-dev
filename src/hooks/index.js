@@ -225,7 +225,7 @@ export function useGithubActivity(username = 'Dharmik2510') {
 }
 
 // ── TIME SINCE LANDING HOOK ──
-export function useTimeSince(dateStr = '2021-09-01') {
+export function useTimeSince(dateStr = '2021-09-07') {
   const [elapsed, setElapsed] = useState('')
 
   useEffect(() => {

@@ -28,7 +28,7 @@ export const CHAPTERS = [
     lat: 23.03,
     lon: 72.58,
     tz: 'Asia/Kolkata',
-    accent: '#ffab00',
+    accent: '#f2a541',
     badge: 'DEPARTURE',
   },
   {
@@ -51,7 +51,7 @@ export const CHAPTERS = [
     lat: 44.65,
     lon: -63.59,
     tz: 'America/Halifax',
-    accent: '#00ff9d',
+    accent: '#7cc6be',
     badge: 'WAYPOINT α',
   },
   {
@@ -74,7 +74,7 @@ export const CHAPTERS = [
     lat: 45.51,
     lon: -73.56,
     tz: 'America/Toronto',
-    accent: '#ff4d6d',
+    accent: '#e07a6a',
     badge: 'WAYPOINT β',
   },
   {
@@ -97,7 +97,7 @@ export const CHAPTERS = [
     lat: 43.65,
     lon: -79.38,
     tz: 'America/Toronto',
-    accent: '#00e5ff',
+    accent: '#a9b8ff',
     badge: 'DESTINATION',
   },
 ]

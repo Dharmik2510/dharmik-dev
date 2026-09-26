@@ -9,7 +9,7 @@
   position: absolute; top: 0; left: 50%;
   transform: translateX(-50%);
   width: 1px; height: 100%;
-  background: rgba(0,229,255,.1);
+  background: rgba(242,165,65,.1);
 }
 
 .fill {
@@ -30,7 +30,7 @@
 
 .dotInner {
   width: 8px; height: 8px; border-radius: 50%;
-  border: 1px solid rgba(0,229,255,.3);
+  border: 1px solid rgba(242,165,65,.3);
   background: var(--void);
   transition: all .3s ease;
 }
