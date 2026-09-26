@@ -85,7 +85,7 @@ export default function NeuralBackground() {
 
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 229, 255, 0.4)';
+        ctx.fillStyle = 'rgba(242,165,65, 0.4)';
         ctx.fill();
 
         // Check connections
@@ -100,7 +100,7 @@ export default function NeuralBackground() {
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(node2.x, node2.y);
             const opacity = 1 - (dist / maxConnectionDist);
-            ctx.strokeStyle = `rgba(0, 255, 157, ${opacity * 0.2})`;
+            ctx.strokeStyle = `rgba(124,198,190, ${opacity * 0.2})`;
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
@@ -114,7 +114,7 @@ export default function NeuralBackground() {
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(mouseX, mouseY);
             const opacity = 1 - (distCursor / cursorRadius);
-            ctx.strokeStyle = `rgba(0, 229, 255, ${opacity * 0.35})`;
+            ctx.strokeStyle = `rgba(242,165,65, ${opacity * 0.35})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }

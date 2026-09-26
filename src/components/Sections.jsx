@@ -10,6 +10,7 @@ import {
   EXPERIENCE, PROJECTS, ARTICLES, TICKER_ITEMS, PERSONAL
 } from '../data'
 import Globe from './Globe'
+import { useTimeSince } from '../hooks'
 import ArticlesFeed from './ArticlesFeed'
 import s from './Sections.module.css'
 
@@ -103,6 +104,7 @@ function SpotlightCard({ children, className = '', ...props }) {
 
 // ── EXPLORE STRIP ──
 export function ExploreStrip() {
+  const inCanada = useTimeSince('2021-09-07')
   return (
     <motion.div
       className={`${s.strip} explore-strip`}
@@ -111,10 +113,10 @@ export function ExploreStrip() {
       transition={{ duration: 0.9, delay: 1.2, ease: [.16,1,.3,1] }}
     >
         {[
-        { ico: '01', lbl: 'Role',      val: 'AI Developer II' },
-        { ico: '02', lbl: 'Platform',  val: 'Kafka · Spark · Databricks' },
-        { ico: '03', lbl: 'Impact',    val: '$500K+ operational savings' },
-        { ico: '04', lbl: 'Focus',     val: 'Production AI systems' },
+        { ico: '01', lbl: 'Landed',    val: '07 Sep 2021 · Halifax' },
+        { ico: '02', lbl: 'In Canada', val: inCanada || '—' },
+        { ico: '03', lbl: 'Route',     val: 'YHZ → YUL → YYZ' },
+        { ico: '04', lbl: 'Writing',   val: `${ARTICLES.length} articles on Medium` },
       ].map((f, i) => (
         <React.Fragment key={f.lbl}>
           {i > 0 && <div className={s.stripDiv} />}
@@ -757,7 +759,7 @@ export function Footer() {
   return (
     <footer className={s.footer}>
       <div className={s.footerLeft}>
-        © 2026 // AI DEVELOPER II // INTACT FINANCIAL
+        © 2026 Dharmik Soni · Toronto
       </div>
       <div className={s.footerRight}>
         <span>Production AI · Data Platforms · Model Governance</span>

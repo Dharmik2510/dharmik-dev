@@ -3,8 +3,8 @@
    --------------------------------------------------------- */
 
 :root {
-  --cyan: #5cf2ff;
-  --cyan-soft: #aef6ff;
+  --cyan: #f2a541;
+  --cyan-soft: #ffd9a0;
   --hairline: rgba(255, 255, 255, 0.12);
 }
 
@@ -62,8 +62,8 @@
   border-radius: 16px;
   background: linear-gradient(
     180deg,
-    rgba(8, 16, 24, 0.7) 0%,
-    rgba(2, 5, 10, 0.85) 100%
+    rgba(24,21,26, 0.7) 0%,
+    rgba(11,10,12, 0.85) 100%
   );
   overflow: hidden;
   min-height: 60vh;
@@ -79,7 +79,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(92, 242, 255, 0.6),
+    rgba(242,165,65, 0.6),
     transparent
   );
   pointer-events: none;
@@ -113,7 +113,7 @@
   font-weight: 700;
 }
 .cc-city {
-  color: #9ab0c4;
+  color: #a79d8e;
   margin-left: 0.4rem;
 }
 .cc-title {
@@ -139,7 +139,7 @@
 .cc-kinetic li {
   font-family: ui-monospace, monospace;
   letter-spacing: 0.08em;
-  color: #cbd6df;
+  color: #ddd3c4;
   font-size: 0.95rem;
   text-transform: uppercase;
 }
@@ -160,9 +160,9 @@
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   color: var(--cyan-soft);
-  border: 1px solid rgba(92, 242, 255, 0.3);
+  border: 1px solid rgba(242,165,65, 0.3);
   border-radius: 999px;
-  background: rgba(92, 242, 255, 0.06);
+  background: rgba(242,165,65, 0.06);
 }
 
 /* ── RESPONSIVE ── */

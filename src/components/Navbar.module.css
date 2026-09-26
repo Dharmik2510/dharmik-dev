@@ -2,8 +2,8 @@
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
   padding: 20px 48px;
-  background: linear-gradient(180deg, rgba(0,3,8,.97) 0%, transparent 100%);
-  border-bottom: 1px solid rgba(13,32,51,.5);
+  background: linear-gradient(180deg, rgba(11,10,12,.97) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(30,26,33,.5);
 }
 
 .logo {
@@ -45,8 +45,8 @@
 .badge {
   font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
   color: var(--neon2);
-  border: 1px solid rgba(0,255,157,.3);
-  background: rgba(0,255,157,.08);
+  border: 1px solid rgba(124,198,190,.3);
+  background: rgba(124,198,190,.08);
   padding: 6px 14px; border-radius: 2px;
   display: flex; align-items: center; gap: 6px;
   font-weight: 700;
@@ -83,7 +83,7 @@
 /* Mobile menu overlay */
 .mobileMenu {
   position: fixed; inset: 0; z-index: 999;
-  background: rgba(0,3,8,.98); backdrop-filter: blur(20px);
+  background: rgba(11,10,12,.98); backdrop-filter: blur(20px);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   padding: 80px 40px 40px;

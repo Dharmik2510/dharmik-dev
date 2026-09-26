@@ -19,8 +19,8 @@
 
 /* TextShimmer */
 .mp-shimmer {
-  --base-color: #6888a8;
-  --base-gradient-color: #f0f8ff;
+  --base-color: #9a9082;
+  --base-gradient-color: #f7f1e6;
   --bg: linear-gradient(90deg, #0000 calc(50% - var(--spread)), var(--base-gradient-color), #0000 calc(50% + var(--spread)));
   position: relative; display: inline-block;
   background-image: var(--bg), linear-gradient(var(--base-color), var(--base-color));

@@ -1,6 +1,6 @@
 .boot {
   position: fixed; inset: 0; z-index: 99999;
-  background: #000308;
+  background: #1a1206;
   display: flex; align-items: center; justify-content: center;
 }
 
@@ -11,7 +11,7 @@
 .header {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 28px; padding-bottom: 16px;
-  border-bottom: 1px solid rgba(0,229,255,.15);
+  border-bottom: 1px solid rgba(242,165,65,.15);
 }
 
 .airline {
@@ -49,7 +49,7 @@
 
 .progressBar {
   flex: 1; height: 2px;
-  background: rgba(0,229,255,.1); border-radius: 1px;
+  background: rgba(242,165,65,.1); border-radius: 1px;
   overflow: hidden;
 }
 
@@ -76,6 +76,6 @@
   position: absolute; inset: 0; pointer-events: none;
   background: repeating-linear-gradient(
     0deg, transparent, transparent 2px,
-    rgba(0,229,255,0.015) 2px, rgba(0,229,255,0.015) 4px
+    rgba(242,165,65,0.015) 2px, rgba(242,165,65,0.015) 4px
   );
 }
