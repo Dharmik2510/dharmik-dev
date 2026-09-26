@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform, useInView as useMotionInView, useReducedMotion } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView as useMotionInView, useReducedMotion, useMotionValueEvent } from 'framer-motion'
 import {
   SectionHead, ScrollWords, CountUp, revealUp, revealSide, useIsWide,
 } from './cinema'
@@ -12,6 +12,7 @@ import {
 import Globe from './Globe'
 import { useTimeSince } from '../hooks'
 import { CHAPTERS } from '../data/journey'
+import { PLACES } from '../data/about'
 import ArticlesFeed from './ArticlesFeed'
 import s from './Sections.module.css'
 
@@ -237,32 +238,97 @@ export function Journey() {
   )
 }
 
-// ── ABOUT — "What I carried": one row per city, each revealed over that city's own film frame ──
-const CARRIED = {
-  AMD: { where: 'B.E. in ICT, Gujarat Technological University', first: 'First jobs: an online store for a jewellery business, Java at NovusCode' },
-  YHZ: { where: "Master's in Applied Computer Science, Dalhousie University", first: 'Went deep on machine learning and distributed systems' },
-  YUL: { where: 'AI Developer Intern, Intact Financial', first: 'First time shipping ML into production' },
-  YYZ: { where: 'AI Developer → AI Developer II, Intact Financial', first: 'Streaming pipelines, platform migration, $500K+ saved' },
+// ── ABOUT — "What I carried": one place per city (university / office), with that chapter's document ──
+function PlaceMedia({ c, place, progress, reduce }) {
+  const photos = place.photos?.length ? place.photos : [c.posterSrc]
+  const videoRef = useRef(null)
+  const [blob, setBlob] = useState(null)
+  // Ken Burns drift tied to scroll
+  const scale = useTransform(progress, [0, 1], reduce ? [1, 1] : [1.14, 1.02])
+  const x = useTransform(progress, [0, 1], reduce ? ['0%', '0%'] : ['-3%', '3%'])
+  // several photos cross-fade as you scroll through the row
+  const n = photos.length
+  // scroll-played clip (same technique as the Journey film)
+  useEffect(() => {
+    if (!place.video || reduce) return
+    let url
+    fetch(place.video).then((r) => r.blob()).then((b) => { url = URL.createObjectURL(b); setBlob(url) }).catch(() => {})
+    return () => url && URL.revokeObjectURL(url)
+  }, [place.video, reduce])
+  useMotionValueEvent(progress, 'change', (v) => {
+    const el = videoRef.current
+    if (el && el.duration && !el.seeking) el.currentTime = Math.min(0.999, Math.max(0, v)) * el.duration
+  })
+  return (
+    <motion.div className="ab-media" style={{ scale, x }}>
+      {photos.map((src, k) => (
+        <PhotoLayer key={src} src={src} k={k} n={n} progress={progress} />
+      ))}
+      {blob && <video ref={videoRef} className="ab-video" src={blob} muted playsInline preload="auto" aria-hidden="true" />}
+    </motion.div>
+  )
+}
+
+function PhotoLayer({ src, k, n, progress }) {
+  // photos swap while the row sits mid-screen; short fades avoid muddy double exposures
+  const local = useTransform(progress, [0.3, 0.7], [0, 1])
+  const edge = k / n
+  const opacity = useTransform(local, (v) => {
+    if (k === 0) return 1
+    return Math.min(1, Math.max(0, (v - edge) / 0.06 + 0.5))
+  })
+  return <motion.img src={src} alt="" loading="lazy" style={{ opacity }} />
+}
+
+function PlaceDoc({ doc, c, accent }) {
+  return (
+    <motion.div
+      className="ab-doc"
+      style={{ '--city': accent }}
+      initial={{ opacity: 0, y: 50, rotate: 8 }}
+      whileInView={{ opacity: 1, y: 0, rotate: -4 }}
+      viewport={{ once: true, margin: '0px 0px -20% 0px' }}
+      transition={{ type: 'spring', stiffness: 160, damping: 20, delay: 0.25 }}
+      aria-hidden="true"
+    >
+      <div className="ab-doc-head">
+        <span>{doc.kind}</span>
+        <span className="ab-doc-code">{c.code}</span>
+      </div>
+      <div className="ab-doc-body">
+        <div className="ab-doc-photo">DS</div>
+        <div>
+          <b>Dharmik Soni</b>
+          <span>{doc.org}</span>
+          <span>{doc.line}</span>
+          <span className="ab-doc-city">{doc.city}</span>
+        </div>
+      </div>
+      <div className="ab-doc-strip" />
+    </motion.div>
+  )
 }
 
 function CityRow({ c, i }) {
   const ref = useRef(null)
   const reduce = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.35'] })
-  const clip = useTransform(scrollYProgress, [0, 1], reduce ? ['inset(0% 0% 0% 0%)', 'inset(0% 0% 0% 0%)'] : ['inset(0% 100% 0% 0%)', 'inset(0% 0% 0% 0%)'])
+  const place = PLACES[c.code] || {}
+  const { scrollYProgress: reveal } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.35'] })
+  const clip = useTransform(reveal, [0, 1], reduce ? ['inset(0% 0% 0% 0%)', 'inset(0% 0% 0% 0%)'] : ['inset(0% 100% 0% 0%)', 'inset(0% 0% 0% 0%)'])
   const { scrollYProgress: pass } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const imgY = useTransform(pass, [0, 1], reduce ? ['0%', '0%'] : ['-12%', '12%'])
-  const info = CARRIED[c.code] || {}
   return (
     <div ref={ref} className="ab-row" style={{ '--city': c.accent }}>
-      <motion.div className="ab-frame" style={{ clipPath: clip }}>
-        <motion.img src={c.posterSrc} alt="" loading="lazy" style={{ y: imgY }} />
-        <span className="ab-frame-code">{c.code}</span>
-      </motion.div>
+      <div className="ab-stage">
+        <motion.div className="ab-frame" style={{ clipPath: clip }}>
+          <PlaceMedia c={c} place={place} progress={pass} reduce={reduce} />
+          <span className="ab-frame-place">{place.photos?.length || place.video ? place.place : `${c.city}, from the film`}</span>
+        </motion.div>
+        {place.doc && <PlaceDoc doc={place.doc} c={c} accent={c.accent} />}
+      </div>
       <motion.div className="ab-text" {...revealUp(1)}>
         <span className="ab-num">0{i + 1} · {c.city}</span>
-        <p className="ab-where">{info.where}</p>
-        <p className="ab-first">{info.first}</p>
+        <p className="ab-where">{place.where}</p>
+        <p className="ab-first">{place.first}</p>
         <ul className="ab-tags">
           {c.metricChips.map((t) => <li key={t}>{t}</li>)}
         </ul>
@@ -373,20 +439,23 @@ function FlightLeg({ e, i, total }) {
 }
 
 const CITY = Object.fromEntries(CHAPTERS.map((c) => [c.code, c]))
+// Career order, oldest → newest; the side venture (CareerCurate) goes last
+const isSide = (e) => /co-?founder/i.test(e.role)
+const CHRONO = [...EXPERIENCE.filter((e) => !isSide(e)).reverse(), ...EXPERIENCE.filter(isSide)]
+const NEWEST = [...EXPERIENCE.filter((e) => !isSide(e)), ...EXPERIENCE.filter(isSide)]
 const CITY_CODE = (meta = '') =>
   /ahmedabad/i.test(meta) ? 'AMD' : /montr/i.test(meta) ? 'YUL' : /halifax/i.test(meta) ? 'YHZ' : 'YYZ'
 
 // Desktop: the section pins and vertical scroll flies a horizontal route of boarding-pass cards,
 // oldest → newest (Ahmedabad → Toronto). Phones: vertical flight log.
 function FlightPath() {
-  const legs = [...EXPERIENCE].reverse()
+  const legs = CHRONO
   const pinRef = useRef(null)
   const trackRef = useRef(null)
   const [dist, setDist] = useState(0)
   const [active, setActive] = useState(0)
   const { scrollYProgress } = useScroll({ target: pinRef, offset: ['start start', 'end end'] })
   const x = useTransform(scrollYProgress, [0.04, 0.96], [0, -dist])
-  const planeLeft = useTransform(scrollYProgress, [0.04, 0.96], ['0%', '100%'])
   const fill = useTransform(scrollYProgress, [0.04, 0.96], [0, 1])
 
   useEffect(() => {
@@ -406,30 +475,15 @@ function FlightPath() {
   return (
     <div className="fp-pin" ref={pinRef} style={{ height: `${legs.length * 55 + 60}vh` }}>
       <div className="fp-sticky">
-        <div className="fp-route" aria-hidden="true">
-          <div className="fp-route-line"><motion.span style={{ scaleX: fill }} /></div>
-          <motion.span className="fp-route-plane" style={{ left: planeLeft }}>✈</motion.span>
-          {legs.map((e, i) => (
-            <span
-              key={i}
-              className={`fp-route-stop${i <= active ? ' is-past' : ''}${i === active ? ' is-active' : ''}`}
-              style={{ left: `${(i / (legs.length - 1)) * 100}%` }}
-            >
-              <i />
-              <b>{CITY_CODE(e.meta)}</b>
-            </span>
-          ))}
-        </div>
-
         <motion.div className="fp-track" ref={trackRef} style={{ x }}>
           {legs.map((e, i) => (
             <article
               key={i}
               className={`fp-card${i === active ? ' is-active' : ''}`}
-              style={{ '--city': CITY[CITY_CODE(e.meta)]?.accent, '--frame': `url(${CITY[CITY_CODE(e.meta)]?.posterSrc})` }}
+              style={{ '--city': CITY[CITY_CODE(e.meta)]?.accent }}
             >
               <div className="fp-card-stub">
-                <span className="fp-leg">LEG {String(i + 1).padStart(2, '0')}</span>
+                <span className="fp-leg">{isSide(e) ? 'On the side' : String(i + 1).padStart(2, '0')}</span>
                 <span className="fp-code">{CITY_CODE(e.meta)}</span>
                 <span className="fp-city">{e.meta}</span>
                 <span className={`fp-badge ${e.badge === 'current' ? 'is-current' : ''}`}>
@@ -447,8 +501,10 @@ function FlightPath() {
           ))}
         </motion.div>
 
-        <div className="fp-hint" aria-hidden="true">
-          <span>{String(active + 1).padStart(2, '0')}</span> / {String(legs.length).padStart(2, '0')} · scroll to fly
+        <div className="fp-progress" aria-hidden="true">
+          <span className="fp-progress-n">{String(active + 1).padStart(2, '0')}</span>
+          <span className="fp-progress-line"><motion.i style={{ scaleX: fill }} /></span>
+          <span className="fp-progress-n is-muted">{String(legs.length).padStart(2, '0')}</span>
         </div>
       </div>
     </div>
@@ -465,10 +521,9 @@ function FlightLogVertical() {
     <div className="cn-log" ref={logRef}>
       <div className="cn-rail" aria-hidden="true">
         <motion.div className="cn-rail-fill" style={{ scaleY: fill }} />
-        {!reduce && <motion.span className="cn-rail-plane" style={{ top: planeTop }}>✈</motion.span>}
       </div>
-      {EXPERIENCE.map((e, i) => (
-        <FlightLeg key={i} e={e} i={i} total={EXPERIENCE.length} />
+      {NEWEST.map((e, i) => (
+        <FlightLeg key={i} e={e} i={i} total={NEWEST.length} />
       ))}
     </div>
   )

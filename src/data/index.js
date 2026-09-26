@@ -28,7 +28,7 @@ export const WAYPOINTS = [
     city: 'Ahmedabad, India',
     type: 'origin',
     badge: 'DEPARTURE',
-    desc: 'Where it all began. B.E in Information and Communication Technology at Gujarat Technological University. First dev roles at Swaminarayan Ornaments and NovusCode. Built the foundation in React, Node, AWS, and Java.',
+    desc: 'Where it all began. B.E. in Information and Communication Technology at L.J. Institute of Engineering & Technology (LJIET). First dev roles at Swaminarayan Ornaments and NovusCode. Built the foundation in React, Node, AWS, and Java.',
   },
   {
     code: 'YHZ',
@@ -237,7 +237,7 @@ export const EDUCATION = [
   {
     degree: "B.E",
     title: "Information and Communication Technology",
-    institution: "Gujarat Technological University",
+    institution: "L.J. Institute of Engineering & Technology (LJIET)",
     location: "Ahmedabad, India",
   },
 ]
