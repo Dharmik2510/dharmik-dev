@@ -33,9 +33,10 @@ function FadeIn({ children, delay = 0 }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 22 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+      initial={{ opacity: 0, y: 60, rotateX: 12, filter: 'blur(8px)' }}
+      animate={inView ? { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' } : {}}
+      transition={{ duration: 0.95, delay, ease: EASE }}
+      style={{ transformPerspective: 900 }}
     >
       {children}
     </motion.div>

@@ -1,0 +1,1071 @@
+diff --git a/src/components/ArticlesFeed.jsx b/src/components/ArticlesFeed.jsx
+new file mode 100644
+index 0000000..98717dc
+--- /dev/null
++++ b/src/components/ArticlesFeed.jsx
+@@ -0,0 +1,195 @@
++import React, { useMemo, useState } from 'react'
++import { motion } from 'framer-motion'
++import { useInView } from 'react-intersection-observer'
++import styles from './ArticlesFeed.module.css'
++
++const PAGE_SIZE = 6
++const EASE = [0.16, 1, 0.3, 1]
++
++function readTime(excerpt = '') {
++  const mins = Math.round(excerpt.length / 40)
++  return `${Math.min(9, Math.max(4, mins || 5))} min`
++}
++
++function pubLabel(pubDate) {
++  const d = new Date(pubDate)
++  if (Number.isNaN(d.getTime())) return ''
++  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
++}
++
++function pubYear(pubDate) {
++  const d = new Date(pubDate)
++  return Number.isNaN(d.getTime()) ? '' : String(d.getFullYear())
++}
++
++const FILTERS = [
++  { id: 'all', label: 'All' },
++  { id: 'tech', label: 'Technical' },
++  { id: 'personal', label: 'Personal' },
++]
++
++function FadeIn({ children, delay = 0 }) {
++  const { ref, inView } = useInView({ threshold: 0.08, triggerOnce: true })
++  return (
++    <motion.div
++      ref={ref}
++      initial={{ opacity: 0, y: 22 }}
++      animate={inView ? { opacity: 1, y: 0 } : {}}
++      transition={{ duration: 0.7, delay, ease: EASE }}
++    >
++      {children}
++    </motion.div>
++  )
++}
++
++function ArticleCard({ article, index, variant = 'grid' }) {
++  const isFeatured = variant === 'featured'
++
++  return (
++    <a
++      href={article.link}
++      target="_blank"
++      rel="noreferrer"
++      className={`${styles.card} ${isFeatured ? styles.cardFeatured : ''}`}
++    >
++      <div className={styles.cardTop}>
++        <span className={styles.tx}>
++          TX·{String(index + 1).padStart(3, '0')}
++        </span>
++        <span className={styles.type}>
++          <span
++            className={`${styles.dot} ${
++              article.type === 'tech' ? styles.dotTech : styles.dotPersonal
++            }`}
++          />
++          {article.type === 'tech' ? 'Technical' : 'Personal'}
++        </span>
++      </div>
++      <h3 className={styles.title}>{article.title}</h3>
++      <p className={styles.excerpt}>{article.excerpt}</p>
++      <div className={styles.cardFoot}>
++        <span className={styles.metaItem}>{readTime(article.excerpt)} read</span>
++        <span className={styles.metaDot} aria-hidden="true">·</span>
++        <span className={styles.metaItem}>{pubLabel(article.pubDate)}</span>
++        <span className={styles.read}>
++          {isFeatured ? 'Read full article ↗' : 'Read ↗'}
++        </span>
++      </div>
++    </a>
++  )
++}
++
++export default function ArticlesFeed({ articles = [] }) {
++  const [filter, setFilter] = useState('all')
++  const [visible, setVisible] = useState(PAGE_SIZE)
++
++  const stats = useMemo(() => {
++    const tech = articles.filter((a) => a.type === 'tech').length
++    const personal = articles.filter((a) => a.type === 'personal').length
++    const years = [...new Set(articles.map((a) => pubYear(a.pubDate)).filter(Boolean))]
++    return { total: articles.length, tech, personal, years }
++  }, [articles])
++
++  const filtered = useMemo(() => {
++    if (filter === 'all') return articles
++    return articles.filter((a) => a.type === filter)
++  }, [articles, filter])
++
++  const featured = filtered[0]
++  const rest = filtered.slice(1)
++  const visibleRest = rest.slice(0, visible)
++  const hasMore = visible < rest.length
++
++  const onFilterChange = (id) => {
++    setFilter(id)
++    setVisible(PAGE_SIZE)
++  }
++
++  if (!articles.length) return null
++
++  return (
++    <div className={styles.feed}>
++      <div className={styles.toolbar}>
++        <div className={styles.stats}>
++          <span className={styles.stat}>
++            <b>{String(stats.total).padStart(2, '0')}</b> articles
++          </span>
++          <span className={styles.statSep} aria-hidden="true">/</span>
++          <span className={styles.stat}>
++            <b>{String(stats.tech).padStart(2, '0')}</b> technical
++          </span>
++          {stats.personal > 0 && (
++            <>
++              <span className={styles.statSep} aria-hidden="true">/</span>
++              <span className={styles.stat}>
++                <b>{String(stats.personal).padStart(2, '0')}</b> personal
++              </span>
++            </>
++          )}
++          {stats.years.length > 0 && (
++            <>
++              <span className={styles.statSep} aria-hidden="true">/</span>
++              <span className={styles.stat}>
++                {stats.years.sort().join(' · ')}
++              </span>
++            </>
++          )}
++        </div>
++
++        <div className={styles.filters} role="tablist" aria-label="Filter articles">
++          {FILTERS.map((f) => (
++            <button
++              key={f.id}
++              type="button"
++              role="tab"
++              aria-selected={filter === f.id}
++              className={`${styles.filterBtn} ${filter === f.id ? styles.filterBtnActive : ''}`}
++              onClick={() => onFilterChange(f.id)}
++            >
++              {f.label}
++            </button>
++          ))}
++        </div>
++      </div>
++
++      {featured && (
++        <FadeIn>
++          <ArticleCard article={featured} index={articles.indexOf(featured)} variant="featured" />
++        </FadeIn>
++      )}
++
++      {visibleRest.length > 0 && (
++        <div className={styles.grid}>
++          {visibleRest.map((article) => (
++            <FadeIn key={article.link} delay={0.04}>
++              <ArticleCard
++                article={article}
++                index={articles.indexOf(article)}
++                variant="grid"
++              />
++            </FadeIn>
++          ))}
++        </div>
++      )}
++
++      {filtered.length === 0 && (
++        <p className={styles.empty}>No articles in this category yet.</p>
++      )}
++
++      {hasMore && (
++        <div className={styles.moreWrap}>
++          <button
++            type="button"
++            className={styles.moreBtn}
++            onClick={() => setVisible((v) => v + PAGE_SIZE)}
++          >
++            Load {Math.min(PAGE_SIZE, rest.length - visible)} more
++            <span className={styles.moreCount}>
++              {visibleRest.length + 1} / {filtered.length}
++            </span>
++          </button>
++        </div>
++      )}
++    </div>
++  )
++}
+diff --git a/src/components/ArticlesFeed.module.css b/src/components/ArticlesFeed.module.css
+new file mode 100644
+index 0000000..139d2b1
+--- /dev/null
++++ b/src/components/ArticlesFeed.module.css
+@@ -0,0 +1,253 @@
++.feed {
++  display: flex;
++  flex-direction: column;
++  gap: 20px;
++}
++
++.toolbar {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 20px;
++  flex-wrap: wrap;
++  padding: 16px 20px;
++  background: var(--glass);
++  border: 1px solid var(--border);
++  backdrop-filter: blur(6px);
++}
++
++.stats {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: 10px;
++  font-family: var(--mono);
++  font-size: 11px;
++  letter-spacing: .1em;
++  color: var(--muted);
++  text-transform: uppercase;
++}
++
++.stat b { color: var(--neon); font-weight: 700; }
++.statSep { color: var(--border2); }
++
++.filters {
++  display: flex;
++  gap: 4px;
++  padding: 3px;
++  background: var(--void);
++  border: 1px solid var(--border);
++  border-radius: 2px;
++}
++
++.filterBtn {
++  font-family: var(--mono);
++  font-size: 10px;
++  letter-spacing: .12em;
++  text-transform: uppercase;
++  padding: 8px 14px;
++  border: none;
++  background: transparent;
++  color: var(--muted);
++  cursor: pointer;
++  transition: color .2s, background .2s;
++  font-weight: 700;
++}
++
++.filterBtn:hover { color: var(--text); }
++.filterBtnActive {
++  background: rgba(0, 229, 255, .12);
++  color: var(--neon);
++}
++
++.card {
++  position: relative;
++  display: flex;
++  flex-direction: column;
++  gap: 12px;
++  padding: 22px 24px;
++  background: var(--glass);
++  border: 1px solid var(--border);
++  backdrop-filter: blur(6px);
++  text-decoration: none;
++  transition: border-color .25s, transform .25s, background .25s;
++  height: 100%;
++}
++
++.card:hover {
++  border-color: rgba(0, 229, 255, .35);
++  transform: translateY(-2px);
++  background: linear-gradient(165deg, rgba(10, 28, 44, .82), rgba(4, 14, 24, .96));
++}
++
++.cardFeatured {
++  padding: 32px 34px;
++  background:
++    linear-gradient(135deg, rgba(0, 229, 255, .06), transparent 42%),
++    var(--glass);
++  border-color: rgba(0, 229, 255, .22);
++}
++
++.cardFeatured:hover {
++  border-color: rgba(0, 229, 255, .45);
++  transform: translateY(-3px);
++}
++
++.cardFeatured .title {
++  font-size: clamp(22px, 3vw, 30px);
++  -webkit-line-clamp: 3;
++}
++
++.cardFeatured .excerpt {
++  font-size: 15px;
++  -webkit-line-clamp: 3;
++  max-width: 820px;
++}
++
++.cardTop {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 12px;
++}
++
++.tx {
++  font-family: var(--mono);
++  font-size: 10px;
++  letter-spacing: .16em;
++  color: var(--neon);
++}
++
++.type {
++  font-family: var(--mono);
++  font-size: 9px;
++  letter-spacing: .14em;
++  color: var(--muted);
++  text-transform: uppercase;
++  display: flex;
++  align-items: center;
++  gap: 6px;
++}
++
++.dot { width: 6px; height: 6px; border-radius: 50%; }
++.dotTech { background: var(--neon2); box-shadow: 0 0 8px var(--neon2); }
++.dotPersonal { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
++
++.title {
++  font-family: var(--sans);
++  font-weight: 700;
++  font-size: 17px;
++  line-height: 1.35;
++  color: var(--white);
++  display: -webkit-box;
++  -webkit-line-clamp: 2;
++  -webkit-box-orient: vertical;
++  overflow: hidden;
++}
++
++.excerpt {
++  font-size: 13px;
++  line-height: 1.75;
++  color: var(--muted);
++  flex: 1;
++  display: -webkit-box;
++  -webkit-line-clamp: 3;
++  -webkit-box-orient: vertical;
++  overflow: hidden;
++}
++
++.cardFoot {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: 8px 12px;
++  margin-top: auto;
++  padding-top: 4px;
++  font-family: var(--mono);
++  font-size: 10px;
++  letter-spacing: .08em;
++  color: var(--muted);
++}
++
++.metaItem { color: var(--muted); }
++.metaDot { color: var(--border2); }
++.read { margin-left: auto; color: var(--neon); font-weight: 700; }
++
++.grid {
++  display: grid;
++  grid-template-columns: repeat(3, 1fr);
++  gap: 12px;
++}
++
++.empty {
++  font-family: var(--mono);
++  font-size: 12px;
++  letter-spacing: .1em;
++  color: var(--muted);
++  text-align: center;
++  padding: 40px 20px;
++  border: 1px dashed var(--border);
++}
++
++.moreWrap {
++  display: flex;
++  justify-content: center;
++  padding-top: 8px;
++}
++
++.moreBtn {
++  display: inline-flex;
++  align-items: center;
++  gap: 16px;
++  padding: 14px 28px;
++  background: transparent;
++  border: 1px solid var(--border2);
++  border-radius: 2px;
++  font-family: var(--mono);
++  font-size: 11px;
++  letter-spacing: .14em;
++  text-transform: uppercase;
++  color: var(--text);
++  cursor: pointer;
++  transition: border-color .2s, color .2s, background .2s;
++  font-weight: 700;
++}
++
++.moreBtn:hover {
++  border-color: var(--neon);
++  color: var(--neon);
++  background: rgba(0, 229, 255, .06);
++}
++
++.moreCount {
++  color: var(--muted);
++  font-weight: 400;
++}
++
++@media (max-width: 1100px) {
++  .grid { grid-template-columns: repeat(2, 1fr); }
++}
++
++@media (max-width: 768px) {
++  .toolbar {
++    flex-direction: column;
++    align-items: stretch;
++    padding: 14px 16px;
++  }
++
++  .filters { justify-content: center; }
++
++  .grid { grid-template-columns: 1fr; }
++
++  .cardFeatured { padding: 24px 22px; }
++
++  .cardFeatured .title { font-size: 20px; }
++
++  .read { margin-left: 0; width: 100%; margin-top: 4px; }
++}
++
++@media (max-width: 480px) {
++  .stats { font-size: 10px; gap: 8px; }
++  .filterBtn { padding: 7px 10px; font-size: 9px; }
++  .card { padding: 18px 16px; }
++}
+diff --git a/src/components/Sections.jsx b/src/components/Sections.jsx
+index 5cf284d..f383146 100644
+--- a/src/components/Sections.jsx
++++ b/src/components/Sections.jsx
+@@ -6,6 +6,7 @@ import {
+   EXPERIENCE, PROJECTS, ARTICLES, TICKER_ITEMS, PERSONAL
+ } from '../data'
+ import Globe from './Globe'
++import ArticlesFeed from './ArticlesFeed'
+ import s from './Sections.module.css'
+ 
+ // ── FADE WRAPPER ──
+@@ -417,86 +418,152 @@ export function Projects() {
+ 
+ // ── ARTICLES ──
+ export function Articles() {
+-  const readingTimes = ['6 min read', '8 min read', '5 min read', '7 min read']
+   return (
+-    <section className="section" id="articles">
+-      <div className="s-eye">Transmission Log // Medium</div>
+-      <h2 className="s-title">Written<br /><em>Work</em></h2>
+-      <p className={s.mediumMeta}>
+-        All articles at{' '}
+-        <a href={PERSONAL.medium} target="_blank" rel="noreferrer" className={s.mediumLink}>
+-          medium.com/@dhsoni2510 ↗
++    <section className={`section ${s.articlesSection}`} id="articles">
++      <div className={s.articlesHead}>
++        <div>
++          <div className="s-eye">Transmission Log // Medium</div>
++          <h2 className="s-title">Written<br /><em>Work</em></h2>
++        </div>
++        <a
++          href={PERSONAL.medium}
++          target="_blank"
++          rel="noreferrer"
++          className={s.mediumProfile}
++        >
++          <span className={s.mediumProfileIcon}>M</span>
++          <span>
++            <span className={s.mediumProfileLabel}>Follow on Medium</span>
++            <span className={s.mediumProfileHandle}>@dhsoni2510</span>
++          </span>
++          <span className={s.mediumProfileArrow}>↗</span>
+         </a>
+-      </p>
+-      <div className={s.articleGrid}>
+-        {ARTICLES.map((a, i) => (
+-          <FadeUp key={i} delay={i * .08}>
+-            <div
+-              className={s.articleCard}
+-              onClick={() => window.open(a.link, '_blank')}
+-            >
+-              <div className={s.articleStaticOverlay} />
+-              <div className={s.articleType}>
+-                <div className={`${s.articleDot} ${a.type === 'tech' ? s.articleDotTech : s.articleDotPersonal}`} />
+-                {a.type === 'tech' ? 'Technical' : 'Personal'}
+-              </div>
+-              <div className={s.articleTitle}>{a.title}</div>
+-              <p className={s.articleExcerpt}>{a.excerpt}</p>
+-              <a
+-                href={a.link}
+-                target="_blank"
+-                rel="noreferrer"
+-                className={s.articleReadMore}
+-                onClick={e => e.stopPropagation()}
+-              >
+-                Read on Medium ↗
+-              </a>
+-              <div className={s.articleReadTime}>⏱ {readingTimes[i] || '5 min read'}</div>
+-            </div>
+-          </FadeUp>
+-        ))}
+       </div>
++      <ArticlesFeed articles={ARTICLES} />
+     </section>
+   )
+ }
+ 
+ // ── CONTACT ──
+-export function Contact() {
++const CONTACT_CHANNELS = [
++  {
++    lbl: 'Email',
++    val: PERSONAL.email,
++    href: `mailto:${PERSONAL.email}`,
++    accent: 'cyan',
++    icon: (
++      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
++        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
++        <polyline points="22,6 12,13 2,6" />
++      </svg>
++    ),
++  },
++  {
++    lbl: 'Phone',
++    val: PERSONAL.phone,
++    href: `tel:${PERSONAL.phone}`,
++    accent: 'green',
++    icon: (
++      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
++        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
++      </svg>
++    ),
++  },
++  {
++    lbl: 'LinkedIn',
++    val: 'dharmik-soni',
++    href: PERSONAL.linkedin,
++    accent: 'cyan',
++    icon: (
++      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
++        <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.36 4.25 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
++      </svg>
++    ),
++  },
++  {
++    lbl: 'GitHub',
++    val: 'Dharmik2510',
++    href: PERSONAL.github,
++    accent: 'green',
++    icon: (
++      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
++        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.92.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.72 1.26 3.38.96.1-.75.4-1.26.74-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18.91-.25 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.66.79.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
++      </svg>
++    ),
++  },
++  {
++    lbl: 'Medium',
++    val: '@dhsoni2510',
++    href: PERSONAL.medium,
++    accent: 'amber',
++    wide: true,
++    icon: (
++      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
++        <path d="M4.37 7.3c.03-.3-.08-.59-.3-.79L1.85 4.04v-.04h6.83l5.28 11.58L18.6 4h6.51v.04l-1.9 1.85c-.16.13-.24.33-.21.53v13.16c-.03.2.05.4.21.53l1.86 1.85v.04h-9.32v-.04l1.92-1.89c.19-.19.19-.25.19-.54V8.61L13.5 22h-.72L7.65 9.39v8.85c-.06.39.07.79.36 1.05l2.5 3.03v.04H3.36v-.04l2.5-3.03c.29-.27.41-.66.34-1.05V7.3z" />
++      </svg>
++    ),
++  },
++]
++
++const CONTACT_TOPICS = [
++  'Production AI',
++  'Data Platforms',
++  'Spark & Databricks',
++  'ML Governance',
++  'Agent Systems',
++]
+ 
++export function Contact() {
+   return (
+-    <section className="section" id="contact" style={{ background: 'linear-gradient(180deg,var(--void) 0%,#010810 100%)' }}>
+-      <div>
+-        <div className="s-eye">Open Channel // Contact</div>
+-        <div className={s.contactTitle}>
+-          Let's<br /><em className={s.contactAccent}>Connect</em>
++    <section className={`section ${s.contactSection}`} id="contact">
++      <div className={s.contactGrid}>
++        <div className={s.contactIntro}>
++          <div className="s-eye">Open Channel // Contact</div>
++          <div className={s.contactTitle}>
++            Let's<br /><em className={s.contactAccent}>Connect</em>
++          </div>
++          <p className={s.contactDesc}>
++            Available for applied AI, data platform, and production ML conversations.
++            Focused on systems where reliability, governance, and measurable impact matter.
++          </p>
++
++          <div className={s.contactStatus}>
++            <span className={s.contactStatusDot} aria-hidden="true" />
++            <span>Open to conversations</span>
++            <span className={s.contactStatusSep}>·</span>
++            <span>{PERSONAL.location}</span>
++          </div>
++
++          <div className={s.contactTopics}>
++            {CONTACT_TOPICS.map((topic) => (
++              <span key={topic} className={s.contactTopic}>{topic}</span>
++            ))}
++          </div>
++
++          <a href={`mailto:${PERSONAL.email}`} className={s.contactCta}>
++            <span>Send an email</span>
++            <span className={s.contactCtaArrow}>→</span>
++          </a>
+         </div>
+-        <p className={s.contactDesc}>
+-          Available for applied AI, data platform, and production ML conversations.
+-          Focused on systems where reliability, governance, and measurable impact matter.
+-        </p>
+-        <div className={s.contactLinks} style={{ maxWidth: 600 }}>
+-          {[
+-            { icon: '📞', lbl: 'Phone',    val: PERSONAL.phone,    href: `tel:${PERSONAL.phone}` },
+-            { icon: '✉',  lbl: 'Email',    val: PERSONAL.email,    href: `mailto:${PERSONAL.email}` },
+-            { icon: 'in', lbl: 'LinkedIn', val: '/in/dharmik-soni-a385131a0', href: PERSONAL.linkedin },
+-            { icon: '⌥',  lbl: 'GitHub',  val: 'github.com/Dharmik2510', href: PERSONAL.github },
+-            { icon: 'M',  lbl: 'Medium',  val: '@dhsoni2510', href: PERSONAL.medium },
+-          ].map(c => (
+-            <a
+-              key={c.lbl}
+-              href={c.href}
+-              target={c.href.startsWith('http') ? '_blank' : undefined}
+-              rel="noreferrer"
+-              className={s.contactLink}
+-              aria-label={`${c.lbl}: ${c.val}`}
+-            >
+-              <div className={s.contactLinkIcon}>{c.icon}</div>
+-              <div>
+-                <div className={s.contactLinkLabel}>{c.lbl}</div>
+-                <div className={s.contactLinkVal}>{c.val}</div>
+-              </div>
+-              <div className={s.contactLinkArrow}>→</div>
+-            </a>
++
++        <div className={s.contactChannels}>
++          {CONTACT_CHANNELS.map((c, i) => (
++            <FadeUp key={c.lbl} delay={i * 0.05}>
++              <a
++                href={c.href}
++                target={c.href.startsWith('http') ? '_blank' : undefined}
++                rel="noreferrer"
++                className={`${s.contactCard} ${s[`contactCard${c.accent.charAt(0).toUpperCase() + c.accent.slice(1)}`]} ${c.wide ? s.contactCardWide : ''}`}
++                aria-label={`${c.lbl}: ${c.val}`}
++              >
++                <div className={s.contactCardIcon}>{c.icon}</div>
++                <div className={s.contactCardBody}>
++                  <div className={s.contactCardLabel}>{c.lbl}</div>
++                  <div className={s.contactCardVal}>{c.val}</div>
++                </div>
++                <div className={s.contactCardArrow}>↗</div>
++              </a>
++            </FadeUp>
+           ))}
+         </div>
+       </div>
+diff --git a/src/components/Sections.module.css b/src/components/Sections.module.css
+index 63dc53f..10f0a72 100644
+--- a/src/components/Sections.module.css
++++ b/src/components/Sections.module.css
+@@ -581,6 +581,79 @@
+ .projectCard:hover .projectLink { color: var(--neon); transform: translate(2px, -2px); }
+ 
+ /* ── ARTICLES ── */
++.articlesSection {
++  background:
++    radial-gradient(circle at 12% 18%, rgba(0, 229, 255, .05), transparent 28%),
++    radial-gradient(circle at 88% 82%, rgba(0, 255, 157, .04), transparent 24%);
++}
++
++.articlesHead {
++  display: flex;
++  align-items: flex-end;
++  justify-content: space-between;
++  gap: 28px;
++  margin-bottom: 36px;
++}
++
++.articlesHead .s-title { margin-bottom: 0; }
++
++.mediumProfile {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  padding: 16px 20px;
++  background: var(--glass);
++  border: 1px solid var(--border);
++  backdrop-filter: blur(6px);
++  text-decoration: none;
++  transition: border-color .25s, transform .25s;
++  flex-shrink: 0;
++}
++
++.mediumProfile:hover {
++  border-color: rgba(0, 229, 255, .35);
++  transform: translateY(-2px);
++}
++
++.mediumProfileIcon {
++  width: 40px;
++  height: 40px;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  background: rgba(0, 229, 255, .1);
++  border: 1px solid rgba(0, 229, 255, .25);
++  border-radius: 2px;
++  font-family: var(--display);
++  font-size: 22px;
++  color: var(--neon);
++  letter-spacing: .02em;
++}
++
++.mediumProfileLabel {
++  display: block;
++  font-family: var(--mono);
++  font-size: 10px;
++  letter-spacing: .14em;
++  color: var(--muted);
++  text-transform: uppercase;
++  margin-bottom: 3px;
++}
++
++.mediumProfileHandle {
++  display: block;
++  font-family: var(--mono);
++  font-size: 13px;
++  color: var(--white);
++  font-weight: 700;
++}
++
++.mediumProfileArrow {
++  margin-left: 8px;
++  color: var(--neon);
++  font-size: 16px;
++}
++
+ .articleGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+ .articleCard {
+   background: var(--panel); border: 1px solid var(--border);
+@@ -622,31 +695,236 @@
+ .articleCard:hover .articleStaticOverlay { opacity: 1; }
+ 
+ /* ── CONTACT ── */
+-.contactGrid { display: grid; grid-template-columns: 1fr 440px; gap: 68px; align-items: start; }
++.contactSection {
++  background:
++    linear-gradient(180deg, var(--void) 0%, #010810 100%),
++    radial-gradient(circle at 78% 22%, rgba(0, 229, 255, .06), transparent 32%);
++}
++
++.contactGrid {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
++  gap: 56px;
++  align-items: start;
++}
++
++.contactIntro { max-width: 520px; }
++
+ .contactTitle {
+-  font-family: var(--display); font-size: clamp(44px, 7vw, 88px);
+-  line-height: .9; letter-spacing: .02em; color: var(--white); margin-bottom: 24px;
++  font-family: var(--display);
++  font-size: clamp(44px, 7vw, 88px);
++  line-height: .9;
++  letter-spacing: .02em;
++  color: var(--white);
++  margin-bottom: 24px;
+ }
++
+ .contactAccent { color: var(--neon); font-style: normal; display: block; }
++
+ .contactDesc {
+-  font-size: 15px; line-height: 1.85; color: var(--text);
+-  margin-bottom: 32px; max-width: 440px;
++  font-size: 15px;
++  line-height: 1.85;
++  color: var(--text);
++  margin-bottom: 24px;
++  max-width: 440px;
+ }
++
++.contactStatus {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: 8px;
++  font-family: var(--mono);
++  font-size: 11px;
++  letter-spacing: .1em;
++  color: var(--muted);
++  text-transform: uppercase;
++  margin-bottom: 20px;
++}
++
++.contactStatusDot {
++  width: 8px;
++  height: 8px;
++  border-radius: 50%;
++  background: var(--neon2);
++  box-shadow: 0 0 12px var(--neon2);
++  animation: contactPulse 2s ease-in-out infinite;
++}
++
++@keyframes contactPulse {
++  0%, 100% { opacity: .5; transform: scale(.85); }
++  50% { opacity: 1; transform: scale(1); }
++}
++
++.contactStatusSep { color: var(--border2); }
++
++.contactTopics {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px;
++  margin-bottom: 28px;
++}
++
++.contactTopic {
++  font-family: var(--mono);
++  font-size: 10px;
++  letter-spacing: .1em;
++  text-transform: uppercase;
++  padding: 7px 12px;
++  border: 1px solid var(--border);
++  color: var(--text);
++  background: rgba(10, 24, 38, .5);
++}
++
++.contactCta {
++  display: inline-flex;
++  align-items: center;
++  gap: 14px;
++  padding: 16px 28px;
++  background: linear-gradient(135deg, rgba(0, 229, 255, .14), rgba(0, 255, 157, .08));
++  border: 1px solid rgba(0, 229, 255, .35);
++  border-radius: 2px;
++  font-family: var(--mono);
++  font-size: 12px;
++  letter-spacing: .14em;
++  text-transform: uppercase;
++  color: var(--neon);
++  text-decoration: none;
++  font-weight: 700;
++  transition: background .25s, border-color .25s, transform .25s;
++}
++
++.contactCta:hover {
++  background: linear-gradient(135deg, rgba(0, 229, 255, .22), rgba(0, 255, 157, .12));
++  border-color: var(--neon);
++  transform: translateY(-2px);
++}
++
++.contactCtaArrow { font-size: 18px; }
++
++.contactChannels {
++  display: grid;
++  grid-template-columns: repeat(2, 1fr);
++  gap: 10px;
++}
++
++.contactCard {
++  position: relative;
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  padding: 20px 18px;
++  background: var(--glass);
++  border: 1px solid var(--border);
++  backdrop-filter: blur(6px);
++  text-decoration: none;
++  transition: border-color .25s, transform .25s, background .25s;
++  min-height: 88px;
++}
++
++.contactCard:hover {
++  transform: translateY(-2px);
++  background: linear-gradient(165deg, rgba(10, 28, 44, .82), rgba(4, 14, 24, .96));
++}
++
++.contactCardCyan:hover { border-color: rgba(0, 229, 255, .4); }
++.contactCardGreen:hover { border-color: rgba(0, 255, 157, .4); }
++.contactCardAmber:hover { border-color: rgba(255, 171, 0, .4); }
++
++.contactCardIcon {
++  width: 44px;
++  height: 44px;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  border: 1px solid var(--border2);
++  border-radius: 2px;
++  flex-shrink: 0;
++  color: var(--neon);
++  background: rgba(0, 229, 255, .06);
++}
++
++.contactCardGreen .contactCardIcon {
++  color: var(--neon2);
++  background: rgba(0, 255, 157, .06);
++}
++
++.contactCardAmber .contactCardIcon {
++  color: var(--amber);
++  background: rgba(255, 171, 0, .06);
++}
++
++.contactCardBody { min-width: 0; flex: 1; }
++
++.contactCardLabel {
++  font-family: var(--mono);
++  font-size: 10px;
++  letter-spacing: .12em;
++  color: var(--muted);
++  text-transform: uppercase;
++  font-weight: 700;
++  margin-bottom: 4px;
++}
++
++.contactCardVal {
++  font-family: var(--mono);
++  font-size: 12px;
++  color: var(--white);
++  overflow: hidden;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++
++.contactCardArrow {
++  color: var(--muted);
++  font-size: 16px;
++  transition: transform .2s, color .2s;
++  flex-shrink: 0;
++}
++
++.contactCard:hover .contactCardArrow {
++  transform: translate(2px, -2px);
++  color: var(--neon);
++}
++
++.contactCardWide { grid-column: 1 / -1; }
++
+ .contactLinks {
+-  display: flex; flex-direction: column; gap: 2px;
+-  border: 1px solid var(--border); border-radius: 2px; overflow: hidden;
++  display: flex;
++  flex-direction: column;
++  gap: 2px;
++  border: 1px solid var(--border);
++  border-radius: 2px;
++  overflow: hidden;
+ }
++
+ .contactLink {
+-  background: var(--panel); padding: 16px 22px;
+-  display: flex; align-items: center; gap: 14px;
+-  text-decoration: none; transition: background .2s; cursor: none;
++  background: var(--panel);
++  padding: 16px 22px;
++  display: flex;
++  align-items: center;
++  gap: 14px;
++  text-decoration: none;
++  transition: background .2s;
++  cursor: none;
+ }
++
+ .contactLink:hover { background: #081828; }
++
+ .contactLinkIcon {
+-  width: 32px; height: 32px; border: 1px solid var(--border2);
+-  border-radius: 2px; display: flex; align-items: center; justify-content: center;
+-  font-family: var(--mono); font-size: 13px; color: var(--neon); flex-shrink: 0;
++  width: 32px;
++  height: 32px;
++  border: 1px solid var(--border2);
++  border-radius: 2px;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  font-family: var(--mono);
++  font-size: 13px;
++  color: var(--neon);
++  flex-shrink: 0;
+ }
++
+ .contactLinkLabel { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--white); text-transform: uppercase; font-weight: 700; }
+ .contactLinkVal { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+ .contactLinkArrow { margin-left: auto; color: var(--muted); font-size: 16px; transition: transform .2s, color .2s; }
+@@ -783,8 +1061,9 @@
+   .journeyLeft { padding-right: 0; }
+   .journeyGlobe { width: 100%; max-width: 400px; height: 400px; margin: 40px auto 0; }
+   .aboutGrid { grid-template-columns: 1fr; gap: 40px; }
++  .articlesHead { flex-direction: column; align-items: flex-start; gap: 20px; }
+   .contactGrid { grid-template-columns: 1fr; gap: 40px; }
+-  .contactGrid .formWrap { max-width: 100%; }
++  .contactChannels { grid-template-columns: 1fr 1fr; }
+   .projectGrid { grid-template-columns: 1fr 1fr; }
+   .strip { padding: 0 20px; height: 64px; }
+   .footer { padding: 22px 28px; }
+@@ -814,6 +1093,7 @@
+   .articleGrid { grid-template-columns: 1fr; }
+   .certGrid { grid-template-columns: 1fr; }
+   .contactGrid { grid-template-columns: 1fr; gap: 32px; }
++  .contactChannels { grid-template-columns: 1fr; }
+   .strip { display: none; }
+   .footer { flex-direction: column; gap: 12px; text-align: center; margin-bottom: 20px; padding: 22px 20px; }
+   .footerLeft { font-size: 10px; }
+@@ -856,8 +1136,9 @@
+   .aboutText { font-size: 14px; }
+   .ccBanner { flex-direction: column; padding: 18px 16px; }
+   .contactTitle { font-size: clamp(36px, 10vw, 56px); }
+-  .contactLink { padding: 12px 16px; }
+-  .contactLinkVal { font-size: 10px; word-break: break-all; }
++  .contactCard { padding: 16px 14px; min-height: auto; }
++  .contactCardVal { font-size: 11px; white-space: normal; word-break: break-word; }
++  .mediumProfile { width: 100%; }
+   .projectCard { padding: 24px 20px; }
+   .expCard { padding: 20px 16px; }
+   .expBullet { font-size: 13px; gap: 8px; }
+diff --git a/src/styles/globals.css b/src/styles/globals.css
+index fc6086a..f045b56 100644
+--- a/src/styles/globals.css
++++ b/src/styles/globals.css
+@@ -18,6 +18,7 @@ html { scroll-behavior: smooth; }
+   --mono:    'JetBrains Mono', monospace;
+   --display: 'Bebas Neue', cursive;
+   --sans:    'Syne', sans-serif;
++  --glass: linear-gradient(165deg, rgba(10,24,38,.72), rgba(4,11,19,.94));
+ }
+ 
+ body {

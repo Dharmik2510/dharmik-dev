@@ -1,0 +1,67 @@
+<h2>Which visual direction should the revamp take?</h2>
+<p class="subtitle">Same immigration/aviation story in all three — what changes is the skin and the feel. Click one to select.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="terminal-hud" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:18px;font-family:monospace;">
+      <div style="border:1px solid #0e2233;border-radius:6px;padding:14px;background:linear-gradient(180deg,#03101c,#020910);">
+        <div style="color:#00e5ff;font-size:9px;letter-spacing:2px;">// FLIGHT DECK · YYZ TERMINAL</div>
+        <div style="color:#e8f4ff;font-size:22px;font-weight:800;margin:8px 0;">DHARMIK <span style="color:#00e5ff;">SONI</span></div>
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          <div style="flex:1;border:1px solid #103048;padding:6px;color:#7fd4e8;font-size:8px;">RADAR<br><span style="color:#00ff9d;">● TRACKING</span></div>
+          <div style="flex:1;border:1px solid #103048;padding:6px;color:#7fd4e8;font-size:8px;">ALT<br><span style="color:#ffab00;">FL 350</span></div>
+          <div style="flex:1;border:1px solid #103048;padding:6px;color:#7fd4e8;font-size:8px;">STATUS<br><span style="color:#00ff9d;">CRUISE</span></div>
+        </div>
+        <div style="margin-top:10px;height:3px;background:linear-gradient(90deg,#00e5ff,transparent);"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · Cockpit HUD (evolve current)</h3>
+      <p>Polish and intensify what you have: dark terminal, cyan radar glow, scanlines, glass panels. Lowest risk, everything already on-theme gets sharper — more HUD chrome, instrument-style data, glowing flight paths.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="travel-documents" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d0b08;padding:18px;">
+      <div style="background:#f2e9d8;border-radius:4px;padding:14px;transform:rotate(-1.5deg);box-shadow:4px 6px 0 rgba(0,0,0,.4);font-family:monospace;position:relative;">
+        <div style="position:absolute;top:8px;right:10px;border:2px solid #b3422f;color:#b3422f;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:8px;transform:rotate(12deg);font-weight:700;">YYZ<br>ADMIT</div>
+        <div style="color:#8a7c63;font-size:8px;letter-spacing:2px;">BOARDING PASS · AMD → YYZ</div>
+        <div style="color:#2b2417;font-size:20px;font-weight:800;margin:6px 0;">SONI / DHARMIK</div>
+        <div style="color:#5c5240;font-size:9px;">SEAT 01A · AI DEVELOPER II · GATE ∞</div>
+        <div style="margin-top:10px;border-top:2px dashed #c9bda4;padding-top:8px;display:flex;gap:3px;">
+          <div style="width:2px;height:18px;background:#2b2417;"></div><div style="width:4px;height:18px;background:#2b2417;"></div><div style="width:2px;height:18px;background:#2b2417;"></div><div style="width:6px;height:18px;background:#2b2417;"></div><div style="width:3px;height:18px;background:#2b2417;"></div><div style="width:2px;height:18px;background:#2b2417;"></div><div style="width:5px;height:18px;background:#2b2417;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · Travel Documents (paper + ink)</h3>
+      <p>A bold pivot: passport pages, boarding-pass cards, customs stamps, ticket-stub dividers. Warm paper textures over the dark base — tactile, distinctive, very "immigration journey". Higher effort, biggest visual departure.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="cinematic-flight" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(180deg,#010409 0%,#041422 60%,#0a2438 100%);padding:18px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:12px;left:20px;width:3px;height:3px;background:#fff;border-radius:50%;opacity:.8;"></div>
+      <div style="position:absolute;top:30px;right:40px;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.5;"></div>
+      <div style="position:absolute;top:50px;left:60%;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.6;"></div>
+      <div style="color:#fff;font-size:24px;font-weight:200;letter-spacing:4px;text-align:center;margin-top:18px;">ONE JOURNEY</div>
+      <div style="color:#7fd4e8;font-size:10px;text-align:center;letter-spacing:3px;margin-top:6px;">SCROLL TO BOARD ↓</div>
+      <svg width="100%" height="40" viewBox="0 0 300 40" style="margin-top:10px;">
+        <path d="M10 35 Q 150 -10 290 30" stroke="#00e5ff" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+        <circle cx="10" cy="35" r="3" fill="#00ff9d"/>
+        <circle cx="290" cy="30" r="3" fill="#00e5ff"/>
+        <text x="150" y="22" fill="#fff" font-size="12" text-anchor="middle">✈</text>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>C · Cinematic Journey (scroll-film)</h3>
+      <p>The whole page becomes one continuous flight: scroll-driven pinned scenes, a plane that travels a path as you scroll, sections that feel like film chapters (takeoff → cruise → landing). Keeps the dark look, motion becomes the star.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px;">
+  <p class="subtitle">A+C or B+C hybrids are possible too — say so in the terminal if you want a mix.</p>
+</div>

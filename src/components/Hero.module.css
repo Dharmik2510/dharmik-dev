@@ -28,6 +28,7 @@
   font-size: clamp(58px, 9vw, 128px);
   line-height: .88; letter-spacing: .02em; color: var(--white);
 }
+.nameLine { display: block; }
 .nameGhost {
   font-family: var(--display);
   font-size: clamp(58px, 9vw, 128px);
@@ -88,10 +89,13 @@
   height: 40px; background: rgba(0,0,0,.6);
   filter: blur(18px); border-radius: 50%; z-index: -1;
 }
+.bpLift { position: relative; transform-style: preserve-3d; will-change: transform, opacity; }
+.bpTilt { position: relative; }
 .bp {
   background: linear-gradient(145deg, #0c1e33 0%, #071526 60%, #050f1e 100%);
   border: 1px solid rgba(255,255,255,.13);
-  border-radius: 12px; overflow: hidden;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0; overflow: hidden;
   position: relative;
   transition: border-color .3s;
 }
@@ -199,12 +203,26 @@
   font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: var(--neon2);
   display: flex; align-items: center; gap: 4px; margin-top: 5px;
 }
+.bpBarcode { position: relative; overflow: hidden; line-height: 0; }
+.bpScan {
+  position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1px;
+  background: #ff4d6d;
+  box-shadow: 0 0 10px 2px rgba(255,77,109,.8), 0 0 24px 6px rgba(255,77,109,.35);
+  pointer-events: none;
+}
+.bpBarStatus { transition: color .3s; }
+.bpBarStatusOn { color: var(--amber); }
+.bpBarStatusOn .bpBarDot { background: var(--amber); animation: none; }
 .bpBarDot { width: 4px; height: 4px; border-radius: 50%; background: var(--neon2); animation: pdot2 1.5s infinite; }
 @keyframes pdot2 { 0%, 100% { opacity: 1; } 50% { opacity: .15; } }
 
 .bpStub {
-  background: rgba(0,229,255,.03);
-  border-top: 2px dashed rgba(255,255,255,.07);
+  background: linear-gradient(145deg, #061425 0%, #050f1e 100%);
+  border: 1px solid rgba(255,255,255,.13);
+  border-top: 2px dashed rgba(255,255,255,.12);
+  border-radius: 0 0 12px 12px;
+  transform-origin: 0% 0%;
+  will-change: transform;
   padding: 11px 20px;
   display: flex; align-items: center; justify-content: space-between;
   position: relative; z-index: 1;
@@ -248,22 +266,25 @@
 /* ── TABLET ── */
 @media (max-width: 1100px) {
   .hero { grid-template-columns: 1fr; padding: 100px 28px 260px; align-items: flex-start; }
-  .right { margin-top: 48px; justify-content: center; }
+  .right { margin-top: 40px; justify-content: center; }
+  .bpWrap { margin: 0 auto; }
   .bpWrap { width: 340px; }
   .hud { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
-  .hero { padding: 80px 20px 280px; }
+  .hero { padding: 88px 20px 120px; }
   .bpWrap { width: 100%; max-width: 340px; }
-  .bp { border-radius: 8px; }
+  .bp { border-radius: 8px 8px 0 0; }
+  .bpStub { border-radius: 0 0 8px 8px; }
   .hud { grid-template-columns: repeat(2, 1fr); }
   .hudCell { padding: 12px 16px; }
   .hudLbl { font-size: 8px; }
   .hudVal { font-size: 16px; }
   .name { font-size: clamp(42px, 12vw, 80px); }
-  .nameGhost { font-size: clamp(42px, 12vw, 80px); }
+  .nameLine { display: block; }
+.nameGhost { font-size: clamp(42px, 12vw, 80px); }
   .desc { font-size: 14px; max-width: 100%; }
   .ctas { flex-direction: column; }
   .ctas > * { width: 100%; text-align: center; justify-content: center; }
@@ -276,9 +297,10 @@
 
 /* ── SMALL MOBILE ── */
 @media (max-width: 480px) {
-  .hero { padding: 70px 16px 300px; }
+  .hero { padding: 84px 16px 110px; }
   .name { font-size: clamp(36px, 13vw, 56px); }
-  .nameGhost { font-size: clamp(36px, 13vw, 56px); }
+  .nameLine { display: block; }
+.nameGhost { font-size: clamp(36px, 13vw, 56px); }
   .tagline { font-size: clamp(14px, 4vw, 20px); }
   .bpWrap { width: 100%; max-width: 300px; }
   .bpIata { font-size: 30px; }

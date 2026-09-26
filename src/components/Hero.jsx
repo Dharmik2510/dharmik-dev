@@ -1,13 +1,43 @@
-import React, { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
+import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion'
+import { TextEffect, TextScramble } from './motion-primitives'
 import styles from './Hero.module.css'
 
-function BoardingPass() {
-  const cardRef = useRef(null)
+// Scramble-in value for the boarding pass (split-flap feel on load)
+const Flap = ({ children, delay = 0 }) => {
+  const [go, setGo] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setGo(true), delay * 1000); return () => clearTimeout(t) }, [delay])
+  return <TextScramble as="span" trigger={go} duration={0.7} speed={0.035}>{children}</TextScramble>
+}
+
+function BoardingPass({ progress }) {
+  const reduce = useReducedMotion()
+  const still = (v) => (reduce ? v[0] : v)
+
+  // ── scroll-driven boarding sequence ──
+  // 1) barcode gets scanned  2) the stub tears off  3) the pass lifts away into the story
+  const scanX = useTransform(progress, [0.02, 0.2], ['-10%', '110%'])
+  const scanOpacity = useTransform(progress, [0.01, 0.04, 0.18, 0.22], [0, 1, 1, 0])
+  const stubY = useTransform(progress, [0.18, 0.6], still([0, 190]))
+  const stubX = useTransform(progress, [0.18, 0.6], still([0, 36]))
+  const stubRotate = useTransform(progress, [0.18, 0.6], still([0, 16]))
+  const stubOpacity = useTransform(progress, [0.4, 0.62], [1, 0])
+  const liftY = useTransform(progress, [0.25, 1], still([0, -60]))
+  const liftRotX = useTransform(progress, [0.25, 1], still([0, 38]))
+  const liftScale = useTransform(progress, [0.25, 1], still([1, 0.82]))
+  const liftOpacity = useTransform(progress, [0.55, 0.95], [1, 0])
+
+  const [boarded, setBoarded] = useState(false)
+  useMotionValueEvent(progress, 'change', (v) => {
+    const b = v > 0.12
+    setBoarded((prev) => (prev === b ? prev : b))
+  })
+
+  const tiltRef = useRef(null)
 
   // 3D tilt on mouse move
   useEffect(() => {
-    const card = cardRef.current
+    const card = tiltRef.current
     if (!card) return
     const onMove = (e) => {
       const rect = card.getBoundingClientRect()
@@ -57,15 +87,17 @@ function BoardingPass() {
       transition={{ duration: 1.2, delay: 0.65, ease: [.16,1,.3,1] }}
       style={{ perspective: 900 }}
     >
+      <motion.div
+        className={styles.bpLift}
+        style={{ y: liftY, rotateX: liftRotX, scale: liftScale, opacity: liftOpacity }}
+      >
       <div className={styles.bpShadow} />
-      <div className={styles.bp} ref={cardRef}>
+      <div className={styles.bpTilt} ref={tiltRef}>
+      <div className={styles.bp}>
         <div className={styles.bpGlint} />
         <div className={`${styles.bpPerf} ${styles.bpPerfTop}`} />
-        <div className={`${styles.bpPerf} ${styles.bpPerfBot}`} />
         <div className={`${styles.bpNotch} ${styles.bpNlt}`} />
         <div className={`${styles.bpNotch} ${styles.bpNrt}`} />
-        <div className={`${styles.bpNotch} ${styles.bpNlb}`} />
-        <div className={`${styles.bpNotch} ${styles.bpNrb}`} />
 
         {/* Header */}
         <div className={styles.bpHd}>
@@ -79,7 +111,7 @@ function BoardingPass() {
         {/* Profile signal */}
         <div className={styles.bpRoute}>
           <div className={styles.bpCity}>
-            <div className={styles.bpIata}>AI</div>
+            <div className={styles.bpIata}><Flap delay={0.9}>AI</Flap></div>
             <div className={styles.bpCityName}>Platform</div>
             <div className={styles.bpCityCountry}>Systems</div>
           </div>
@@ -93,7 +125,7 @@ function BoardingPass() {
             <div className={styles.bpKm}>PRODUCTION</div>
           </div>
           <div className={styles.bpCity}>
-            <div className={`${styles.bpIata} ${styles.bpIataDest}`}>ML</div>
+            <div className={`${styles.bpIata} ${styles.bpIataDest}`}><Flap delay={1.05}>ML</Flap></div>
             <div className={styles.bpCityName}>Data</div>
             <div className={styles.bpCityCountry}>Governance</div>
           </div>
@@ -108,10 +140,10 @@ function BoardingPass() {
             { lbl: 'Impact',   val: '$500K+',    cls: ''   },
             { lbl: 'Gate',     val: 'AI-01',     cls: 'c1' },
             { lbl: 'Role',     val: 'DEV II',    cls: 'c2' },
-          ].map(d => (
+          ].map((d, i) => (
             <div key={d.lbl}>
               <div className={styles.bpDLbl}>{d.lbl}</div>
-              <div className={`${styles.bpDVal} ${d.cls === 'c1' ? styles.bpDValC1 : d.cls === 'c2' ? styles.bpDValC2 : d.cls === 'c3' ? styles.bpDValC3 : ''}`}>{d.val}</div>
+              <div className={`${styles.bpDVal} ${d.cls === 'c1' ? styles.bpDValC1 : d.cls === 'c2' ? styles.bpDValC2 : d.cls === 'c3' ? styles.bpDValC3 : ''}`}><Flap delay={1.1 + i * 0.08}>{d.val}</Flap></div>
             </div>
           ))}
         </div>
@@ -125,35 +157,45 @@ function BoardingPass() {
           </div>
           <div className={styles.bpSeat}>
             <div className={styles.bpSeatLbl}>SEAT</div>
-            <div className={styles.bpSeatNum}>01A</div>
+            <div className={styles.bpSeatNum}><Flap delay={1.6}>01A</Flap></div>
           </div>
         </div>
 
         {/* Barcode */}
         <div className={styles.bpBar}>
-          <canvas id="bp-barcode" width="82" height="42" />
+          <div className={styles.bpBarcode}>
+            <canvas id="bp-barcode" width="82" height="42" />
+            <motion.span className={styles.bpScan} style={{ left: scanX, opacity: scanOpacity }} />
+          </div>
           <div>
             <div className={styles.bpBarId}>SYSTEM ID</div>
             <div className={styles.bpBarNum}>AI-PLATFORM-01</div>
-            <div className={styles.bpBarStatus}>
+            <div className={`${styles.bpBarStatus} ${boarded ? styles.bpBarStatusOn : ''}`}>
               <div className={styles.bpBarDot} />
-              GATE OPEN · AI SYSTEMS ACTIVE
+              <TextScramble as="span" duration={0.5} speed={0.03}>
+                {boarded ? 'SCANNED · NOW BOARDING ✓' : 'GATE OPEN · SCROLL TO BOARD'}
+              </TextScramble>
             </div>
           </div>
         </div>
-
-        {/* Stub */}
-        <div className={styles.bpStub}>
-          <div>
-            <div className={styles.bpStubRoute}>DATA → DECISION</div>
-            <div className={styles.bpStubInfo}>INTACT FINANCIAL · 3+ YRS · AI DEVELOPER</div>
-          </div>
-          <div>
-            <div className={styles.bpGateLbl}>GATE</div>
-            <div className={styles.bpGateNum}>∞</div>
-          </div>
-        </div>
       </div>
+
+      {/* Stub — tears off along the perforation as you scroll */}
+      <motion.div
+        className={styles.bpStub}
+        style={{ y: stubY, x: stubX, rotate: stubRotate, opacity: stubOpacity }}
+      >
+        <div>
+          <div className={styles.bpStubRoute}>DATA → DECISION</div>
+          <div className={styles.bpStubInfo}>INTACT FINANCIAL · 3+ YRS · AI DEVELOPER</div>
+        </div>
+        <div>
+          <div className={styles.bpGateLbl}>GATE</div>
+          <div className={styles.bpGateNum}>∞</div>
+        </div>
+      </motion.div>
+      </div>
+      </motion.div>
     </motion.div>
   )
 }
@@ -165,19 +207,31 @@ const fadeUp = (delay) => ({
 })
 
 export default function Hero() {
+  const heroRef = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const textY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -90])
+  const textOpacity = useTransform(scrollYProgress, [0.25, 0.85], [1, 0])
+  const textBlur = useTransform(scrollYProgress, [0.25, 0.85], reduce ? ['blur(0px)', 'blur(0px)'] : ['blur(0px)', 'blur(8px)'])
+
   return (
-    <section className={styles.hero} id="home">
+    <section className={styles.hero} id="home" ref={heroRef}>
       {/* Left text */}
-      <div className={styles.left}>
+      <motion.div className={styles.left} style={{ y: textY, opacity: textOpacity, filter: textBlur }}>
         <motion.div className={styles.eyebrow} {...fadeUp(.3)}>
           Interactive Career Story
         </motion.div>
 
         <div className={styles.nameWrap}>
           <div className={styles.nameGhost} aria-hidden>Dharmik<br />Soni</div>
-          <motion.h1 className={styles.name} {...fadeUp(.44)}>
-            Dharmik<br />Soni
-          </motion.h1>
+          <h1 className={styles.name} aria-label="Dharmik Soni">
+            <TextEffect as="span" per="char" preset="fade-in-blur" delay={0.35} speedReveal={0.9} speedSegment={0.6} className={styles.nameLine}>
+              Dharmik
+            </TextEffect>
+            <TextEffect as="span" per="char" preset="fade-in-blur" delay={0.6} speedReveal={0.9} speedSegment={0.6} className={styles.nameLine}>
+              Soni
+            </TextEffect>
+          </h1>
         </div>
 
         <motion.div className={styles.tagline} {...fadeUp(.58)}>
@@ -199,11 +253,11 @@ export default function Hero() {
           <a href="#impact" className="btn-g">View Impact</a>
           <a href="https://github.com/Dharmik2510" target="_blank" rel="noreferrer" className="btn-g">GitHub ↗</a>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Right — boarding pass */}
       <div className={styles.right}>
-        <BoardingPass />
+        <BoardingPass progress={scrollYProgress} />
       </div>
     </section>
   )

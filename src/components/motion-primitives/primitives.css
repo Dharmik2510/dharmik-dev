@@ -1,0 +1,35 @@
+/* Plain-CSS replacements for the Tailwind classes motion-primitives ships with */
+.mp-inline { display: inline-block; white-space: pre; }
+.mp-block { display: block; }
+.mp-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* SlidingNumber */
+.mp-sn { display: inline-flex; align-items: center; font-variant-numeric: tabular-nums; }
+.mp-sn-digit {
+  position: relative; display: inline-block; width: 1ch; height: 1em;
+  line-height: 1; overflow: hidden;
+}
+.mp-sn-ghost { visibility: hidden; display: block; }
+.mp-sn-num {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+}
+
+/* TextShimmer */
+.mp-shimmer {
+  --base-color: #6888a8;
+  --base-gradient-color: #f0f8ff;
+  --bg: linear-gradient(90deg, #0000 calc(50% - var(--spread)), var(--base-gradient-color), #0000 calc(50% + var(--spread)));
+  position: relative; display: inline-block;
+  background-image: var(--bg), linear-gradient(var(--base-color), var(--base-color));
+  background-size: 250% 100%, auto;
+  background-repeat: no-repeat, padding-box;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+/* ProgressiveBlur */
+.mp-pblur { position: relative; }
+.mp-pblur-layer { pointer-events: none; position: absolute; inset: 0; border-radius: inherit; }

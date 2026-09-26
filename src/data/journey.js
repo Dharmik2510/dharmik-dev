@@ -1,6 +1,11 @@
-// Chapter data for the cinematic chapter cards in the Journey section.
+// Chapter data for the Journey section (Passage scroll film).
 
 const VIDEO_BASE = 'https://pub-578c950a826349e8b17fa0100852d7d9.r2.dev/Videos'
+
+// Scroll-scrub encodes for the Passage film (scroll-world spec: GOP 8 desktop,
+// GOP 4 / 720p mobile, no audio, faststart). ~8s each so they load as small blobs.
+// Serve them locally, or upload public/videos/scrub/* to R2 and point this at it.
+const SCRUB_BASE = '/videos/scrub'
 
 export const CHAPTERS = [
   {
@@ -18,6 +23,13 @@ export const CHAPTERS = [
     metricChips: ['B.E. ICT', 'React', 'Node.js', 'AWS', 'Java'],
     videoSrc: `${VIDEO_BASE}/chapter-01-amd.mp4`,
     posterSrc: '/videos/posters/chapter-01-amd.jpg',
+    scrubSrc: `${SCRUB_BASE}/chapter-01-amd.mp4`,
+    scrubSrcMobile: `${SCRUB_BASE}/chapter-01-amd-m.mp4`,
+    lat: 23.03,
+    lon: 72.58,
+    tz: 'Asia/Kolkata',
+    accent: '#ffab00',
+    badge: 'DEPARTURE',
   },
   {
     id: 'yhz',
@@ -34,6 +46,13 @@ export const CHAPTERS = [
     metricChips: ['Intact Internship', 'ML Pipelines', 'Enterprise Data'],
     videoSrc: `${VIDEO_BASE}/chapter-02-ns.mp4`,
     posterSrc: '/videos/posters/chapter-02-ns.jpg',
+    scrubSrc: `${SCRUB_BASE}/chapter-02-ns.mp4`,
+    scrubSrcMobile: `${SCRUB_BASE}/chapter-02-ns-m.mp4`,
+    lat: 44.65,
+    lon: -63.59,
+    tz: 'America/Halifax',
+    accent: '#00ff9d',
+    badge: 'WAYPOINT α',
   },
   {
     id: 'yul',
@@ -50,6 +69,13 @@ export const CHAPTERS = [
     metricChips: ['Insurance Data', 'Pipelines', 'Delivery'],
     videoSrc: `${VIDEO_BASE}/chapter-03-mntl.mp4`,
     posterSrc: '/videos/posters/chapter-03-mntl.jpg',
+    scrubSrc: `${SCRUB_BASE}/chapter-03-mntl.mp4`,
+    scrubSrcMobile: `${SCRUB_BASE}/chapter-03-mntl-m.mp4`,
+    lat: 45.51,
+    lon: -73.56,
+    tz: 'America/Toronto',
+    accent: '#ff4d6d',
+    badge: 'WAYPOINT β',
   },
   {
     id: 'yyz',
@@ -66,5 +92,12 @@ export const CHAPTERS = [
     metricChips: ['$500K+ Saved', 'Databricks', 'Spark', 'Kafka', 'MLflow'],
     videoSrc: `${VIDEO_BASE}/chapter-04-toronto.mp4`,
     posterSrc: '/videos/posters/chapter-04-toronto.jpg',
+    scrubSrc: `${SCRUB_BASE}/chapter-04-toronto.mp4`,
+    scrubSrcMobile: `${SCRUB_BASE}/chapter-04-toronto-m.mp4`,
+    lat: 43.65,
+    lon: -79.38,
+    tz: 'America/Toronto',
+    accent: '#00e5ff',
+    badge: 'DESTINATION',
   },
 ]

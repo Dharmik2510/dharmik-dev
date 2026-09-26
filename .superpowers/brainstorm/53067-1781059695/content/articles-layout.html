@@ -1,0 +1,79 @@
+<h2>How should the Medium articles ("Transmission Log") display as they grow?</h2>
+<p class="subtitle">You have 8 articles now, growing monthly. All three options stay in the Cockpit HUD skin. Click to select.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="carousel" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:14px;font-family:monospace;overflow:hidden;">
+      <div style="color:#00e5ff;font-size:8px;letter-spacing:2px;margin-bottom:8px;">TRANSMISSION LOG // FREQ 102.5</div>
+      <div style="display:flex;gap:8px;">
+        <div style="min-width:110px;border:1px solid #0e2a3d;background:#041220;padding:8px;border-radius:4px;">
+          <div style="color:#00ff9d;font-size:7px;">TX·001 ● TECH</div>
+          <div style="color:#e8f4ff;font-size:9px;font-weight:700;margin-top:4px;">Spark Window Functions…</div>
+          <div style="color:#5a8ba3;font-size:7px;margin-top:6px;">6 MIN · APR 2026</div>
+        </div>
+        <div style="min-width:110px;border:1px solid #0e2a3d;background:#041220;padding:8px;border-radius:4px;">
+          <div style="color:#00ff9d;font-size:7px;">TX·002 ● TECH</div>
+          <div style="color:#e8f4ff;font-size:9px;font-weight:700;margin-top:4px;">max_by() Dedup…</div>
+          <div style="color:#5a8ba3;font-size:7px;margin-top:6px;">8 MIN · MAR 2026</div>
+        </div>
+        <div style="min-width:110px;border:1px solid #0e2a3d;background:#041220;padding:8px;border-radius:4px;opacity:.55;">
+          <div style="color:#00ff9d;font-size:7px;">TX·003 ● TECH</div>
+          <div style="color:#e8f4ff;font-size:9px;font-weight:700;margin-top:4px;">Delta Time Travel…</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;height:2px;background:#0e2a3d;position:relative;"><div style="position:absolute;left:0;width:35%;height:100%;background:#00e5ff;"></div></div>
+      <div style="display:flex;justify-content:space-between;color:#5a8ba3;font-size:7px;margin-top:4px;"><span>← DRAG / SCROLL →</span><span>03 / 08</span></div>
+    </div>
+    <div class="card-body">
+      <h3>A · Signal Carousel (horizontal slider)</h3>
+      <p>Drag-and-wheel horizontal rail of transmission cards with a frequency-tuner progress bar. Scales to any count — never gets taller. One row, cinematic, momentum scrolling. Risk: some visitors miss content hidden off-screen.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="toggle" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:14px;font-family:monospace;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="color:#00e5ff;font-size:8px;letter-spacing:2px;">TRANSMISSION LOG</div>
+        <div style="display:flex;border:1px solid #0e2a3d;border-radius:3px;overflow:hidden;">
+          <span style="background:#00e5ff;color:#02060c;font-size:7px;padding:3px 7px;font-weight:700;">▦ GRID</span>
+          <span style="color:#5a8ba3;font-size:7px;padding:3px 7px;">☰ MANIFEST</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="border:1px solid #0e2a3d;background:#041220;padding:7px;border-radius:4px;"><div style="color:#00ff9d;font-size:7px;">● TECH</div><div style="color:#e8f4ff;font-size:8px;font-weight:700;">Spark Window Functions…</div></div>
+        <div style="border:1px solid #0e2a3d;background:#041220;padding:7px;border-radius:4px;"><div style="color:#00ff9d;font-size:7px;">● TECH</div><div style="color:#e8f4ff;font-size:8px;font-weight:700;">max_by() Dedup…</div></div>
+      </div>
+      <div style="margin-top:8px;border-top:1px dashed #0e2a3d;padding-top:6px;">
+        <div style="display:flex;justify-content:space-between;color:#7fd4e8;font-size:7px;padding:3px 0;border-bottom:1px solid #07182a;"><span>TX·003 · Delta Time Travel Trap</span><span style="color:#5a8ba3;">MAR 26</span></div>
+        <div style="display:flex;justify-content:space-between;color:#7fd4e8;font-size:7px;padding:3px 0;"><span>TX·004 · Disappearing Cache Flag</span><span style="color:#5a8ba3;">NOV 25</span></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · View-Mode Switch (grid ⇄ manifest)</h3>
+      <p>Cockpit-style toggle: rich card grid, or a dense flight-manifest list (one line per article). Everything visible, user controls density. Risk: grid still grows tall over time unless capped with "show more".</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:14px;font-family:monospace;overflow:hidden;">
+      <div style="color:#00e5ff;font-size:8px;letter-spacing:2px;margin-bottom:6px;">LATEST TRANSMISSIONS</div>
+      <div style="display:flex;gap:8px;">
+        <div style="min-width:120px;border:1px solid #00e5ff44;background:#041220;padding:8px;border-radius:4px;box-shadow:0 0 12px #00e5ff22;">
+          <div style="color:#ffab00;font-size:7px;">★ LATEST</div>
+          <div style="color:#e8f4ff;font-size:9px;font-weight:700;margin-top:3px;">Spark Window Functions…</div>
+        </div>
+        <div style="min-width:100px;border:1px solid #0e2a3d;background:#041220;padding:8px;border-radius:4px;opacity:.7;">
+          <div style="color:#e8f4ff;font-size:9px;font-weight:700;">max_by() Dedup…</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;color:#5a8ba3;font-size:7px;">← DRAG →</div>
+      <div style="margin-top:8px;border:1px solid #0e2a3d;border-radius:3px;text-align:center;padding:5px;color:#00e5ff;font-size:8px;letter-spacing:2px;">▼ OPEN FULL ARCHIVE · 08 LOGS</div>
+    </div>
+    <div class="card-body">
+      <h3>C · Carousel + Archive (hybrid)</h3>
+      <p>Horizontal slider shows the latest transmissions up front; an "OPEN FULL ARCHIVE" control expands a compact manifest list below for everything else. Best of both, slightly more to build.</p>
+    </div>
+  </div>
+
+</div>
