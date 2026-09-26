@@ -29,13 +29,13 @@
   font-family: var(--display);
   font-size: clamp(120px, 22vw, 360px);
   line-height: 1;
-  letter-spacing: .02em;
+  letter-spacing: -.015em;
   white-space: nowrap;
   color: transparent;
   -webkit-text-stroke: 1px rgba(242,165,65, .09);
   pointer-events: none;
   user-select: none;
-  will-change: transform;
+  will-change: transform; font-weight: 400;
 }
 .cn-title { position: relative; }
 .cn-mask {
@@ -70,8 +70,8 @@
   font-family: var(--display);
   font-size: clamp(34px, 5vw, 72px);
   line-height: 1;
-  letter-spacing: .06em;
-  color: var(--white);
+  letter-spacing: -.015em;
+  color: var(--white); font-weight: 400;
 }
 .cn-marquee-item:nth-child(even) { color: transparent; -webkit-text-stroke: 1px rgba(247,241,230, .45); }
 .cn-marquee-item i { font-style: normal; font-size: .45em; color: var(--amber); -webkit-text-stroke: 0; }
@@ -216,7 +216,7 @@
   background: rgba(242,165,65,.03);
 }
 .fp-leg { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: var(--muted); }
-.fp-code { font-family: var(--display); font-size: 58px; line-height: .9; letter-spacing: .06em; color: var(--neon); }
+.fp-code { font-family: var(--signage); font-stretch: 75%; font-weight: 600; font-size: 58px; line-height: .9; letter-spacing: .01em; color: var(--neon); }
 .fp-city { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: #a79d8e; line-height: 1.5; }
 .fp-badge {
   margin-top: auto;
@@ -225,10 +225,10 @@
 }
 .fp-badge.is-current { border-color: rgba(124,198,190,.4); color: var(--neon2); }
 .fp-card-body { padding: 26px 30px 28px; }
-.fp-company { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--neon); text-transform: uppercase; }
+.fp-company { font-family: var(--sans); font-size: 11px; letter-spacing: .01em; color: var(--neon); }
 .fp-role {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(30px, 3vw, 44px); line-height: 1; letter-spacing: .03em;
+  font-size: clamp(30px, 3vw, 44px); line-height: 1; letter-spacing: -.015em;
   color: var(--white); margin: 8px 0 18px;
 }
 .fp-bullets { list-style: none; display: grid; gap: 10px; }
@@ -245,13 +245,13 @@
 .pj-aside { position: sticky; top: 110px; display: grid; gap: 18px; }
 .pj-counter {
   display: flex; align-items: flex-end; gap: 6px;
-  font-family: var(--display); font-size: clamp(110px, 13vw, 200px); line-height: .8;
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600; font-size: clamp(110px, 13vw, 200px); line-height: .8;
   color: var(--white);
 }
 .pj-counter small { font-size: .22em; color: var(--muted); padding-bottom: .25em; }
 .pj-aside-title {
   font-family: var(--display); font-size: clamp(26px, 2.6vw, 38px); line-height: 1;
-  letter-spacing: .04em; color: var(--neon); min-height: 2em;
+  letter-spacing: -.015em; color: var(--neon); min-height: 2em; font-weight: 400;
 }
 .pj-index { list-style: none; display: grid; gap: 2px; border-top: 1px solid var(--border); padding-top: 14px; }
 .pj-index button {
@@ -288,7 +288,7 @@
 .pj-featured { color: var(--amber); border: 1px solid rgba(255,207,122,.35); padding: 4px 8px; }
 .pj-case-title {
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(44px, 5.6vw, 88px); line-height: .9; letter-spacing: .02em;
+  font-size: clamp(44px, 5.6vw, 88px); line-height: .9; letter-spacing: -.015em;
   color: var(--white); margin-bottom: 22px;
 }
 .pj-case-desc { font-size: 17px; line-height: 1.7; color: var(--text); max-width: 60ch; margin-bottom: 36px; }
@@ -300,13 +300,14 @@
   border: 1px solid var(--border);
   border-left: 2px solid var(--neon);
 }
-.pj-step-n { font-family: var(--display); font-size: 30px; line-height: 1; color: var(--neon); }
+.pj-step-n { font-family: var(--display); font-size: 30px; line-height: 1; color: var(--neon); font-weight: 400;
+}
 .pj-step-label { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
 .pj-step p { font-size: 15px; line-height: 1.6; color: var(--white); }
 .pj-case-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .pj-stack { display: flex; flex-wrap: wrap; gap: 6px; }
 .pj-stack span {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+  font-family: var(--sans); font-size: 11px; letter-spacing: .01em;
   color: var(--neon); border: 1px solid rgba(242,165,65,.25); background: rgba(242,165,65,.06);
   padding: 5px 11px;
 }
@@ -380,15 +381,16 @@
 }
 .ab-frame-code {
   position: absolute; left: 18px; bottom: 10px; z-index: 1;
-  font-family: var(--display); font-size: clamp(56px, 7vw, 110px); line-height: .9; letter-spacing: .04em;
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600; font-size: clamp(56px, 7vw, 110px); line-height: .9; letter-spacing: .01em;
   color: var(--white); text-shadow: 0 4px 30px rgba(0,0,0,.5);
 }
 .ab-num { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--city, var(--neon)); }
-.ab-where { font-family: var(--display); font-size: clamp(26px, 2.6vw, 40px); line-height: 1.05; letter-spacing: .02em; color: var(--white); margin: 12px 0 12px; }
+.ab-where { font-family: var(--display); font-size: clamp(26px, 2.6vw, 40px); line-height: 1.05; letter-spacing: -.015em; color: var(--white); margin: 12px 0 12px; font-weight: 400;
+}
 .ab-first { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: clamp(18px, 1.6vw, 22px); color: var(--text); line-height: 1.4; margin-bottom: 18px; }
 .ab-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .ab-tags li {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--text);
+  font-family: var(--sans); font-size: 11px; letter-spacing: .01em; color: var(--text);
   padding: 5px 11px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--city, var(--neon)) 45%, transparent);
 }
 
@@ -438,9 +440,9 @@
 }
 .pj-poster span {
   white-space: nowrap;
-  font-family: var(--display); font-size: clamp(120px, 15vw, 230px); line-height: 1; letter-spacing: .02em;
+  font-family: var(--display); font-size: clamp(120px, 15vw, 230px); line-height: 1; letter-spacing: -.015em;
   color: transparent; -webkit-text-stroke: 1px rgba(242,165,65,.28);
-  will-change: transform;
+  will-change: transform; font-weight: 400;
 }
 .pj-case .pj-case-title { font-size: clamp(40px, 4.6vw, 72px); }
 .pj-quote {
@@ -452,7 +454,8 @@
 .pj-two p { font-size: 15px; line-height: 1.65; color: var(--text); }
 .pj-label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
 .pj-credits { padding-top: 18px; border-top: 1px solid var(--border); display: grid; gap: 4px; }
-.pj-credits p { font-family: var(--display); font-size: clamp(20px, 1.8vw, 26px); letter-spacing: .06em; color: var(--white); margin-bottom: 12px; }
+.pj-credits p { font-family: var(--display); font-size: clamp(20px, 1.8vw, 26px); letter-spacing: -.015em; color: var(--white); margin-bottom: 12px; font-weight: 400;
+}
 @media (max-width: 640px) { .pj-two { grid-template-columns: 1fr; } }
 
 .pj-main, .pj-case, .pj-poster { min-width: 0; }

@@ -15,9 +15,12 @@ html { scroll-behavior: smooth; }
   --text:    #e4dccf;
   --muted:   #9a9082;
   --white:   #f7f1e6;
-  --mono:    'JetBrains Mono', monospace;
-  --display: 'Bebas Neue', cursive;
-  --sans:    'Syne', sans-serif;
+  /* Typography: Instrument Serif (display) · Instrument Sans (text/UI) · Geist Mono (data only) */
+  --display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --sans:    'Instrument Sans Variable', 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --signage: 'Instrument Sans Variable', 'Instrument Sans', 'Arial Narrow', system-ui, sans-serif;
+  --mono:    'Geist Mono Variable', 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --glass: linear-gradient(165deg, rgba(27,24,30,.72), rgba(15,13,17,.94));
 }
 
@@ -25,8 +28,16 @@ body {
   background: var(--void);
   color: var(--text);
   font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
 
 /* Cursor only on fine pointer devices */
 @media (pointer: fine) {
@@ -82,11 +93,11 @@ a { text-decoration: none; color: inherit; }
 .s-eye::before { content: '//'; color: var(--muted); }
 .s-title {
   font-family: var(--display);
-  font-size: clamp(48px, 7vw, 96px);
-  line-height: .9; letter-spacing: .03em;
-  color: var(--white); margin-bottom: 48px; text-transform: uppercase;
+  font-size: clamp(54px, 8vw, 124px);
+  line-height: .95; letter-spacing: -.015em;
+  color: var(--white); margin-bottom: 48px; font-weight: 400;
 }
-.s-title em { color: var(--neon); font-style: normal; }
+.s-title em { color: var(--neon); font-style: italic; }
 
 /* ── TICKER ── */
 .ticker-bar {
@@ -107,8 +118,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ── BUTTONS ── */
 .btn-p {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
-  text-transform: uppercase; padding: 14px 28px;
+  font-family: var(--sans); font-size: 14px; letter-spacing: .01em; padding: 14px 28px;
   background: var(--neon); color: #1a1206;
   border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;
   cursor: none; transition: all .2s; border: 1px solid var(--neon);
@@ -117,8 +127,7 @@ a { text-decoration: none; color: inherit; }
 .btn-p:hover { background: var(--neon2); border-color: var(--neon2); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(242,165,65,.28); }
 
 .btn-g {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
-  text-transform: uppercase; padding: 14px 28px;
+  font-family: var(--sans); font-size: 11px; letter-spacing: .01em; padding: 14px 28px;
   background: transparent; color: var(--text);
   border: 1px solid var(--border2); border-radius: 3px;
   display: inline-block; cursor: none; transition: all .2s;
@@ -127,7 +136,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ── CHIPS ── */
 .chip {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+  font-family: var(--sans); font-size: 14px; letter-spacing: .01em;
   padding: 6px 14px; border-radius: 2px; border: 1px solid;
   transition: all .2s; cursor: default; display: inline-block;
 }
@@ -161,12 +170,12 @@ a { text-decoration: none; color: inherit; }
 }
 @media (max-width: 768px) {
   .section { padding: 60px 20px; }
-  .s-title { font-size: clamp(36px, 11vw, 56px); margin-bottom: 28px; }
+  .s-title { font-size: clamp(44px, 12vw, 64px); margin-bottom: 28px; }
   .s-eye { font-size: 10px; }
 }
 @media (max-width: 480px) {
   .section { padding: 48px 16px; }
-  .s-title { font-size: clamp(32px, 10vw, 44px); margin-bottom: 24px; }
+  .s-title { font-size: clamp(40px, 12vw, 56px); margin-bottom: 24px; }
   .chip { font-size: 10px; padding: 5px 10px; }
   .btn-p, .btn-g { font-size: 10px; padding: 12px 20px; width: 100%; justify-content: center; }
 }

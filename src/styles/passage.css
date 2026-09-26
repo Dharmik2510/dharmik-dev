@@ -136,10 +136,10 @@
   color: var(--muted);
 }
 .psg-cabin-route {
-  font-family: var(--display);
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600;
   font-size: clamp(40px, 4.4vw, 72px);
   line-height: 1;
-  letter-spacing: .08em;
+  letter-spacing: .01em;
   color: var(--white);
   white-space: nowrap;
 }
@@ -176,10 +176,10 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-family: var(--display);
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600;
   font-size: 40px;
   color: var(--white);
-  letter-spacing: .04em;
+  letter-spacing: .01em;
 }
 .psg-km-unit {
   font-family: var(--mono);
@@ -219,7 +219,7 @@
   gap: 8px;
 }
 .psg-hud-big {
-  font-family: var(--display);
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600;
   font-size: 34px;
   line-height: .9;
   color: var(--accent);
@@ -257,9 +257,8 @@
   font-weight: 400;
   font-size: clamp(64px, 12vw, 176px);
   line-height: .86;
-  letter-spacing: .02em;
+  letter-spacing: -.015em;
   color: var(--white);
-  text-transform: uppercase;
   text-shadow: 0 10px 60px rgba(0,0,0,.45);
 }
 .psg-intro-line { display: block; }
@@ -331,7 +330,7 @@
   font-weight: 400;
   font-size: clamp(56px, 7.4vw, 118px);
   line-height: .88;
-  letter-spacing: .02em;
+  letter-spacing: -.015em;
   color: var(--white);
   text-shadow: 0 6px 40px rgba(0,0,0,.5);
   margin-bottom: 20px;
@@ -352,9 +351,9 @@
   margin-top: 22px;
 }
 .psg-chips li {
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 11px;
-  letter-spacing: .08em;
+  letter-spacing: .01em;
   color: var(--white);
   padding: 6px 12px;
   border-radius: 999px;
@@ -402,10 +401,10 @@
   letter-spacing: .3em;
 }
 .psg-stamp-code {
-  font-family: var(--display);
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600;
   font-size: 44px;
   line-height: .9;
-  letter-spacing: .12em;
+  letter-spacing: .01em;
 }
 .psg-stamp-city {
   font-family: var(--mono);

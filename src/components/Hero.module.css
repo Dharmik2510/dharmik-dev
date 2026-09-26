@@ -109,7 +109,7 @@
   font-weight: 400;
   font-size: clamp(76px, 10.5vw, 168px);
   line-height: .84;
-  letter-spacing: .01em;
+  letter-spacing: -.015em;
   color: var(--white);
   margin-bottom: 30px;
 }
@@ -209,8 +209,8 @@
 .port { display: grid; gap: 2px; }
 .portTo { text-align: right; }
 .code {
-  font-family: var(--display);
-  font-size: 64px; line-height: .85; letter-spacing: .03em;
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600;
+  font-size: 64px; line-height: .85; letter-spacing: .01em;
   color: var(--ticket-ink);
 }
 .city { font-family: var(--sans); font-size: 13px; font-weight: 700; margin-top: 6px; }
@@ -279,8 +279,8 @@
 }
 .stub > div { display: grid; gap: 3px; }
 .stubLabel { font-family: var(--mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--ticket-muted); }
-.stubRoute { font-family: var(--display); font-size: 19px; letter-spacing: .05em; white-space: nowrap; }
-.stubDate { font-family: var(--display); font-size: 26px; letter-spacing: .04em; color: #a35f00; }
+.stubRoute { font-family: var(--signage); font-stretch: 75%; font-weight: 600; font-size: 19px; letter-spacing: .01em; white-space: nowrap; }
+.stubDate { font-family: var(--signage); font-stretch: 75%; font-weight: 600; font-size: 26px; letter-spacing: .01em; color: #a35f00; }
 
 /* DEPARTED stamp */
 .stamp {
@@ -297,7 +297,7 @@
           mask-image: radial-gradient(circle at 30% 40%, #000 55%, rgba(0,0,0,.6) 80%, #000 100%);
   pointer-events: none;
 }
-.stamp b { font-family: var(--display); font-weight: 400; font-size: 30px; line-height: .95; letter-spacing: .1em; }
+.stamp b { font-family: var(--signage); font-stretch: 75%; font-weight: 600; font-weight: 400; font-size: 30px; line-height: .95; letter-spacing: .01em; }
 
 /* ── responsive ── */
 @media (max-width: 1024px) {

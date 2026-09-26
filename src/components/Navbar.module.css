@@ -7,8 +7,8 @@
 }
 
 .logo {
-  font-family: var(--display);
-  font-size: 20px; letter-spacing: .15em;
+  font-family: var(--signage); font-stretch: 75%; font-weight: 600;
+  font-size: 20px; letter-spacing: .01em;
   color: var(--white);
   display: flex; align-items: center; gap: 10px;
 }
@@ -22,9 +22,9 @@
 
 .links { display: flex; gap: 28px; list-style: none; }
 .link {
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: .14em; color: var(--muted);
-  text-decoration: none; transition: color .2s; text-transform: uppercase;
+  font-family: var(--sans); font-size: 11px;
+  letter-spacing: .01em; color: var(--muted);
+  text-decoration: none; transition: color .2s;
   position: relative;
 }
 .link::after {
@@ -98,9 +98,9 @@
   gap: 28px; text-align: center; margin-bottom: 48px;
 }
 .mobileLink {
-  font-family: var(--display); font-size: 36px; letter-spacing: .1em;
-  color: var(--white); text-decoration: none; text-transform: uppercase;
-  transition: color .2s;
+  font-family: var(--display); font-size: 36px; letter-spacing: -.015em;
+  color: var(--white); text-decoration: none;
+  transition: color .2s; font-weight: 400;
 }
 .mobileLink:hover { color: var(--neon); }
 .mobileFooter {

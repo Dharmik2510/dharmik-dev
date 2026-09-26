@@ -15,8 +15,8 @@
 }
 
 .airline {
-  font-family: var(--display); font-size: 22px; letter-spacing: .15em;
-  color: var(--white);
+  font-family: var(--display); font-size: 22px; letter-spacing: -.015em;
+  color: var(--white); font-weight: 400;
 }
 
 .system {
