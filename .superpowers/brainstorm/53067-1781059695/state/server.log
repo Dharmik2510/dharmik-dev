@@ -1,0 +1,6 @@
+{"type":"server-started","port":49905,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:49905","screen_dir":"/Users/dharmiksoni/Documents/dharmik-dev/.superpowers/brainstorm/53067-1781059695/content","state_dir":"/Users/dharmiksoni/Documents/dharmik-dev/.superpowers/brainstorm/53067-1781059695/state"}
+{"type":"screen-added","file":"/Users/dharmiksoni/Documents/dharmik-dev/.superpowers/brainstorm/53067-1781059695/content/visual-direction.html"}
+{"type":"screen-added","file":"/Users/dharmiksoni/Documents/dharmik-dev/.superpowers/brainstorm/53067-1781059695/content/articles-layout.html"}
+{"type":"screen-added","file":"/Users/dharmiksoni/Documents/dharmik-dev/.superpowers/brainstorm/53067-1781059695/content/scroll-experience.html"}
+{"type":"screen-added","file":"/Users/dharmiksoni/Documents/dharmik-dev/.superpowers/brainstorm/53067-1781059695/content/waiting.html"}
+{"type":"server-stopped","reason":"idle timeout"}

@@ -1,14 +1,14 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ScrollProgress from './components/ScrollProgress'
-import ChapterCardV2 from './components/ChapterCardV2'
+import Passage from './components/Passage'
 import {
   ExploreStrip, Ticker, ControlTower, About,
   Experience, Projects, Articles, Contact, Footer, SectionTransition
 } from './components/Sections'
 import NeuralBackground from './components/NeuralBackground'
-import { CHAPTERS } from './data/journey'
 import { useCursor } from './hooks'
+import { SmoothScroll, FilmGrain } from './components/cinema'
 
 function Cursor() {
   const { outerRef, innerRef, hovering } = useCursor()
@@ -20,26 +20,13 @@ function Cursor() {
   )
 }
 
-function JourneyV2() {
-  return (
-    <section id="journey" className="journey-v2">
-      <div className="journey-v2-head">
-        <div className="journey-v2-eye">// Career Narrative</div>
-        <h2 className="journey-v2-title">Four chapters. One operating system.</h2>
-      </div>
-
-      <div className="journey-v2-cards">
-        {CHAPTERS.map((chapter) => (
-          <ChapterCardV2 key={chapter.id} chapter={chapter} />
-        ))}
-      </div>
-    </section>
-  )
-}
-
 export default function App() {
   return (
     <>
+      {/* Lenis smooth scrolling + film grain */}
+      <SmoothScroll />
+      <FilmGrain />
+
       {/* Neural particle background */}
       <NeuralBackground />
 
@@ -66,8 +53,8 @@ export default function App() {
 
         <ControlTower />
 
-        <SectionTransition icon="✈" />
-        <JourneyV2 />
+        {/* Journey — scroll-scrubbed film: Ahmedabad → Halifax → Montréal → Toronto */}
+        <Passage />
 
         <SectionTransition icon="◆" />
         <About />

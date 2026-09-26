@@ -1,0 +1,536 @@
+/* ─────────────────────────────────────────────────────────
+   PASSAGE — scroll-scrubbed journey film
+   --------------------------------------------------------- */
+
+.psg {
+  position: relative;
+  height: 1100vh; /* replaced at runtime with (timeline + 1) × viewport height */
+  background: var(--void);
+}
+
+.psg-sticky {
+  --accent: var(--neon);
+  --zoom: 1;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: #04070b;
+}
+
+/* ── film ── */
+.psg-stage {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--zoom));
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.psg-scene {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+}
+.psg-still,
+.psg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+}
+.psg-video { z-index: 1; }
+.psg-scene.has-clip .psg-still { opacity: 0; }
+
+/* sky above the clouds (visible through the window mid-flight) */
+.psg-sky {
+  --f: 0;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 5;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 60% at 50% 115%, rgba(255, 214, 170, .55), transparent 60%),
+    linear-gradient(180deg, #3f6fae 0%, #7da6d6 45%, #cfe0f0 78%, #f3f1ea 100%);
+}
+.psg-cloud {
+  position: absolute;
+  left: -40%;
+  width: 180%;
+  height: 40%;
+  background:
+    radial-gradient(closest-side at 12% 60%, rgba(255,255,255,.95), transparent),
+    radial-gradient(closest-side at 28% 45%, rgba(255,255,255,.9), transparent),
+    radial-gradient(closest-side at 45% 65%, rgba(255,255,255,.95), transparent),
+    radial-gradient(closest-side at 63% 50%, rgba(255,255,255,.85), transparent),
+    radial-gradient(closest-side at 82% 62%, rgba(255,255,255,.95), transparent);
+  filter: blur(6px);
+  will-change: transform;
+}
+.psg-cloud--a { top: 58%; transform: translateX(calc(var(--f) * -38%)) scale(1.4); }
+.psg-cloud--b { top: 30%; opacity: .75; transform: translateX(calc(var(--f) * -22% + 10%)) scale(1.1); }
+.psg-cloud--c { top: 72%; opacity: .95; transform: translateX(calc(var(--f) * -60% + 20%)) scale(1.8); filter: blur(10px); }
+
+/* grade: keep copy legible on the left and bottom */
+.psg-grade {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(2,5,10,.82) 0%, rgba(2,5,10,.55) 28%, rgba(2,5,10,0) 58%),
+    linear-gradient(0deg, rgba(2,5,10,.85) 0%, rgba(2,5,10,0) 34%),
+    linear-gradient(180deg, rgba(2,5,10,.55) 0%, rgba(2,5,10,0) 22%);
+}
+.psg-pblur {
+  position: absolute !important;
+  left: 0; right: 0; bottom: 0;
+  height: 26%;
+  z-index: 11;
+  pointer-events: none;
+}
+
+/* ── aircraft window ── */
+.psg-window {
+  --win: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  pointer-events: none;
+}
+.psg-window-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: calc(var(--win) * .9);
+  background:
+    linear-gradient(125deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 32%),
+    linear-gradient(305deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 24%);
+}
+
+/* cabin wall copy — flanks the window on desktop, stacks on phones */
+.psg-cabin {
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: 1fr calc(min(42vh, 360px) + 120px) 1fr;
+  align-items: center;
+  padding: 0 clamp(24px, 4vw, 64px);
+}
+.psg-cabin-top { grid-column: 1; justify-self: end; display: grid; gap: 8px; justify-items: end; text-align: right; }
+.psg-cabin-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.psg-cabin-route {
+  font-family: var(--display);
+  font-size: clamp(40px, 4.4vw, 72px);
+  line-height: 1;
+  letter-spacing: .08em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.psg-cabin-cities {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text);
+  opacity: .8;
+}
+.psg-cabin-bottom {
+  grid-column: 3;
+  justify-self: start;
+  position: relative;
+  width: 300px;
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+}
+.psg-arc { width: 300px; height: 70px; overflow: visible; }
+.psg-arc path { fill: none; stroke: rgba(240,248,255,.35); stroke-width: 1.2; stroke-dasharray: 3 5; }
+.psg-arc circle { fill: var(--accent); }
+.psg-arc-plane {
+  position: absolute;
+  left: 0; top: 0;
+  offset-path: path('M10 60 Q150 -20 290 60');
+  offset-rotate: auto;
+  offset-distance: 0%;
+  color: var(--white);
+  font-size: 18px;
+  line-height: 1;
+  text-shadow: 0 0 12px var(--accent);
+}
+.psg-km {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: 40px;
+  color: var(--white);
+  letter-spacing: .04em;
+}
+.psg-km-unit {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── HUD ── */
+.psg-hud {
+  position: absolute;
+  top: max(84px, 10vh);
+  right: clamp(20px, 4vw, 56px);
+  z-index: 30;
+  display: flex;
+  gap: clamp(18px, 3vw, 40px);
+  align-items: flex-start;
+  pointer-events: none;
+}
+.psg-hud-block { display: grid; gap: 6px; text-align: right; }
+.psg-hud-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.psg-hud-v {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .06em;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.psg-hud-big {
+  font-family: var(--display);
+  font-size: 34px;
+  line-height: .9;
+  color: var(--accent);
+  transition: color .6s;
+}
+.psg-hud-big small { font-size: 16px; color: var(--muted); margin-left: 2px; }
+.psg-clock { display: inline-flex; align-items: center; gap: 1px; }
+.psg-clock-colon { margin: 0 1px; opacity: .7; }
+.psg-clock-tz { margin-left: 8px; color: var(--accent); transition: color .6s; }
+
+/* ── intro ── */
+.psg-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  will-change: opacity, transform;
+  background: radial-gradient(60% 50% at 50% 50%, rgba(2,5,10,.55), rgba(2,5,10,0) 70%);
+}
+.psg-intro-eye {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--neon);
+  margin-bottom: 18px;
+}
+.psg-intro-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(64px, 12vw, 176px);
+  line-height: .86;
+  letter-spacing: .02em;
+  color: var(--white);
+  text-transform: uppercase;
+  text-shadow: 0 10px 60px rgba(0,0,0,.45);
+}
+.psg-intro-line { display: block; }
+.psg-intro-accent { color: var(--amber); }
+.psg-intro-sub {
+  margin-top: 26px;
+  font-family: var(--mono);
+  font-size: clamp(10px, 1.1vw, 13px);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+.psg-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 84px;
+  z-index: 26;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.psg-hint i {
+  width: 20px; height: 32px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(240,248,255,.35);
+  position: relative;
+}
+.psg-hint i::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 6px;
+  width: 3px; height: 7px;
+  border-radius: 2px;
+  background: var(--amber);
+  transform: translateX(-50%);
+  animation: psg-wheel 1.7s ease-in-out infinite;
+}
+@keyframes psg-wheel { 0% { opacity: 0; top: 6px } 40% { opacity: 1 } 100% { opacity: 0; top: 17px } }
+
+/* ── chapter copy ── */
+.psg-copy-wrap {
+  position: absolute;
+  left: clamp(56px, 7vw, 120px);
+  top: 50%;
+  z-index: 24;
+  width: min(44vw, 540px);
+  margin-top: -40px;
+  translate: 0 -50%;
+  will-change: transform;
+}
+.psg-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .24em;
+  color: var(--accent);
+  margin-bottom: 14px;
+  white-space: nowrap;
+}
+.psg-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(56px, 7.4vw, 118px);
+  line-height: .88;
+  letter-spacing: .02em;
+  color: var(--white);
+  text-shadow: 0 6px 40px rgba(0,0,0,.5);
+  margin-bottom: 20px;
+}
+.psg-desc {
+  font-family: var(--sans);
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 46ch;
+  text-shadow: 0 1px 14px rgba(0,0,0,.8);
+}
+.psg-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+.psg-chips li {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, rgba(2,5,10,.4));
+  backdrop-filter: blur(6px);
+}
+
+/* ── passport stamps ── */
+.psg-passport {
+  position: absolute;
+  right: clamp(40px, 7vw, 120px);
+  bottom: 110px;
+  z-index: 23;
+  width: 170px;
+  height: 104px;
+  pointer-events: none;
+}
+.psg-stamp {
+  --ink: var(--amber);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2px;
+  color: var(--ink);
+  border: 3px double var(--ink);
+  border-radius: 14px;
+  outline: 1px solid color-mix(in srgb, var(--ink) 55%, transparent);
+  outline-offset: 4px;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  opacity: .9;
+  mix-blend-mode: screen;
+  translate: var(--sx, 0) var(--sy, 0);
+  /* worn ink */
+  -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 55%, rgba(0,0,0,.65) 80%, #000 100%);
+          mask-image: radial-gradient(circle at 30% 40%, #000 55%, rgba(0,0,0,.65) 80%, #000 100%);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ink) 40%, transparent));
+}
+.psg-stamp:not(.is-current) { filter: saturate(.6); }
+.psg-stamp-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .3em;
+}
+.psg-stamp-code {
+  font-family: var(--display);
+  font-size: 44px;
+  line-height: .9;
+  letter-spacing: .12em;
+}
+.psg-stamp-city {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: .18em;
+}
+
+/* ── route bar ── */
+.psg-route {
+  position: absolute;
+  left: clamp(56px, 7vw, 120px);
+  right: clamp(40px, 7vw, 120px);
+  bottom: 38px;
+  z-index: 30;
+}
+.psg-route-track {
+  position: relative;
+  height: 1px;
+  background: rgba(240,248,255,.16);
+}
+.psg-route-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--amber), var(--neon2), var(--plasma), var(--neon));
+}
+.psg-route-plane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -54%);
+  font-size: 14px;
+  color: var(--white);
+  text-shadow: 0 0 10px var(--accent);
+}
+.psg-route-node {
+  --ink: var(--neon);
+  position: absolute;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  background: none;
+  border: 0;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+}
+.psg-route-node i {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--void);
+  border: 1px solid rgba(240,248,255,.4);
+  transition: all .35s;
+}
+.psg-route-node span { position: absolute; top: 22px; transition: color .35s; }
+.psg-route-node.is-past i { background: var(--ink); border-color: var(--ink); }
+.psg-route-node.is-active i {
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--ink) 25%, transparent), 0 0 14px var(--ink);
+  transform: scale(1.3);
+}
+.psg-route-node.is-active span { color: var(--white); }
+@media (pointer: fine) { .psg-route-node { cursor: none; } }
+
+/* ── responsive ── */
+@media (max-width: 860px) {
+  .psg-hud { top: 72px; left: 16px; right: 16px; justify-content: space-between; gap: 10px; }
+  .psg-hud-block { text-align: left; }
+  .psg-hud-block:first-child { display: none; }
+  .psg-hud-ch { text-align: right; }
+  .psg-hud-v { justify-content: flex-start; }
+  .psg-hud-ch .psg-hud-v { justify-content: flex-end; }
+
+  .psg-grade {
+    background:
+      linear-gradient(0deg, rgba(2,5,10,.94) 0%, rgba(2,5,10,.7) 38%, rgba(2,5,10,0) 66%),
+      linear-gradient(180deg, rgba(2,5,10,.75) 0%, rgba(2,5,10,0) 26%);
+  }
+  .psg-pblur { height: 40%; }
+  .psg-copy-wrap {
+    left: 16px; right: 16px; width: auto;
+    top: auto;
+    bottom: calc(86px + env(safe-area-inset-bottom));
+    translate: none;
+    margin-top: 0;
+  }
+  .psg-eyebrow { font-size: 10px; letter-spacing: .16em; white-space: normal; }
+  .psg-title { font-size: clamp(46px, 14vw, 72px); margin-bottom: 12px; }
+  .psg-desc { font-size: 14px; line-height: 1.5; }
+  .psg-chips { margin-top: 14px; gap: 6px; }
+  .psg-chips li { font-size: 10px; padding: 5px 10px; }
+
+  .psg-passport { right: 16px; bottom: auto; top: 150px; transform: scale(.62); transform-origin: top right; }
+  .psg-stamp:not(.is-current) { display: none; }
+  .psg-stamp { translate: none; }
+
+  .psg-route { left: 24px; right: 24px; bottom: calc(30px + env(safe-area-inset-bottom)); }
+  .psg-cabin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    padding: 110px 16px 80px;
+  }
+  .psg-cabin-top { justify-self: auto; justify-items: center; text-align: center; }
+  .psg-cabin-bottom { justify-self: auto; justify-items: center; }
+  .psg-sticky[data-phase='flight'] .psg-passport { opacity: 0; }
+  .psg-passport { transition: opacity .3s; }
+  .psg-km { font-size: 30px; }
+  .psg-hint { bottom: 100px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psg-hint i::after { animation: none; }
+  .psg-stage { transform: none; }
+}
+
+/* hide the fixed bottom strip while the film fills the screen */
+.explore-strip { transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .4s; }
+html[data-passage] .explore-strip { transform: translateY(120%) !important; opacity: 0 !important; pointer-events: none; }

@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView as useMotionInView, useReducedMotion } from 'framer-motion'
+import {
+  SectionHead, ScrollWords, CountUp, revealUp, revealSide, useIsWide,
+} from './cinema'
+import { SlidingNumber, TextEffect } from './motion-primitives'
 import { useInView } from 'react-intersection-observer'
 import {
   STORY_CHAPTERS, IMPACT_METRICS, CAPABILITY_GROUPS, CERTIFICATIONS, EDUCATION,
@@ -35,9 +39,12 @@ function WaypointWrapper({ children, onInView }) {
 
 // ── SECTION TRANSITION ──
 function SectionTransition({ icon = '◆' }) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center 0.55'] })
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1])
   return (
-    <div className={s.sectionTransition}>
-      <div className={s.transitionLine} />
+    <div className={s.sectionTransition} ref={ref}>
+      <motion.div className={s.transitionLine} style={{ scaleX }} />
       <motion.div
         className={s.transitionIcon}
         initial={{ scale: 0, rotate: -180 }}
@@ -98,7 +105,7 @@ function SpotlightCard({ children, className = '', ...props }) {
 export function ExploreStrip() {
   return (
     <motion.div
-      className={s.strip}
+      className={`${s.strip} explore-strip`}
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 1.2, ease: [.16,1,.3,1] }}
@@ -152,13 +159,13 @@ export function ControlTower() {
       </div>
       <div className={s.metricGrid}>
         {IMPACT_METRICS.map((m, i) => (
-          <FadeUp key={m.label} delay={i * .07}>
+          <motion.div key={m.label} {...revealUp(i)} style={{ transformPerspective: 900 }}>
             <div className={s.metricCard}>
-              <div className={s.metricValue}>{m.value}</div>
+              <div className={s.metricValue}><CountUp value={m.value} /></div>
               <div className={s.metricLabel}>{m.label}</div>
               <p className={s.metricDetail}>{m.detail}</p>
             </div>
-          </FadeUp>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -241,8 +248,11 @@ export function Journey() {
 export function About() {
   return (
     <section className="section" id="about">
-      <div className="s-eye">Crew Manifest // Profile</div>
-      <h2 className="s-title">About <em>Me</em></h2>
+      <SectionHead
+        eyebrow="Crew Manifest // Profile"
+        title={[{ t: 'About' }, { t: 'Me', em: true }]}
+        ghost="CREW MANIFEST"
+      />
       <div className={s.aboutGrid}>
         <div>
           {[
@@ -250,11 +260,7 @@ export function About() {
             `I specialize in developing systems that analyze and process complex data using <strong>Apache Kafka, Databricks, Apache Spark</strong>, and deep learning frameworks — applied to real insurance-scale problems at Canada's largest P&C insurer.`,
             `Beyond Intact, I'm co-founder of <strong>CareerCurate</strong> — a platform empowering international students and immigrants to build competitive career profiles. Resume optimization, LinkedIn coaching, community, and job support.`,
           ].map((text, i) => (
-            <FadeUp key={i} delay={i * .08}>
-              <p className={s.aboutText}
-                dangerouslySetInnerHTML={{ __html: text.replace(/<strong>/g, '<strong style="color:var(--text);font-weight:700">') }}
-              />
-            </FadeUp>
+            <ScrollWords key={i} html={text} className={s.aboutText} />
           ))}
 
           {/* CareerCurate Banner */}
@@ -312,105 +318,270 @@ export function About() {
           </FadeUp>
         </div>
 
-        {/* Skills */}
-        <FadeUp delay={.16}>
-          <div className={s.skillsWrap}>
-            {CAPABILITY_GROUPS.map(group => (
-              <div key={group.title} className={s.capabilityCard}>
+        {/* Skills — stay pinned while the story on the left is read */}
+        <div className="cn-about-sticky">
+          <div className={s.skillsWrap} style={{ perspective: 1200 }}>
+            {CAPABILITY_GROUPS.map((group, gi) => (
+              <motion.div key={group.title} className={`${s.capabilityCard} cn-cap`} {...revealSide(gi, 90)}>
                 <div className={s.capabilityTop}>
                   <div className={s.capabilityTitle}>{group.title}</div>
                   <div className={s.capabilityLevel}>{group.level}</div>
                 </div>
-                <div className={s.capabilityTags}>
+                <motion.div
+                  className={s.capabilityTags}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+                  variants={{ show: { transition: { staggerChildren: 0.05, delayChildren: 0.35 + gi * 0.07 } } }}
+                >
                   {group.items.map(sk => (
-                    <span key={sk}>{sk}</span>
+                    <motion.span
+                      key={sk}
+                      variants={{ hidden: { opacity: 0, y: 12, scale: .9 }, show: { opacity: 1, y: 0, scale: 1 } }}
+                    >
+                      {sk}
+                    </motion.span>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
-        </FadeUp>
+        </div>
       </div>
     </section>
   )
 }
 
-// ── EXPERIENCE ──
+// ── EXPERIENCE — "Flight Log": a route line draws itself as you scroll ──
+function FlightLeg({ e, i, total }) {
+  const ref = useRef(null)
+  const lit = useMotionInView(ref, { margin: '-45% 0px -45% 0px' })
+  const [seen, setSeen] = useState(false)
+  useEffect(() => { if (lit) setSeen(true) }, [lit])
+  return (
+    <div ref={ref} className={`cn-leg${seen ? ' is-lit' : ''}`}>
+      <span className="cn-leg-node" aria-hidden="true" />
+      <span className="cn-leg-tag" aria-hidden="true">LEG {String(total - i).padStart(2, '0')}</span>
+      <motion.div {...revealSide(0, 90)}>
+        <SpotlightCard className={s.expCard}>
+          <div className={s.expBar} />
+          <div className={s.expHeader}>
+            <div className={s.expRole}>{e.role}</div>
+            <div className={`${s.expBadge} ${e.badge === 'current' ? s.expBadgeCurrent : s.expBadgePast}`}>
+              {e.badge === 'current' ? 'CURRENT' : 'PAST'}
+            </div>
+          </div>
+          <div className={s.expCompany}>{e.company}</div>
+          <div className={s.expMeta}>{e.meta}</div>
+          <div className={s.expBullets}>
+            {e.bullets.map((b, j) => (
+              <motion.div
+                key={j}
+                className={s.expBullet}
+                initial={{ opacity: 0, x: 24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+                transition={{ duration: .6, delay: .25 + j * .07, ease: [.16, 1, .3, 1] }}
+              >
+                <span className={s.expBulletIcon}>→</span>
+                {b}
+              </motion.div>
+            ))}
+          </div>
+        </SpotlightCard>
+      </motion.div>
+    </div>
+  )
+}
+
+const CITY_CODE = (meta = '') =>
+  /ahmedabad/i.test(meta) ? 'AMD' : /montr/i.test(meta) ? 'YUL' : /halifax/i.test(meta) ? 'YHZ' : 'YYZ'
+
+// Desktop: the section pins and vertical scroll flies a horizontal route of boarding-pass cards,
+// oldest → newest (Ahmedabad → Toronto). Phones: vertical flight log.
+function FlightPath() {
+  const legs = [...EXPERIENCE].reverse()
+  const pinRef = useRef(null)
+  const trackRef = useRef(null)
+  const [dist, setDist] = useState(0)
+  const [active, setActive] = useState(0)
+  const { scrollYProgress } = useScroll({ target: pinRef, offset: ['start start', 'end end'] })
+  const x = useTransform(scrollYProgress, [0.04, 0.96], [0, -dist])
+  const planeLeft = useTransform(scrollYProgress, [0.04, 0.96], ['0%', '100%'])
+  const fill = useTransform(scrollYProgress, [0.04, 0.96], [0, 1])
+
+  useEffect(() => {
+    const measure = () => {
+      const t = trackRef.current
+      if (t) setDist(Math.max(0, t.scrollWidth - window.innerWidth + 96))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+  useEffect(() => scrollYProgress.on('change', (v) => {
+    const i = Math.min(legs.length - 1, Math.max(0, Math.round(((v - 0.04) / 0.92) * (legs.length - 1))))
+    setActive((a) => (a === i ? a : i))
+  }), [scrollYProgress, legs.length])
+
+  return (
+    <div className="fp-pin" ref={pinRef} style={{ height: `${legs.length * 55 + 60}vh` }}>
+      <div className="fp-sticky">
+        <div className="fp-route" aria-hidden="true">
+          <div className="fp-route-line"><motion.span style={{ scaleX: fill }} /></div>
+          <motion.span className="fp-route-plane" style={{ left: planeLeft }}>✈</motion.span>
+          {legs.map((e, i) => (
+            <span
+              key={i}
+              className={`fp-route-stop${i <= active ? ' is-past' : ''}${i === active ? ' is-active' : ''}`}
+              style={{ left: `${(i / (legs.length - 1)) * 100}%` }}
+            >
+              <i />
+              <b>{CITY_CODE(e.meta)}</b>
+            </span>
+          ))}
+        </div>
+
+        <motion.div className="fp-track" ref={trackRef} style={{ x }}>
+          {legs.map((e, i) => (
+            <article key={i} className={`fp-card${i === active ? ' is-active' : ''}`}>
+              <div className="fp-card-stub">
+                <span className="fp-leg">LEG {String(i + 1).padStart(2, '0')}</span>
+                <span className="fp-code">{CITY_CODE(e.meta)}</span>
+                <span className="fp-city">{e.meta}</span>
+                <span className={`fp-badge ${e.badge === 'current' ? 'is-current' : ''}`}>
+                  {e.badge === 'current' ? 'IN FLIGHT' : 'LANDED'}
+                </span>
+              </div>
+              <div className="fp-card-body">
+                <div className="fp-company">{e.company}</div>
+                <h3 className="fp-role">{e.role}</h3>
+                <ul className="fp-bullets">
+                  {e.bullets.map((b, j) => <li key={j}>{b}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </motion.div>
+
+        <div className="fp-hint" aria-hidden="true">
+          <span>{String(active + 1).padStart(2, '0')}</span> / {String(legs.length).padStart(2, '0')} · scroll to fly
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FlightLogVertical() {
+  const logRef = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: logRef, offset: ['start 0.65', 'end 0.6'] })
+  const fill = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [0, 1])
+  const planeTop = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+  return (
+    <div className="cn-log" ref={logRef}>
+      <div className="cn-rail" aria-hidden="true">
+        <motion.div className="cn-rail-fill" style={{ scaleY: fill }} />
+        {!reduce && <motion.span className="cn-rail-plane" style={{ top: planeTop }}>✈</motion.span>}
+      </div>
+      {EXPERIENCE.map((e, i) => (
+        <FlightLeg key={i} e={e} i={i} total={EXPERIENCE.length} />
+      ))}
+    </div>
+  )
+}
+
 export function Experience() {
+  const wide = useIsWide()
+  const reduce = useReducedMotion()
   return (
     <section className="section" id="experience">
-      <div className="s-eye">Work History // Flight Log</div>
-      <h2 className="s-title">Experi<em>ence</em></h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-        {EXPERIENCE.map((e, i) => (
-          <FadeUp key={i} delay={i * .06}>
-            <SpotlightCard className={s.expCard}>
-              <div className={s.expBar} />
-              <div className={s.expHeader}>
-                <div className={s.expRole}>{e.role}</div>
-                <div className={`${s.expBadge} ${e.badge === 'current' ? s.expBadgeCurrent : s.expBadgePast}`}>
-                  {e.badge === 'current' ? 'CURRENT' : 'PAST'}
-                </div>
-              </div>
-              <div className={s.expCompany}>{e.company}</div>
-              <div className={s.expMeta}>{e.meta}</div>
-              <div className={s.expBullets}>
-                {e.bullets.map((b, j) => (
-                  <div key={j} className={s.expBullet}>
-                    <span className={s.expBulletIcon}>→</span>
-                    {b}
-                  </div>
-                ))}
-              </div>
-            </SpotlightCard>
-          </FadeUp>
-        ))}
-      </div>
+      <SectionHead
+        eyebrow="Work History // Flight Log"
+        title={[{ t: 'Experi', glue: true }, { t: 'ence', em: true }]}
+        ghost="FLIGHT LOG"
+      />
+      {wide && !reduce ? <FlightPath /> : <FlightLogVertical />}
     </section>
   )
 }
 
-// ── PROJECTS ──
+// ── PROJECTS — split-screen case files: pinned index on the left, case study scrolls on the right ──
+function CaseFile({ p, i, onActive }) {
+  const ref = useRef(null)
+  const inView = useMotionInView(ref, { margin: '-45% 0px -45% 0px' })
+  useEffect(() => { if (inView) onActive(i) }, [inView, i, onActive])
+  const steps = [['Problem', p.problem], ['Approach', p.approach], ['Outcome', p.outcome]].filter(([, v]) => v)
+  return (
+    <article ref={ref} className="pj-case" id={`project-${p.id}`}>
+      <div className="pj-case-meta">
+        <span>// CASE FILE {p.id}</span>
+        {p.featured && <span className="pj-featured">FEATURED</span>}
+      </div>
+      <motion.h3 className="pj-case-title" {...revealUp(0)}>{p.name}</motion.h3>
+      <motion.p className="pj-case-desc" {...revealUp(1)}>{p.desc}</motion.p>
+      <div className="pj-steps">
+        {steps.map(([label, value], k) => (
+          <motion.div key={label} className="pj-step" {...revealSide(k, 60)}>
+            <span className="pj-step-n">0{k + 1}</span>
+            <span className="pj-step-label">{label}</span>
+            <p>{value}</p>
+          </motion.div>
+        ))}
+      </div>
+      <div className="pj-case-foot">
+        <div className="pj-stack">
+          {p.stack.map((sk) => <span key={sk}>{sk}</span>)}
+        </div>
+        {p.link && (
+          <a className="pj-link" href={p.link} target="_blank" rel="noreferrer">View on GitHub ↗</a>
+        )}
+      </div>
+    </article>
+  )
+}
+
 export function Projects() {
+  const [active, setActive] = useState(0)
+  const onActive = React.useCallback((i) => setActive(i), [])
+  const p = PROJECTS[active]
+  const go = (i) => {
+    const el = document.getElementById(`project-${PROJECTS[i].id}`)
+    if (!el) return
+    const y = el.getBoundingClientRect().top + window.scrollY - 110
+    if (window.__lenis) window.__lenis.scrollTo(y, { duration: 1.2 })
+    else window.scrollTo({ top: y, behavior: 'smooth' })
+  }
   return (
     <section className="section" id="projects">
-      <div className="s-eye">Cargo Manifest // Built Work</div>
-      <h2 className="s-title">Projects<br /><em>&amp; Work</em></h2>
-      <div className={s.projectGrid}>
-        {PROJECTS.map((p, i) => (
-          <FadeUp key={p.id} delay={i * .06}>
-            <SpotlightCard
-              className={`${s.projectCard} ${p.featured ? s.projectCardFeatured : ''}`}
-              onClick={() => p.link && window.open(p.link, '_blank')}
-            >
-              <div className={s.projectBar} />
-              <div className={s.projectMeta}>
-                <span>// MISSION {p.id}</span>
-                {p.featured && <span className={s.projectFeaturedLabel}>FEATURED</span>}
-              </div>
-              <div className={s.projectTitle}>{p.name}</div>
-              <p className={s.projectDesc}>{p.desc}</p>
-              <div className={s.caseGrid}>
-                {[
-                  ['Problem', p.problem],
-                  ['Approach', p.approach],
-                  ['Outcome', p.outcome],
-                ].map(([label, value]) => value && (
-                  <div key={label} className={s.caseItem}>
-                    <span>{label}</span>
-                    {value}
-                  </div>
-                ))}
-              </div>
-              <div className={s.projectStack}>
-                {p.stack.map(sk => (
-                  <span key={sk} className={s.projectTag}>{sk}</span>
-                ))}
-              </div>
-              <div className={s.projectLink}>↗</div>
-            </SpotlightCard>
-          </FadeUp>
-        ))}
+      <SectionHead
+        eyebrow="Cargo Manifest // Built Work"
+        title={[{ t: 'Projects', br: true }, { t: '& Work', em: true }]}
+        ghost="CARGO"
+      />
+      <div className="pj">
+        <aside className="pj-aside">
+          <div className="pj-counter">
+            <SlidingNumber value={active + 1} padStart={2} />
+            <small>/{String(PROJECTS.length).padStart(2, '0')}</small>
+          </div>
+          <TextEffect key={p.id} as="div" per="char" preset="fade-in-blur" speedReveal={2} className="pj-aside-title">
+            {p.name}
+          </TextEffect>
+          <ol className="pj-index">
+            {PROJECTS.map((q, i) => (
+              <li key={q.id}>
+                <button type="button" className={i === active ? 'is-active' : ''} onClick={() => go(i)}>
+                  <span>{q.id}</span>{q.name}
+                </button>
+              </li>
+            ))}
+          </ol>
+          <div className="pj-progress"><span style={{ transform: `scaleX(${(active + 1) / PROJECTS.length})` }} /></div>
+        </aside>
+        <div className="pj-main">
+          {PROJECTS.map((q, i) => <CaseFile key={q.id} p={q} i={i} onActive={onActive} />)}
+        </div>
       </div>
     </section>
   )
@@ -421,10 +592,11 @@ export function Articles() {
   return (
     <section className={`section ${s.articlesSection}`} id="articles">
       <div className={s.articlesHead}>
-        <div>
-          <div className="s-eye">Transmission Log // Medium</div>
-          <h2 className="s-title">Written<br /><em>Work</em></h2>
-        </div>
+        <SectionHead
+          eyebrow="Transmission Log // Medium"
+          title={[{ t: 'Written', br: true }, { t: 'Work', em: true }]}
+          ghost="TRANSMISSIONS"
+        />
         <a
           href={PERSONAL.medium}
           target="_blank"
@@ -514,14 +686,23 @@ const CONTACT_TOPICS = [
 ]
 
 export function Contact() {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 0.25'] })
+  const titleScale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [0.72, 1])
+  const titleSpacing = useTransform(scrollYProgress, [0, 1], reduce ? ['0.02em', '0.02em'] : ['0.32em', '0.02em'])
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.6], [0.15, 1])
   return (
-    <section className={`section ${s.contactSection}`} id="contact">
+    <section className={`section ${s.contactSection}`} id="contact" ref={ref}>
       <div className={s.contactGrid}>
         <div className={s.contactIntro}>
           <div className="s-eye">Open Channel // Contact</div>
-          <div className={s.contactTitle}>
+          <motion.div
+            className={`${s.contactTitle} cn-contact-title`}
+            style={{ scale: titleScale, letterSpacing: titleSpacing, opacity: titleOpacity }}
+          >
             Let's<br /><em className={s.contactAccent}>Connect</em>
-          </div>
+          </motion.div>
           <p className={s.contactDesc}>
             Available for applied AI, data platform, and production ML conversations.
             Focused on systems where reliability, governance, and measurable impact matter.
@@ -548,7 +729,7 @@ export function Contact() {
 
         <div className={s.contactChannels}>
           {CONTACT_CHANNELS.map((c, i) => (
-            <FadeUp key={c.lbl} delay={i * 0.05}>
+            <motion.div key={c.lbl} {...revealUp(i)} style={{ transformPerspective: 900 }} className={c.wide ? s.contactCardWide : ''}>
               <a
                 href={c.href}
                 target={c.href.startsWith('http') ? '_blank' : undefined}
@@ -563,7 +744,7 @@ export function Contact() {
                 </div>
                 <div className={s.contactCardArrow}>↗</div>
               </a>
-            </FadeUp>
+            </motion.div>
           ))}
         </div>
       </div>

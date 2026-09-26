@@ -1,0 +1,86 @@
+<style>
+@keyframes flyPath { 0% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
+@keyframes scrubDemo {
+  0%, 10% { transform: translateY(0); }
+  45%, 55% { transform: translateY(-52px); }
+  90%, 100% { transform: translateY(-104px); }
+}
+@keyframes parallaxBack { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes parallaxMid { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes parallaxFront { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-26px); } }
+@keyframes altNeedle { 0%,100% { transform: rotate(-40deg); } 50% { transform: rotate(40deg); } }
+.demoplane { offset-path: path('M 12 70 Q 80 8 150 40 T 288 20'); animation: flyPath 5s ease-in-out infinite alternate; }
+</style>
+
+<h2>How aggressive should the scroll &amp; animation system be?</h2>
+<p class="subtitle">These previews loop to simulate what scrolling would feel like. Click one to select.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="full-flight" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:14px;font-family:monospace;position:relative;overflow:hidden;height:130px;">
+      <svg width="100%" height="80" viewBox="0 0 300 80" style="position:absolute;top:14px;left:0;">
+        <path d="M 12 70 Q 80 8 150 40 T 288 20" stroke="#00e5ff55" stroke-width="1.5" fill="none" stroke-dasharray="5 5"/>
+        <circle cx="12" cy="70" r="3" fill="#00ff9d"/><circle cx="288" cy="20" r="3" fill="#00e5ff"/>
+        <text x="12" y="62" fill="#5a8ba3" font-size="7">HERO</text>
+        <text x="140" y="55" fill="#5a8ba3" font-size="7">SKYMAP</text>
+        <text x="258" y="34" fill="#5a8ba3" font-size="7">CONTACT</text>
+      </svg>
+      <div class="demoplane" style="position:absolute;top:14px;left:0;color:#fff;font-size:14px;">✈</div>
+      <div style="position:absolute;bottom:10px;left:14px;right:14px;display:flex;justify-content:space-between;color:#5a8ba3;font-size:7px;">
+        <span>SCROLL = THROTTLE</span><span style="color:#00e5ff;">PINNED SCENES · SCRUBBED MOTION</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · Full Flight Choreography</h3>
+      <p>The page is one continuous flight. Buttery smooth-scrolling (Lenis), a plane that traces a route line through the whole page as you scroll, pinned scenes that scrub with the wheel (hero takeoff, SkyMap orbit, chapter fly-through), altimeter-style progress HUD. Maximum "never seen before" factor — and the most build effort.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="ambient" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:14px;font-family:monospace;position:relative;overflow:hidden;height:130px;">
+      <div style="position:absolute;inset:14px;border:1px solid #0e2a3d;border-radius:4px;overflow:hidden;">
+        <div style="position:absolute;inset:0;animation:parallaxBack 4s ease-in-out infinite;">
+          <div style="position:absolute;top:18px;left:30px;width:2px;height:2px;background:#fff;opacity:.4;border-radius:50%;"></div>
+          <div style="position:absolute;top:40px;right:60px;width:2px;height:2px;background:#fff;opacity:.3;border-radius:50%;"></div>
+        </div>
+        <div style="position:absolute;inset:0;animation:parallaxMid 4s ease-in-out infinite;display:flex;align-items:center;justify-content:center;">
+          <div style="color:#e8f4ff;font-size:14px;font-weight:800;">SECTION TITLE</div>
+        </div>
+        <div style="position:absolute;inset:0;animation:parallaxFront 4s ease-in-out infinite;">
+          <div style="position:absolute;bottom:14px;left:20px;right:20px;height:24px;border:1px solid #00e5ff44;background:#041220;border-radius:3px;"></div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:2px;left:14px;color:#5a8ba3;font-size:7px;">LAYERED PARALLAX · NATIVE SCROLL</div>
+    </div>
+    <div class="card-body">
+      <h3>B · Ambient Depth</h3>
+      <p>Native scrolling stays untouched. Rich layered parallax (stars, content, HUD chrome move at different speeds), staggered reveals, magnetic hover physics. Polished and safe — but closer to "very good portfolio" than "never done before".</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="setpiece" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#02060c;padding:14px;font-family:monospace;position:relative;overflow:hidden;height:130px;">
+      <div style="position:absolute;left:14px;top:14px;bottom:14px;width:120px;border:1px solid #00e5ff44;border-radius:4px;background:#041220;display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;"><div style="color:#00e5ff;font-size:8px;">📌 PINNED</div><div style="color:#e8f4ff;font-size:9px;font-weight:700;margin-top:4px;">SET-PIECE</div></div>
+      </div>
+      <div style="position:absolute;left:148px;right:14px;top:14px;bottom:14px;overflow:hidden;border-radius:4px;">
+        <div style="animation:scrubDemo 5s ease-in-out infinite;">
+          <div style="height:48px;border:1px solid #0e2a3d;background:#041220;margin-bottom:4px;border-radius:3px;padding:6px;color:#7fd4e8;font-size:8px;">CHAPTER 01 · scrolls by</div>
+          <div style="height:48px;border:1px solid #0e2a3d;background:#041220;margin-bottom:4px;border-radius:3px;padding:6px;color:#7fd4e8;font-size:8px;">CHAPTER 02 · scrolls by</div>
+          <div style="height:48px;border:1px solid #0e2a3d;background:#041220;border-radius:3px;padding:6px;color:#7fd4e8;font-size:8px;">CHAPTER 03 · scrolls by</div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:2px;left:14px;color:#5a8ba3;font-size:7px;">3–4 PINNED MOMENTS · NORMAL SCROLL BETWEEN</div>
+    </div>
+    <div class="card-body">
+      <h3>C · Set-Piece Moments</h3>
+      <p>Smooth scroll + ambient depth everywhere, but full scroll-scrubbed pinning reserved for 3–4 signature moments (hero takeoff, SkyMap, journey chapters, articles carousel driven by vertical scroll). Strong wow with less risk of fatigue than A.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:20px;">
+  <p class="subtitle">All options respect <code>prefers-reduced-motion</code> and degrade gracefully on mobile — that's a given, not a choice.</p>
+</div>
