@@ -13,7 +13,7 @@ export const CHAPTERS = [
     code: 'AMD',
     city: 'Ahmedabad',
     chapter: '01',
-    title: 'FOUNDATION',
+    title: 'Foundation',
     kineticLines: [
       'CHAPTER 01',
       'AMD · AHMEDABAD',
@@ -36,7 +36,7 @@ export const CHAPTERS = [
     code: 'YHZ',
     city: 'Halifax',
     chapter: '02',
-    title: 'ENTERPRISE AI',
+    title: 'Enterprise AI',
     kineticLines: [
       'CHAPTER 02',
       'YHZ · HALIFAX',
@@ -59,7 +59,7 @@ export const CHAPTERS = [
     code: 'YUL',
     city: 'Montréal',
     chapter: '03',
-    title: 'PRODUCTION ML',
+    title: 'Production ML',
     kineticLines: [
       'CHAPTER 03',
       'YUL · MONTRÉAL',
@@ -82,7 +82,7 @@ export const CHAPTERS = [
     code: 'YYZ',
     city: 'Toronto',
     chapter: '04',
-    title: 'PRODUCTION IMPACT',
+    title: 'Production impact',
     kineticLines: [
       'CHAPTER 04',
       'YYZ · TORONTO',
